@@ -1,0 +1,1510 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modul Interaktif: Sistem Persamaan Linear - Kelas 10 SMA</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- KaTeX Math Renderer -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            900: '#312e81',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+        }
+        .tab-btn.active {
+            background-color: #4f46e5;
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+        }
+        .fade-in {
+            animation: fadeIn 0.4s ease-in-out forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col selection:bg-brand-500 selection:text-white">
+
+    <!-- Header Navbar -->
+    <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="bg-gradient-to-tr from-brand-600 to-indigo-500 text-white p-2.5 rounded-xl shadow-md">
+                    <i class="fa-solid font-bold fa-calculator text-lg"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-lg leading-tight text-slate-900">Sistem Persamaan Linear</h1>
+                    <p class="text-xs text-brand-600 font-semibold uppercase tracking-wider">Kelas 10 SMA • Matematika</p>
+                </div>
+            </div>
+            
+            <div class="hidden md:flex items-center gap-2 bg-slate-100 p-1 rounded-xl text-sm font-medium">
+                <button onclick="switchTab('tujuan')" id="nav-tujuan" class="tab-btn active px-3.5 py-1.5 rounded-lg transition-all duration-200">
+                    <i class="fa-solid fa-bullseye mr-1.5"></i>Tujuan
+                </button>
+                <button onclick="switchTab('koneksi')" id="nav-koneksi" class="tab-btn px-3.5 py-1.5 rounded-lg transition-all duration-200">
+                    <i class="fa-solid fa-earth-americas mr-1.5"></i>Koneksi Nyata
+                </button>
+                <button onclick="switchTab('materi')" id="nav-materi" class="tab-btn px-3.5 py-1.5 rounded-lg transition-all duration-200">
+                    <i class="fa-solid fa-book-open mr-1.5"></i>Materi & Simulator
+                </button>
+                <button onclick="switchTab('contoh')" id="nav-contoh" class="tab-btn px-3.5 py-1.5 rounded-lg transition-all duration-200">
+                    <i class="fa-solid fa-lightbulb mr-1.5"></i>Contoh Soal
+                </button>
+                <button onclick="switchTab('latihan')" id="nav-latihan" class="tab-btn px-3.5 py-1.5 rounded-lg transition-all duration-200">
+                    <i class="fa-solid fa-pen-to-square mr-1.5"></i>Latihan Soal
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Menu Bar -->
+        <div class="md:hidden flex overflow-x-auto gap-1 p-2 bg-slate-100 border-t border-slate-200 text-xs font-semibold no-scrollbar">
+            <button onclick="switchTab('tujuan')" id="nav-m-tujuan" class="tab-btn active whitespace-nowrap px-3 py-1.5 rounded-lg">Tujuan</button>
+            <button onclick="switchTab('koneksi')" id="nav-m-koneksi" class="tab-btn whitespace-nowrap px-3 py-1.5 rounded-lg">Koneksi Nyata</button>
+            <button onclick="switchTab('materi')" id="nav-m-materi" class="tab-btn whitespace-nowrap px-3 py-1.5 rounded-lg">Materi & Simulator</button>
+            <button onclick="switchTab('contoh')" id="nav-m-contoh" class="tab-btn whitespace-nowrap px-3 py-1.5 rounded-lg">Contoh Soal</button>
+            <button onclick="switchTab('latihan')" id="nav-m-latihan" class="tab-btn whitespace-nowrap px-3 py-1.5 rounded-lg">Latihan Soal (10)</button>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full">
+
+        <!-- TAB 1: TUJUAN PEMBELAJARAN -->
+        <section id="tab-tujuan" class="tab-content fade-in space-y-6">
+            <div class="bg-gradient-to-r from-brand-600 via-indigo-600 to-purple-600 rounded-3xl p-6 sm:p-10 text-white shadow-xl relative overflow-hidden">
+                <div class="absolute -right-10 -bottom-10 opacity-10 text-9xl font-black">SPLDV</div>
+                <div class="relative z-10 max-w-2xl">
+                    <span class="bg-white/20 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider backdrop-blur-sm">Capaian Pembelajaran</span>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold mt-3 leading-tight">Menguasai Sistem Persamaan Linear Dua & Tiga Variabel</h2>
+                    <p class="mt-3 text-indigo-100 text-sm sm:text-base leading-relaxed">
+                        Selamat datang di modul interaktif! Di akhir sesi ini, kamu akan mampu memodelkan masalah dunia nyata ke dalam bentuk matematika dan menyelesaikannya secara sistematis.
+                    </p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="glass-card p-6 rounded-2xl shadow-sm hover:shadow-md transition">
+                    <div class="w-12 h-12 bg-indigo-100 text-brand-600 rounded-xl flex items-center justify-center text-xl mb-4">
+                        <i class="fa-solid fa-shapes"></i>
+                    </div>
+                    <h3 class="font-bold text-slate-900 text-lg">1. Memahami Konsep</h3>
+                    <p class="text-slate-600 text-sm mt-2 leading-relaxed">
+                        Membedakan variabel, koefisien, konstanta, serta bentuk umum Sistem Persamaan Linear Dua Variabel (SPLDV) dan Tiga Variabel (SPLTV).
+                    </p>
+                </div>
+
+                <div class="glass-card p-6 rounded-2xl shadow-sm hover:shadow-md transition">
+                    <div class="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-xl flex items-center justify-center text-xl mb-4">
+                        <i class="fa-solid fa-gears"></i>
+                    </div>
+                    <h3 class="font-bold text-slate-900 text-lg">2. Ragam Metode Solusi</h3>
+                    <p class="text-slate-600 text-sm mt-2 leading-relaxed">
+                        Menguasai metode penyelesaian: Substitusi, Eliminasi, Campuran (Gabungan), serta pendekatan Grafik.
+                    </p>
+                </div>
+
+                <div class="glass-card p-6 rounded-2xl shadow-sm hover:shadow-md transition">
+                    <div class="w-12 h-12 bg-amber-100 text-amber-600 rounded-xl flex items-center justify-center text-xl mb-4">
+                        <i class="fa-solid fa-brain"></i>
+                    </div>
+                    <h3 class="font-bold text-slate-900 text-lg">3. Pemecahan Soal Cerita</h3>
+                    <p class="text-slate-600 text-sm mt-2 leading-relaxed">
+                        Menerjemahkan soal cerita kontekstual (harga barang, transaksi, selisih umur, keliling) menjadi sistem persamaan matematika.
+                    </p>
+                </div>
+            </div>
+
+            <div class="bg-amber-50 border border-amber-200 rounded-2xl p-5 flex items-start gap-4">
+                <div class="text-amber-500 text-2xl mt-0.5"><i class="fa-solid fa-lightbulb"></i></div>
+                <div>
+                    <h4 class="font-bold text-amber-900 text-sm">Tips Belajar Interaktif</h4>
+                    <p class="text-amber-800 text-xs sm:text-sm mt-1">
+                        Gunakan Simulator SPLDV pada menu Materi untuk mencoba berbagai angka koefisien secara langsung, lalu selesaikan 10 Soal Cerita pada menu Latihan untuk menguji pemahamanmu!
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 2: KONEKSI NYATA -->
+        <section id="tab-koneksi" class="tab-content hidden fade-in space-y-6">
+            <div class="border-b border-slate-200 pb-4">
+                <h2 class="text-2xl font-bold text-slate-900">Mengapa Kita Mempelajari SPL?</h2>
+                <p class="text-slate-600 text-sm mt-1">Penerapan nyata matematika di kehidupan sehari-hari dan berbagai profesi.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Case 1 -->
+                <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm flex flex-col justify-between hover:border-brand-500 transition">
+                    <div>
+                        <div class="flex items-center gap-3 mb-3">
+                            <span class="p-3 bg-blue-100 text-blue-600 rounded-xl text-lg"><i class="fa-solid fa-cart-shopping"></i></span>
+                            <div>
+                                <h3 class="font-bold text-slate-900">1. Bisnis & Struk Pembayaran</h3>
+                                <p class="text-xs text-slate-500">Mencari Harga Satuan Tanpa Label</p>
+                            </div>
+                        </div>
+                        <p class="text-slate-600 text-sm leading-relaxed">
+                            Pernahkah kamu membeli 2 paket promo makanan tanpa tahu harga pasti dari 1 burger atau 1 minuman? SPLDV membantu kita memecahkan harga per barang hanya dengan membandingkan kombinasi dua nota belanjaan berbeda.
+                        </p>
+                    </div>
+                    <div class="mt-4 pt-4 border-t border-slate-100 text-xs text-brand-600 font-semibold flex items-center gap-1">
+                        <i class="fa-solid fa-arrow-right"></i> Penerapan: Akuntansi, Kasir, Analisis Bisnis
+                    </div>
+                </div>
+
+                <!-- Case 2 -->
+                <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm flex flex-col justify-between hover:border-brand-500 transition">
+                    <div>
+                        <div class="flex items-center gap-3 mb-3">
+                            <span class="p-3 bg-emerald-100 text-emerald-600 rounded-xl text-lg"><i class="fa-solid fa-utensils"></i></span>
+                            <div>
+                                <h3 class="font-bold text-slate-900">2. Nutrisi & Formulasi Makanan</h3>
+                                <p class="text-xs text-slate-500">Menyusun Takaran Karbohidrat & Protein</p>
+                            </div>
+                        </div>
+                        <p class="text-slate-600 text-sm leading-relaxed">
+                            Ahli gizi menggunakan SPLTV untuk menentukan komposisi 3 bahan makanan (misal: telur, beras, sayur) agar mencapai target kalori, protein, dan lemak harian yang pas bagi atlet.
+                        </p>
+                    </div>
+                    <div class="mt-4 pt-4 border-t border-slate-100 text-xs text-emerald-600 font-semibold flex items-center gap-1">
+                        <i class="fa-solid fa-arrow-right"></i> Penerapan: Kebugaran, Kesehatan, Farmasi
+                    </div>
+                </div>
+
+                <!-- Case 3 -->
+                <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm flex flex-col justify-between hover:border-brand-500 transition">
+                    <div>
+                        <div class="flex items-center gap-3 mb-3">
+                            <span class="p-3 bg-purple-100 text-purple-600 rounded-xl text-lg"><i class="fa-solid fa-ticket"></i></span>
+                            <div>
+                                <h3 class="font-bold text-slate-900">3. Penjualan Tiket Events/Konser</h3>
+                                <p class="text-xs text-slate-500">Menghitung Jumlah Pengunjung VIP vs Reguler</p>
+                            </div>
+                        </div>
+                        <p class="text-slate-600 text-sm leading-relaxed">
+                            Panitia konser mengetahui total uang terkumpul dan total tiket yang habis terjual. Dari dua data total ini, mereka dapat menghitung secara pasti berapa lembar tiket VIP dan Reguler yang laku.
+                        </p>
+                    </div>
+                    <div class="mt-4 pt-4 border-t border-slate-100 text-xs text-purple-600 font-semibold flex items-center gap-1">
+                        <i class="fa-solid fa-arrow-right"></i> Penerapan: Event Organizer, Manajemen Keuangan
+                    </div>
+                </div>
+
+                <!-- Case 4 -->
+                <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm flex flex-col justify-between hover:border-brand-500 transition">
+                    <div>
+                        <div class="flex items-center gap-3 mb-3">
+                            <span class="p-3 bg-amber-100 text-amber-600 rounded-xl text-lg"><i class="fa-solid fa-flask"></i></span>
+                            <div>
+                                <h3 class="font-bold text-slate-900">4. Kimia & Pencampuran Larutan</h3>
+                                <p class="text-xs text-slate-500">Kadar Konsentrasi Cairan</p>
+                            </div>
+                        </div>
+                        <p class="text-slate-600 text-sm leading-relaxed">
+                            Laboran ingin membuat 100 mL larutan asam 30% dari stok larutan asam 20% dan 50%. SPL membantu menentukan volume persis masing-masing larutan yang perlu dicampur.
+                        </p>
+                    </div>
+                    <div class="mt-4 pt-4 border-t border-slate-100 text-xs text-amber-600 font-semibold flex items-center gap-1">
+                        <i class="fa-solid fa-arrow-right"></i> Penerapan: Laboratorium, Industri Kimia
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 3: MATERI & SIMULATOR -->
+        <section id="tab-materi" class="tab-content hidden fade-in space-y-8">
+            <div class="border-b border-slate-200 pb-4">
+                <h2 class="text-2xl font-bold text-slate-900">Materi & Simulator Konsep SPL</h2>
+                <p class="text-slate-600 text-sm mt-1">Pahami struktur persamaan linear dan coba interaksinya secara mendalam.</p>
+            </div>
+
+            <!-- SPLDV & SPLTV Cards -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- SPLDV Box -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                    <div class="flex justify-between items-center">
+                        <h3 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+                            <span class="w-7 h-7 bg-brand-100 text-brand-600 rounded-lg flex items-center justify-center text-xs font-bold">2V</span>
+                            SPLDV (Dua Variabel)
+                        </h3>
+                        <span class="bg-slate-100 text-slate-600 text-xs font-semibold px-2.5 py-1 rounded-full">2 Variabel (x, y)</span>
+                    </div>
+                    <p class="text-sm text-slate-600 leading-relaxed">
+                        Sistem persamaan linear yang terdiri atas dua persamaan linear dan memiliki dua variabel berpangkat satu.
+                    </p>
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 font-mono text-center text-slate-800 text-sm">
+                        $$\begin{cases} a_1 x + b_1 y = c_1 \\ a_2 x + b_2 y = c_2 \end{cases}$$
+                    </div>
+                    <ul class="text-xs text-slate-600 space-y-1.5 list-disc pl-4">
+                        <li><strong class="text-slate-800">x, y:</strong> Variabel yang belum diketahui nilainya.</li>
+                        <li><strong class="text-slate-800">a1, b1, a2, b2:</strong> Koefisien dari variabel.</li>
+                        <li><strong class="text-slate-800">c1, c2:</strong> Konstanta.</li>
+                    </ul>
+                </div>
+
+                <!-- SPLTV Box -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                    <div class="flex justify-between items-center">
+                        <h3 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+                            <span class="w-7 h-7 bg-purple-100 text-purple-600 rounded-lg flex items-center justify-center text-xs font-bold">3V</span>
+                            SPLTV (Tiga Variabel)
+                        </h3>
+                        <span class="bg-purple-50 text-purple-700 text-xs font-semibold px-2.5 py-1 rounded-full">3 Variabel (x, y, z)</span>
+                    </div>
+                    <p class="text-sm text-slate-600 leading-relaxed">
+                        Sistem persamaan linear yang terdiri atas tiga persamaan linear dan memiliki tiga variabel berpangkat satu.
+                    </p>
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 font-mono text-center text-slate-800 text-xs sm:text-sm">
+                        $$\begin{cases} a_1 x + b_1 y + c_1 z = d_1 \\ a_2 x + b_2 y + c_2 z = d_2 \\ a_3 x + b_3 y + c_3 z = d_3 \end{cases}$$
+                    </div>
+                    <ul class="text-xs text-slate-600 space-y-1.5 list-disc pl-4">
+                        <li>Diselesaikan dengan mereduksi 3 variabel menjadi 2 variabel terlebih dahulu.</li>
+                        <li>Menggunakan kombinasi eliminasi dan substitusi.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Methods Section -->
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                <h3 class="text-lg font-bold text-slate-900">Metode Penyelesaian Utama</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div class="p-4 bg-indigo-50/50 rounded-xl border border-indigo-100 space-y-2">
+                        <span class="font-bold text-brand-700 text-sm flex items-center gap-2">
+                            <i class="fa-solid fa-repeat"></i> Substitusi
+                        </span>
+                        <p class="text-xs text-slate-600">Mengganti salah satu variabel dengan variabel lain dari salah satu persamaan.</p>
+                    </div>
+                    <div class="p-4 bg-emerald-50/50 rounded-xl border border-emerald-100 space-y-2">
+                        <span class="font-bold text-emerald-700 text-sm flex items-center gap-2">
+                            <i class="fa-solid fa-eraser"></i> Eliminasi
+                        </span>
+                        <p class="text-xs text-slate-600">Menghilangkan salah satu variabel dengan cara menjumlahkan atau mengurangkan kedua persamaan.</p>
+                    </div>
+                    <div class="p-4 bg-purple-50/50 rounded-xl border border-purple-100 space-y-2">
+                        <span class="font-bold text-purple-700 text-sm flex items-center gap-2">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i> Campuran (Gabungan)
+                        </span>
+                        <p class="text-xs text-slate-600">Menggabungkan metode Eliminasi awal untuk menemukan 1 variabel, dilanjutkan Substitusi.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SIMULATOR SPLDV -->
+            <div class="bg-gradient-to-br from-slate-900 to-indigo-950 text-white p-6 sm:p-8 rounded-3xl shadow-xl space-y-6">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b border-slate-800 pb-4">
+                    <div>
+                        <span class="bg-indigo-500/20 text-indigo-300 text-xs font-bold px-3 py-1 rounded-full uppercase border border-indigo-500/30">Fitur Interaktif</span>
+                        <h3 class="text-xl font-bold text-white mt-1">Kalkulator & Solver Otomatis SPLDV</h3>
+                    </div>
+                    <p class="text-xs text-slate-400">Ubah nilai koefisien di bawah ini untuk melihat hasil nilai $(x, y)$</p>
+                </div>
+
+                <!-- Input Form -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-slate-900">
+                    <!-- Persamaan 1 -->
+                    <div class="bg-slate-800/80 p-4 rounded-2xl border border-slate-700 text-white space-y-3">
+                        <span class="text-xs font-bold text-indigo-400">Persamaan 1: $a_1 x + b_1 y = c_1$</span>
+                        <div class="flex items-center gap-2">
+                            <input type="number" id="sim-a1" value="2" class="w-full p-2 rounded-lg text-center font-bold bg-slate-900 border border-slate-600 text-white">
+                            <span>$x +$</span>
+                            <input type="number" id="sim-b1" value="3" class="w-full p-2 rounded-lg text-center font-bold bg-slate-900 border border-slate-600 text-white">
+                            <span>$y =$</span>
+                            <input type="number" id="sim-c1" value="120000" class="w-full p-2 rounded-lg text-center font-bold bg-slate-900 border border-slate-600 text-white">
+                        </div>
+                    </div>
+
+                    <!-- Persamaan 2 -->
+                    <div class="bg-slate-800/80 p-4 rounded-2xl border border-slate-700 text-white space-y-3">
+                        <span class="text-xs font-bold text-indigo-400">Persamaan 2: $a_2 x + b_2 y = c_2$</span>
+                        <div class="flex items-center gap-2">
+                            <input type="number" id="sim-a2" value="3" class="w-full p-2 rounded-lg text-center font-bold bg-slate-900 border border-slate-600 text-white">
+                            <span>$x +$</span>
+                            <input type="number" id="sim-b2" value="1" class="w-full p-2 rounded-lg text-center font-bold bg-slate-900 border border-slate-600 text-white">
+                            <span>$y =$</span>
+                            <input type="number" id="sim-c2" value="110000" class="w-full p-2 rounded-lg text-center font-bold bg-slate-900 border border-slate-600 text-white">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex justify-center">
+                    <button onclick="calculateSPLDV()" class="bg-indigo-500 hover:bg-indigo-600 text-white font-bold px-6 py-2.5 rounded-xl transition shadow-lg flex items-center gap-2">
+                        <i class="fa-solid fa-calculator"></i> Hitung Solusi
+                    </button>
+                </div>
+
+                <!-- Live Solution Output -->
+                <div id="sim-result" class="bg-slate-800 p-5 rounded-2xl border border-slate-700 space-y-2">
+                    <h4 class="text-sm font-semibold text-slate-300">Hasil Penyelesaian:</h4>
+                    <div id="sim-output" class="text-indigo-300 font-mono text-base sm:text-lg font-bold">
+                        <!-- Calculated via JS -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 4: CONTOH SOAL -->
+        <section id="tab-contoh" class="tab-content hidden fade-in space-y-6">
+            <div class="border-b border-slate-200 pb-4">
+                <h2 class="text-2xl font-bold text-slate-900">Contoh Soal & Pembahasan Step-by-Step</h2>
+                <p class="text-slate-600 text-sm mt-1">Pelajari alur berpikir dalam menyelesaikan SPLDV dan SPLTV secara runtut dan mendalam.</p>
+            </div>
+
+            <!-- Example 1: SPLDV -->
+            <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
+                <div class="bg-brand-600 text-white p-4 px-6 flex justify-between items-center">
+                    <span class="font-bold text-sm">Contoh Soal 1: SPLDV Campuran</span>
+                    <span class="bg-white/20 text-xs px-3 py-1 rounded-full">Tingkat Dasar</span>
+                </div>
+                <div class="p-6 space-y-4">
+                    <p class="text-slate-800 text-sm sm:text-base font-medium">
+                        Tentukan himpunan penyelesaian dari sistem persamaan linear berikut:
+                    </p>
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 text-center font-mono text-slate-800">
+                        $$\begin{cases} 
+                        2x + y = 13.000 & \text{...(Persamaan 1)} \\ 
+                        3x + 4y = 27.000 & \text{...(Persamaan 2)} 
+                        \end{cases}$$
+                    </div>
+
+                    <div class="border-t border-slate-100 pt-4 space-y-4">
+                        <h4 class="font-bold text-brand-600 text-sm flex items-center gap-2">
+                            <i class="fa-solid fa-list-check"></i> Pembahasan Langkah Demi Langkah (Rinci)
+                        </h4>
+                        
+                        <div class="space-y-4 text-xs sm:text-sm text-slate-700">
+                            <!-- Step 1 -->
+                            <div class="bg-indigo-50/60 p-4 rounded-xl border border-indigo-100 space-y-2">
+                                <div class="font-bold text-indigo-900 text-sm">
+                                    <span class="bg-brand-600 text-white px-2 py-0.5 rounded mr-1.5 text-xs">Langkah 1</span>
+                                    Mengeliminasi Variabel $y$
+                                </div>
+                                <p class="leading-relaxed">
+                                    Perhatikan koefisien $y$ pada kedua persamaan: Persamaan (1) memiliki koefisien $1$ dan Persamaan (2) memiliki koefisien $4$. Untuk menghilangkan variabel $y$, samakan dulu koefisiennya dengan mengalikan Persamaan (1) dengan 4:
+                                </p>
+                                <div class="bg-white p-3 rounded-lg border border-indigo-200 font-mono text-slate-800 overflow-x-auto text-center">
+                                    $$\begin{aligned}
+                                    \text{Persamaan (1)} \times 4 &\implies 4(2x + y) = 4(13.000) \implies 8x + 4y = 52.000 \\
+                                    \text{Persamaan (2)} \times 1 &\implies 1(3x + 4y) = 1(27.000) \implies 3x + 4y = 27.000
+                                    \end{aligned}$$
+                                </div>
+                                <p class="leading-relaxed">
+                                    Kurangkan kedua persamaan susun di atas untuk mengeliminasi $4y$:
+                                </p>
+                                <div class="bg-white p-3 rounded-lg border border-indigo-200 font-mono text-slate-800 overflow-x-auto text-center">
+                                    $$\begin{aligned}
+                                    8x + 4y &= 52.000 \\
+                                    3x + 4y &= 27.000 \\
+                                    \hline
+                                    (8x - 3x) + (4y - 4y) &= 52.000 - 27.000 \\
+                                    5x + 0 &= 25.000 \\
+                                    5x &= 25.000 \\
+                                    x &= \frac{25.000}{5} = 5.000
+                                    \end{aligned}$$
+                                </div>
+                            </div>
+
+                            <!-- Step 2 -->
+                            <div class="bg-emerald-50/60 p-4 rounded-xl border border-emerald-100 space-y-2">
+                                <div class="font-bold text-emerald-900 text-sm">
+                                    <span class="bg-emerald-600 text-white px-2 py-0.5 rounded mr-1.5 text-xs">Langkah 2</span>
+                                    Substitusi Nilai $x = 5.000$ ke Persamaan (1)
+                                </div>
+                                <p class="leading-relaxed">
+                                    Karena nilai $x = 5.000$ telah kita dapatkan, substitusikan nilai $x$ tersebut ke dalam Persamaan (1) untuk mencari nilai $y$:
+                                </p>
+                                <div class="bg-white p-3 rounded-lg border border-emerald-200 font-mono text-slate-800 text-center">
+                                    $$\begin{aligned}
+                                    2x + y &= 13.000 \\
+                                    2(5.000) + y &= 13.000 \\
+                                    10.000 + y &= 13.000 \\
+                                    y &= 13.000 - 10.000 \\
+                                    y &= 3.000
+                                    \end{aligned}$$
+                                </div>
+                            </div>
+
+                            <!-- Final Result -->
+                            <div class="p-4 bg-slate-900 text-white rounded-xl text-center space-y-1">
+                                <div class="text-xs text-slate-400 uppercase tracking-wider font-semibold">Hasil Akhir</div>
+                                <div class="font-mono text-base sm:text-lg font-bold text-emerald-300">
+                                    $\text{HP} = \{(5.000, 3.000)\}$ dengan $x = 5.000$ dan $y = 3.000$
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Example 2: SPLTV -->
+            <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
+                <div class="bg-purple-600 text-white p-4 px-6 flex justify-between items-center">
+                    <span class="font-bold text-sm">Contoh Soal 2: SPLTV (3 Variabel)</span>
+                    <span class="bg-white/20 text-xs px-3 py-1 rounded-full">Tingkat Menengah</span>
+                </div>
+                <div class="p-6 space-y-4">
+                    <p class="text-slate-800 text-sm sm:text-base font-medium">
+                        Selesaikan sistem persamaan tiga variabel berikut secara runtut:
+                    </p>
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 text-center font-mono text-slate-800">
+                        $$\begin{cases} 
+                        x + 2y + z = 75 & \text{...(Persamaan 1)} \\ 
+                        2x + y + 2z = 90 & \text{...(Persamaan 2)} \\ 
+                        3x + 2y + z = 105 & \text{...(Persamaan 3)} 
+                        \end{cases}$$
+                    </div>
+
+                    <div class="border-t border-slate-100 pt-4 space-y-4">
+                        <h4 class="font-bold text-purple-600 text-sm flex items-center gap-2">
+                            <i class="fa-solid fa-list-check"></i> Pembahasan Langkah Demi Langkah (Lengkap & Rinci)
+                        </h4>
+                        
+                        <div class="space-y-4 text-xs sm:text-sm text-slate-700">
+                            <!-- Step 1 -->
+                            <div class="bg-purple-50/60 p-4 rounded-xl border border-purple-100 space-y-2">
+                                <div class="font-bold text-purple-900 text-sm">
+                                    <span class="bg-purple-600 text-white px-2 py-0.5 rounded mr-1.5 text-xs">Langkah 1</span>
+                                    Mengeliminasi Variabel $z$ dan $y$ Menggunakan Persamaan (1) dan (3)
+                                </div>
+                                <p class="leading-relaxed">
+                                    Perhatikan bahwa koefisien $y$ (yaitu $2y$) dan koefisien $z$ (yaitu $1z$) pada Persamaan (1) dan Persamaan (3) sudah **sama persis**. Oleh karena itu, kita dapat langsung mengurangkan Persamaan (3) dengan Persamaan (1):
+                                </p>
+                                <div class="bg-white p-3 rounded-lg border border-purple-200 font-mono text-slate-800 overflow-x-auto text-center">
+                                    $$\begin{aligned}
+                                    3x + 2y + z &= 105 \quad \text{(Persamaan 3)} \\
+                                    x + 2y + z &= 75 \quad \text{(Persamaan 1)} \\
+                                    \hline
+                                    (3x - x) + (2y - 2y) + (z - z) &= 105 - 75 \\
+                                    2x + 0 + 0 &= 30 \\
+                                    2x &= 30 \\
+                                    x &= \frac{30}{2} = 15
+                                    \end{aligned}$$
+                                </div>
+                                <p class="text-xs text-purple-800 italic">
+                                    <i class="fa-solid fa-circle-info mr-1"></i> Catatan: Kita langsung mendapatkan nilai $x = 15$ karena koefisien $y$ dan $z$ pada kedua persamaan tersebut ternyata bernilai sama, sehingga tereliminasi bersamaan.
+                                </p>
+                            </div>
+
+                            <!-- Step 2 -->
+                            <div class="bg-indigo-50/60 p-4 rounded-xl border border-indigo-100 space-y-2">
+                                <div class="font-bold text-indigo-900 text-sm">
+                                    <span class="bg-indigo-600 text-white px-2 py-0.5 rounded mr-1.5 text-xs">Langkah 2</span>
+                                    Substitusi Nilai $x = 15$ ke Persamaan (1) dan Persamaan (2)
+                                </div>
+                                <p class="leading-relaxed">
+                                    Karena nilai $x = 15$ sudah diketahui, masukkan nilai $x = 15$ ke dalam Persamaan (1) dan Persamaan (2) untuk menyederhanakannya menjadi Sistem Persamaan Linear Dua Variabel ($y$ dan $z$):
+                                </p>
+                                
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 pt-1">
+                                    <div class="bg-white p-3 rounded-lg border border-indigo-200 font-mono text-slate-800">
+                                        <div class="font-bold text-xs text-indigo-600 mb-1 font-sans">A. Ke Persamaan (1):</div>
+                                        $$\begin{aligned}
+                                        x + 2y + z &= 75 \\
+                                        (15) + 2y + z &= 75 \\
+                                        2y + z &= 75 - 15 \\
+                                        2y + z &= 60 \quad \text{...(Persamaan 4)}
+                                        \end{aligned}$$
+                                    </div>
+                                    <div class="bg-white p-3 rounded-lg border border-indigo-200 font-mono text-slate-800">
+                                        <div class="font-bold text-xs text-indigo-600 mb-1 font-sans">B. Ke Persamaan (2):</div>
+                                        $$\begin{aligned}
+                                        2x + y + 2z &= 90 \\
+                                        2(15) + y + 2z &= 90 \\
+                                        30 + y + 2z &= 90 \\
+                                        y + 2z &= 90 - 30 \\
+                                        y + 2z &= 60 \quad \text{...(Persamaan 5)}
+                                        \end{aligned}$$
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Step 3 -->
+                            <div class="bg-emerald-50/60 p-4 rounded-xl border border-emerald-100 space-y-2">
+                                <div class="font-bold text-emerald-900 text-sm">
+                                    <span class="bg-emerald-600 text-white px-2 py-0.5 rounded mr-1.5 text-xs">Langkah 3</span>
+                                    Menyelesaikan SPLDV Persamaan (4) & (5) untuk Mencari Nilai $y$
+                                </div>
+                                <p class="leading-relaxed">
+                                    Sekarang kita memiliki dua persamaan baru dengan dua variabel ($y$ dan $z$):
+                                    <br>• Persamaan (4): $2y + z = 60 \implies z = 60 - 2y$
+                                    <br>• Persamaan (5): $y + 2z = 60$
+                                </p>
+                                <p class="leading-relaxed">
+                                    Substitusikan bentuk $z = 60 - 2y$ dari Persamaan (4) ke dalam Persamaan (5):
+                                </p>
+                                <div class="bg-white p-3 rounded-lg border border-emerald-200 font-mono text-slate-800 overflow-x-auto text-center">
+                                    $$\begin{aligned}
+                                    y + 2z &= 60 \\
+                                    y + 2(60 - 2y) &= 60 \\
+                                    y + 120 - 4y &= 60 \\
+                                    (y - 4y) + 120 &= 60 \\
+                                    -3y + 120 &= 60 \\
+                                    -3y &= 60 - 120 \\
+                                    -3y &= -60 \\
+                                    y &= \frac{-60}{-3} = 20
+                                    \end{aligned}$$
+                                </div>
+                            </div>
+
+                            <!-- Step 4 -->
+                            <div class="bg-amber-50/60 p-4 rounded-xl border border-amber-100 space-y-2">
+                                <div class="font-bold text-amber-900 text-sm">
+                                    <span class="bg-amber-600 text-white px-2 py-0.5 rounded mr-1.5 text-xs">Langkah 4</span>
+                                    Mencari Nilai Variabel $z$
+                                </div>
+                                <p class="leading-relaxed">
+                                    Substitusikan nilai $y = 20$ yang telah kita dapatkan ke dalam hubungan $z = 60 - 2y$:
+                                </p>
+                                <div class="bg-white p-3 rounded-lg border border-amber-200 font-mono text-slate-800 text-center">
+                                    $$\begin{aligned}
+                                    z &= 60 - 2y \\
+                                    z &= 60 - 2(20) \\
+                                    z &= 60 - 40 \\
+                                    z &= 20
+                                    \end{aligned}$$
+                                </div>
+                            </div>
+
+                            <!-- Step 5 (Verification) -->
+                            <div class="bg-slate-900 text-white p-4 rounded-xl space-y-2">
+                                <div class="font-bold text-indigo-300 text-sm flex items-center gap-2">
+                                    <i class="fa-solid fa-circle-check text-emerald-400"></i> Kesimpulan Akhir & Pembuktian
+                                </div>
+                                <p class="text-xs sm:text-sm text-slate-300">
+                                    Himpunan Penyelesaian (HP) dari sistem persamaan linear tiga variabel tersebut adalah:
+                                </p>
+                                <div class="text-center font-mono text-amber-300 text-base font-bold my-1">
+                                    $$\text{HP} = \{(15, 20, 20)\} \quad \text{dimana } x = 15, \, y = 20, \, z = 20$$
+                                </div>
+                                <div class="text-xs text-slate-400 border-t border-slate-800 pt-2">
+                                    <strong>Uji Kebenaran (ke Persamaan 1):</strong> $x + 2y + z = 15 + 2(20) + 20 = 15 + 40 + 20 = 75$ (Sesuai/Terbukti benar!)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 5: LATIHAN SOAL (10 SOAL CERITA) -->
+        <section id="tab-latihan" class="tab-content hidden fade-in space-y-8">
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-900">Latihan 10 Soal Cerita Interaktif</h2>
+                    <p class="text-slate-600 text-sm mt-0.5">Uji pemahaman kontekstualmu. Tulis jawaban dan periksa hasilnya secara langsung!</p>
+                </div>
+                <div class="flex items-center gap-3 bg-brand-50 p-3 rounded-xl border border-brand-100">
+                    <i class="fa-solid fa-trophy text-amber-500 text-2xl"></i>
+                    <div>
+                        <div class="text-xs text-brand-700 font-bold uppercase">Skor Kamu</div>
+                        <div id="total-score" class="text-xl font-black text-brand-600">0 / 100</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="space-y-6">
+                <!-- SOAL 1 -->
+                <div id="q1-card" class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                    <div class="flex justify-between items-center border-b border-slate-100 pb-3">
+                        <span class="bg-brand-100 text-brand-700 text-xs font-bold px-3 py-1 rounded-full">Soal 1 • Tiket Bioskop (SPLDV)</span>
+                        <span id="q1-status" class="text-xs text-slate-400 font-semibold"><i class="fa-regular fa-circle mr-1"></i> Belum dijawab</span>
+                    </div>
+                    <p class="text-slate-800 text-sm sm:text-base leading-relaxed">
+                        Siti dan Budi membeli tiket bioskop. Siti membeli <strong>2 tiket Dewasa dan 3 tiket Anak-anak</strong> seharga <strong>Rp 120.000,00</strong>. Di loket yang sama, Budi membeli <strong>3 tiket Dewasa dan 1 tiket Anak-anak</strong> seharga <strong>Rp 110.000,00</strong>. Berapakah harga <strong>1 tiket Dewasa</strong>?
+                    </p>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+                        <label class="q1-opt flex items-center p-3 rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                            <input type="radio" name="q1" value="A" class="mr-3 text-brand-600 focus:ring-brand-500">
+                            <span class="text-sm text-slate-700">A. Rp 20.000,00</span>
+                        </label>
+                        <label class="q1-opt flex items-center p-3 rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                            <input type="radio" name="q1" value="B" class="mr-3 text-brand-600 focus:ring-brand-500">
+                            <span class="text-sm text-slate-700">B. Rp 25.000,00</span>
+                        </label>
+                        <label class="q1-opt flex items-center p-3 rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                            <input type="radio" name="q1" value="C" class="mr-3 text-brand-600 focus:ring-brand-500">
+                            <span class="text-sm text-slate-700">C. Rp 30.000,00</span>
+                        </label>
+                        <label class="q1-opt flex items-center p-3 rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                            <input type="radio" name="q1" value="D" class="mr-3 text-brand-600 focus:ring-brand-500">
+                            <span class="text-sm text-slate-700">D. Rp 35.000,00</span>
+                        </label>
+                    </div>
+
+                    <div class="flex flex-wrap items-center justify-between gap-2 pt-2">
+                        <button onclick="toggleHint('hint-1')" class="text-xs text-brand-600 font-semibold hover:underline flex items-center gap-1">
+                            <i class="fa-regular fa-lightbulb"></i> Tampilkan Petunjuk
+                        </button>
+                        <button onclick="checkQuestion(1, 'C')" class="bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold px-4 py-2 rounded-xl transition">
+                            Jawab & Periksa
+                        </button>
+                    </div>
+
+                    <div id="hint-1" class="hidden text-xs bg-amber-50 text-amber-800 p-3 rounded-xl border border-amber-200">
+                        <strong>Petunjuk:</strong> Misalkan $x$ = harga tiket dewasa, $y$ = harga tiket anak. Susun persamaan: $2x + 3y = 120.000$ dan $3x + y = 110.000$. Eliminasi variabel $y$.
+                    </div>
+
+                    <div id="explanation-1" class="hidden text-xs sm:text-sm bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2">
+                        <!-- Filled by JS -->
+                    </div>
+                </div>
+
+                <!-- SOAL 2 -->
+                <div id="q2-card" class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                    <div class="flex justify-between items-center border-b border-slate-100 pb-3">
+                        <span class="bg-emerald-100 text-emerald-700 text-xs font-bold px-3 py-1 rounded-full">Soal 2 • Alat Tulis Sekolah (SPLDV)</span>
+                        <span id="q2-status" class="text-xs text-slate-400 font-semibold"><i class="fa-regular fa-circle mr-1"></i> Belum dijawab</span>
+                    </div>
+                    <p class="text-slate-800 text-sm sm:text-base leading-relaxed">
+                        Andi membeli <strong>4 buku tulis dan 2 pensil</strong> seharga <strong>Rp 26.000,00</strong>. Rina membeli <strong>3 buku tulis dan 4 pensil</strong> seharga <strong>Rp 27.000,00</strong>. Jika Ani ingin membeli <strong>2 buku tulis dan 2 pensil</strong>, berapakah total harga yang harus dibayar Ani?
+                    </p>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+                        <label class="q2-opt flex items-center p-3 rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                            <input type="radio" name="q2" value="A" class="mr-3 text-brand-600">
+                            <span class="text-sm text-slate-700">A. Rp 14.000,00</span>
+                        </label>
+                        <label class="q2-opt flex items-center p-3 rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                            <input type="radio" name="q2" value="B" class="mr-3 text-brand-600">
+                            <span class="text-sm text-slate-700">B. Rp 16.000,00</span>
+                        </label>
+                        <label class="q2-opt flex items-center p-3 rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                            <input type="radio" name="q2" value="C" class="mr-3 text-brand-600">
+                            <span class="text-sm text-slate-700">C. Rp 18.000,00</span>
+                        </label>
+                        <label class="q2-opt flex items-center p-3 rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                            <input type="radio" name="q2" value="D" class="mr-3 text-brand-600">
+                            <span class="text-sm text-slate-700">D. Rp 20.000,00</span>
+                        </label>
+                    </div>
+
+                    <div class="flex flex-wrap items-center justify-between gap-2 pt-2">
+                        <button onclick="toggleHint('hint-2')" class="text-xs text-brand-600 font-semibold hover:underline flex items-center gap-1">
+                            <i class="fa-regular fa-lightbulb"></i> Tampilkan Petunjuk
+                        </button>
+                        <button onclick="checkQuestion(2, 'B')" class="bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold px-4 py-2 rounded-xl transition">
+                            Jawab & Periksa
+                        </button>
+                    </div>
+
+                    <div id="hint-2" class="hidden text-xs bg-amber-50 text-amber-800 p-3 rounded-xl border border-amber-200">
+                        <strong>Petunjuk:</strong> Cari harga 1 buku ($x$) dan 1 pensil ($y$) dulu dari $4x + 2y = 26.000$ dan $3x + 4y = 27.000$. Lalu hitung $2x + 2y$.
+                    </div>
+
+                    <div id="explanation-2" class="hidden text-xs sm:text-sm bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2">
+                        <!-- Filled by JS -->
+                    </div>
+                </div>
+
+                <!-- SOAL 3 -->
+                <div id="q3-card" class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                    <div class="flex justify-between items-center border-b border-slate-100 pb-3">
+                        <span class="bg-purple-100 text-purple-700 text-xs font-bold px-3 py-1 rounded-full">Soal 3 • Paket Buah Segar (SPLTV)</span>
+                        <span id="q3-status" class="text-xs text-slate-400 font-semibold"><i class="fa-regular fa-circle mr-1"></i> Belum dijawab</span>
+                    </div>
+                    <p class="text-slate-800 text-sm sm:text-base leading-relaxed">
+                        Toko Buah menjual paket parcel:<br>
+                        • <strong>Paket A:</strong> 1 kg Apel, 2 kg Jeruk, 1 kg Mangga = Rp 75.000,00<br>
+                        • <strong>Paket B:</strong> 2 kg Apel, 1 kg Jeruk, 2 kg Mangga = Rp 90.000,00<br>
+                        • <strong>Paket C:</strong> 3 kg Apel, 2 kg Jeruk, 1 kg Mangga = Rp 105.000,00<br>
+                        Berapakah harga per kg untuk <strong>buah Apel</strong>?
+                    </p>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+                        <label class="q3-opt flex items-center p-3 rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                            <input type="radio" name="q3" value="A" class="mr-3 text-brand-600">
+                            <span class="text-sm text-slate-700">A. Rp 12.000,00 / kg</span>
+                        </label>
+                        <label class="q3-opt flex items-center p-3 rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                            <input type="radio" name="q3" value="B" class="mr-3 text-brand-600">
+                            <span class="text-sm text-slate-700">B. Rp 15.000,00 / kg</span>
+                        </label>
+                        <label class="q3-opt flex items-center p-3 rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                            <input type="radio" name="q3" value="C" class="mr-3 text-brand-600">
+                            <span class="text-sm text-slate-700">C. Rp 18.000,00 / kg</span>
+                        </label>
+                        <label class="q3-opt flex items-center p-3 rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                            <input type="radio" name="q3" value="D" class="mr-3 text-brand-600">
+                            <span class="text-sm text-slate-700">D. Rp 20.000,00 / kg</span>
+                        </label>
+                    </div>
+
+                    <div class="flex flex-wrap items-center justify-between gap-2 pt-2">
+                        <button onclick="toggleHint('hint-3')" class="text-xs text-brand-600 font-semibold hover:underline flex items-center gap-1">
+                            <i class="fa-regular fa-lightbulb"></i> Tampilkan Petunjuk
+                        </button>
+                        <button onclick="checkQuestion(3, 'B')" class="bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold px-4 py-2 rounded-xl transition">
+                            Jawab & Periksa
+                        </button>
+                    </div>
+
+                    <div id="hint-3" class="hidden text-xs bg-amber-50 text-amber-800 p-3 rounded-xl border border-amber-200">
+                        <strong>Petunjuk:</strong> Kurangkan Persamaan Paket C ($3x + 2y + z = 105.000$) dengan Paket A ($x + 2y + z = 75.000$). Kamu langsung mendapatkan nilai $2x$!
+                    </div>
+
+                    <div id="explanation-3" class="hidden text-xs sm:text-sm bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2">
+                        <!-- Filled by JS -->
+                    </div>
+                </div>
+
+                <!-- SOAL 4 -->
+                <div id="q4-card" class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                    <div class="flex justify-between items-center border-b border-slate-100 pb-3">
+                        <span class="bg-amber-100 text-amber-700 text-xs font-bold px-3 py-1 rounded-full">Soal 4 • Geometri Taman (SPLDV)</span>
+                        <span id="q4-status" class="text-xs text-slate-400 font-semibold"><i class="fa-regular fa-circle mr-1"></i> Belum dijawab</span>
+                    </div>
+                    <p class="text-slate-800 text-sm sm:text-base leading-relaxed">
+                        Keliling sebuah taman berbentuk persegi panjang adalah <strong>64 meter</strong>. Jika panjang taman ($p$) adalah <strong>6 meter lebihnya dari lebarnya ($l$)</strong>, berapakah <strong>luas taman</strong> tersebut?
+                    </p>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+                        <label class="q4-opt flex items-center p-3 rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                            <input type="radio" name="q4" value="A" class="mr-3 text-brand-600">
+                            <span class="text-sm text-slate-700">A. $247 \text{ m}^2$</span>
+                        </label>
+                        <label class="q4-opt flex items-center p-3 rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                            <input type="radio" name="q4" value="B" class="mr-3 text-brand-600">
+                            <span class="text-sm text-slate-700">B. $220 \text{ m}^2$</span>
+                        </label>
+                        <label class="q4-opt flex items-center p-3 rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                            <input type="radio" name="q4" value="C" class="mr-3 text-brand-600">
+                            <span class="text-sm text-slate-700">C. $252 \text{ m}^2$</span>
+                        </label>
+                        <label class="q4-opt flex items-center p-3 rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                            <input type="radio" name="q4" value="D" class="mr-3 text-brand-600">
+                            <span class="text-sm text-slate-700">D. $190 \text{ m}^2$</span>
+                        </label>
+                    </div>
+
+                    <div class="flex flex-wrap items-center justify-between gap-2 pt-2">
+                        <button onclick="toggleHint('hint-4')" class="text-xs text-brand-600 font-semibold hover:underline flex items-center gap-1">
+                            <i class="fa-regular fa-lightbulb"></i> Tampilkan Petunjuk
+                        </button>
+                        <button onclick="checkQuestion(4, 'A')" class="bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold px-4 py-2 rounded-xl transition">
+                            Jawab & Periksa
+                        </button>
+                    </div>
+
+                    <div id="hint-4" class="hidden text-xs bg-amber-50 text-amber-800 p-3 rounded-xl border border-amber-200">
+                        <strong>Petunjuk:</strong> Rumus keliling $2(p + l) = 64 \implies p + l = 32$. Persamaan kedua: $p - l = 6$. Cari $p$ dan $l$, lalu hitung $p \times l$.
+                    </div>
+
+                    <div id="explanation-4" class="hidden text-xs sm:text-sm bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2">
+                        <!-- Filled by JS -->
+                    </div>
+                </div>
+
+                <!-- SOAL 5 -->
+                <div id="q5-card" class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                    <div class="flex justify-between items-center border-b border-slate-100 pb-3">
+                        <span class="bg-rose-100 text-rose-700 text-xs font-bold px-3 py-1 rounded-full">Soal 5 • Umur Anggota Keluarga (SPLTV)</span>
+                        <span id="q5-status" class="text-xs text-slate-400 font-semibold"><i class="fa-regular fa-circle mr-1"></i> Belum dijawab</span>
+                    </div>
+                    <p class="text-slate-800 text-sm sm:text-base leading-relaxed">
+                        Jumlah umur Ayah ($A$), Ibu ($I$), dan Budi ($B$) sekarang adalah <strong>70 tahun</strong>. Umur Ayah <strong>4 tahun lebih tua</strong> dari umur Ibu. Empat tahun yang lalu, umur Ibu adalah <strong>4 kali umur Budi</strong>. Berapakah <strong>umur Ayah sekarang</strong>?
+                    </p>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+                        <label class="q5-opt flex items-center p-3 rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                            <input type="radio" name="q5" value="A" class="mr-3 text-brand-600">
+                            <span class="text-sm text-slate-700">A. 28 tahun</span>
+                        </label>
+                        <label class="q5-opt flex items-center p-3 rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                            <input type="radio" name="q5" value="B" class="mr-3 text-brand-600">
+                            <span class="text-sm text-slate-700">B. 30 tahun</span>
+                        </label>
+                        <label class="q5-opt flex items-center p-3 rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                            <input type="radio" name="q5" value="C" class="mr-3 text-brand-600">
+                            <span class="text-sm text-slate-700">C. 32 tahun</span>
+                        </label>
+                        <label class="q5-opt flex items-center p-3 rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                            <input type="radio" name="q5" value="D" class="mr-3 text-brand-600">
+                            <span class="text-sm text-slate-700">D. 36 tahun</span>
+                        </label>
+                    </div>
+
+                    <div class="flex flex-wrap items-center justify-between gap-2 pt-2">
+                        <button onclick="toggleHint('hint-5')" class="text-xs text-brand-600 font-semibold hover:underline flex items-center gap-1">
+                            <i class="fa-regular fa-lightbulb"></i> Tampilkan Petunjuk
+                        </button>
+                        <button onclick="checkQuestion(5, 'C')" class="bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold px-4 py-2 rounded-xl transition">
+                            Jawab & Periksa
+                        </button>
+                    </div>
+
+                    <div id="hint-5" class="hidden text-xs bg-amber-50 text-amber-800 p-3 rounded-xl border border-amber-200">
+                        <strong>Petunjuk:</strong> Model matematika: (1) $A + I + B = 70$, (2) $A = I + 4$, (3) $(I - 4) = 4(B - 4) \implies I = 4B - 12$. Nyatakan semua variabel dalam $B$.
+                    </div>
+
+                    <div id="explanation-5" class="hidden text-xs sm:text-sm bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2">
+                        <!-- Filled by JS -->
+                    </div>
+                </div>
+
+                <!-- SOAL 6 -->
+                <div id="q6-card" class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                    <div class="flex justify-between items-center border-b border-slate-100 pb-3">
+                        <span class="bg-indigo-100 text-indigo-700 text-xs font-bold px-3 py-1 rounded-full">Soal 6 • Parkir Kendaraan (SPLDV)</span>
+                        <span id="q6-status" class="text-xs text-slate-400 font-semibold"><i class="fa-regular fa-circle mr-1"></i> Belum dijawab</span>
+                    </div>
+                    <p class="text-slate-800 text-sm sm:text-base leading-relaxed">
+                        Di sebuah lahan parkir terdapat <strong>50 kendaraan</strong> yang terdiri dari <strong>mobil (roda 4) dan sepeda motor (roda 2)</strong>. Jumlah seluruh roda kendaraan di lahan parkir tersebut adalah <strong>160 roda</strong>. Jika tarif parkir mobil adalah <strong>Rp 5.000,00</strong> dan sepeda motor adalah <strong>Rp 2.000,00</strong>, berapakah total pendapatan parkir saat itu?
+                    </p>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+                        <label class="q6-opt flex items-center p-3 rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                            <input type="radio" name="q6" value="A" class="mr-3 text-brand-600">
+                            <span class="text-sm text-slate-700">A. Rp 170.000,00</span>
+                        </label>
+                        <label class="q6-opt flex items-center p-3 rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                            <input type="radio" name="q6" value="B" class="mr-3 text-brand-600">
+                            <span class="text-sm text-slate-700">B. Rp 180.000,00</span>
+                        </label>
+                        <label class="q6-opt flex items-center p-3 rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                            <input type="radio" name="q6" value="C" class="mr-3 text-brand-600">
+                            <span class="text-sm text-slate-700">C. Rp 190.000,00</span>
+                        </label>
+                        <label class="q6-opt flex items-center p-3 rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                            <input type="radio" name="q6" value="D" class="mr-3 text-brand-600">
+                            <span class="text-sm text-slate-700">D. Rp 200.000,00</span>
+                        </label>
+                    </div>
+
+                    <div class="flex flex-wrap items-center justify-between gap-2 pt-2">
+                        <button onclick="toggleHint('hint-6')" class="text-xs text-brand-600 font-semibold hover:underline flex items-center gap-1">
+                            <i class="fa-regular fa-lightbulb"></i> Tampilkan Petunjuk
+                        </button>
+                        <button onclick="checkQuestion(6, 'C')" class="bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold px-4 py-2 rounded-xl transition">
+                            Jawab & Periksa
+                        </button>
+                    </div>
+
+                    <div id="hint-6" class="hidden text-xs bg-amber-50 text-amber-800 p-3 rounded-xl border border-amber-200">
+                        <strong>Petunjuk:</strong> Misalkan $m$ = jumlah mobil dan $s$ = jumlah motor. Persamaan 1: $m + s = 50$. Persamaan 2: $4m + 2s = 160$. Cari nilai $m$ dan $s$, lalu hitung $5.000m + 2.000s$.
+                    </div>
+
+                    <div id="explanation-6" class="hidden text-xs sm:text-sm bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2">
+                        <!-- Filled by JS -->
+                    </div>
+                </div>
+
+                <!-- SOAL 7 -->
+                <div id="q7-card" class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                    <div class="flex justify-between items-center border-b border-slate-100 pb-3">
+                        <span class="bg-blue-100 text-blue-700 text-xs font-bold px-3 py-1 rounded-full">Soal 7 • Pakaian & Fashion (SPLDV)</span>
+                        <span id="q7-status" class="text-xs text-slate-400 font-semibold"><i class="fa-regular fa-circle mr-1"></i> Belum dijawab</span>
+                    </div>
+                    <p class="text-slate-800 text-sm sm:text-base leading-relaxed">
+                        Budi membeli <strong>3 kemeja dan 2 celana</strong> seharga <strong>Rp 450.000,00</strong>. Di toko yang sama, Anton membeli <strong>2 kemeja dan 3 celana</strong> seharga <strong>Rp 500.000,00</strong>. Berapakah total harga jika kita membeli <strong>1 kemeja dan 1 celana</strong>?
+                    </p>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+                        <label class="q7-opt flex items-center p-3 rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                            <input type="radio" name="q7" value="A" class="mr-3 text-brand-600">
+                            <span class="text-sm text-slate-700">A. Rp 175.000,00</span>
+                        </label>
+                        <label class="q7-opt flex items-center p-3 rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                            <input type="radio" name="q7" value="B" class="mr-3 text-brand-600">
+                            <span class="text-sm text-slate-700">B. Rp 180.000,00</span>
+                        </label>
+                        <label class="q7-opt flex items-center p-3 rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                            <input type="radio" name="q7" value="C" class="mr-3 text-brand-600">
+                            <span class="text-sm text-slate-700">C. Rp 190.000,00</span>
+                        </label>
+                        <label class="q7-opt flex items-center p-3 rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                            <input type="radio" name="q7" value="D" class="mr-3 text-brand-600">
+                            <span class="text-sm text-slate-700">D. Rp 200.000,00</span>
+                        </label>
+                    </div>
+
+                    <div class="flex flex-wrap items-center justify-between gap-2 pt-2">
+                        <button onclick="toggleHint('hint-7')" class="text-xs text-brand-600 font-semibold hover:underline flex items-center gap-1">
+                            <i class="fa-regular fa-lightbulb"></i> Tampilkan Petunjuk
+                        </button>
+                        <button onclick="checkQuestion(7, 'C')" class="bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold px-4 py-2 rounded-xl transition">
+                            Jawab & Periksa
+                        </button>
+                    </div>
+
+                    <div id="hint-7" class="hidden text-xs bg-amber-50 text-amber-800 p-3 rounded-xl border border-amber-200">
+                        <strong>Petunjuk:</strong> Jumlahkan kedua persamaan: $(3k + 2c) + (2k + 3c) = 450.000 + 500.000 \implies 5k + 5c = 950.000$. Kemudian bagi kedua ruas dengan 5 untuk langsung memperoleh $k + c$.
+                    </div>
+
+                    <div id="explanation-7" class="hidden text-xs sm:text-sm bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2">
+                        <!-- Filled by JS -->
+                    </div>
+                </div>
+
+                <!-- SOAL 8 -->
+                <div id="q8-card" class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                    <div class="flex justify-between items-center border-b border-slate-100 pb-3">
+                        <span class="bg-teal-100 text-teal-700 text-xs font-bold px-3 py-1 rounded-full">Soal 8 • Paket Roti Bakery (SPLTV)</span>
+                        <span id="q8-status" class="text-xs text-slate-400 font-semibold"><i class="fa-regular fa-circle mr-1"></i> Belum dijawab</span>
+                    </div>
+                    <p class="text-slate-800 text-sm sm:text-base leading-relaxed">
+                        Sebuah toko roti menawarkan paket promo:<br>
+                        • <strong>Paket A:</strong> 1 Roti Keju, 1 Roti Cokelat, 2 Roti Sosis = Rp 28.000,00<br>
+                        • <strong>Paket B:</strong> 2 Roti Keju, 1 Roti Cokelat, 1 Roti Sosis = Rp 27.000,00<br>
+                        • <strong>Paket C:</strong> 1 Roti Keju, 2 Roti Cokelat, 1 Roti Sosis = Rp 29.000,00<br>
+                        Berapakah harga satuan untuk <strong>1 Roti Cokelat</strong>?
+                    </p>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+                        <label class="q8-opt flex items-center p-3 rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                            <input type="radio" name="q8" value="A" class="mr-3 text-brand-600">
+                            <span class="text-sm text-slate-700">A. Rp 5.000,00</span>
+                        </label>
+                        <label class="q8-opt flex items-center p-3 rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                            <input type="radio" name="q8" value="B" class="mr-3 text-brand-600">
+                            <span class="text-sm text-slate-700">B. Rp 6.000,00</span>
+                        </label>
+                        <label class="q8-opt flex items-center p-3 rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                            <input type="radio" name="q8" value="C" class="mr-3 text-brand-600">
+                            <span class="text-sm text-slate-700">C. Rp 7.000,00</span>
+                        </label>
+                        <label class="q8-opt flex items-center p-3 rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                            <input type="radio" name="q8" value="D" class="mr-3 text-brand-600">
+                            <span class="text-sm text-slate-700">D. Rp 8.000,00</span>
+                        </label>
+                    </div>
+
+                    <div class="flex flex-wrap items-center justify-between gap-2 pt-2">
+                        <button onclick="toggleHint('hint-8')" class="text-xs text-brand-600 font-semibold hover:underline flex items-center gap-1">
+                            <i class="fa-regular fa-lightbulb"></i> Tampilkan Petunjuk
+                        </button>
+                        <button onclick="checkQuestion(8, 'D')" class="bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold px-4 py-2 rounded-xl transition">
+                            Jawab & Periksa
+                        </button>
+                    </div>
+
+                    <div id="hint-8" class="hidden text-xs bg-amber-50 text-amber-800 p-3 rounded-xl border border-amber-200">
+                        <strong>Petunjuk:</strong> Jumlahkan ketiga persamaan tersebut hingga didapatkan $4K + 4C + 4S = 84.000 \implies K + C + S = 21.000$. Bandingkan dengan Paket C ($K + 2C + S = 29.000$) untuk mencari nilai Roti Cokelat ($C$).
+                    </div>
+
+                    <div id="explanation-8" class="hidden text-xs sm:text-sm bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2">
+                        <!-- Filled by JS -->
+                    </div>
+                </div>
+
+                <!-- SOAL 9 -->
+                <div id="q9-card" class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                    <div class="flex justify-between items-center border-b border-slate-100 pb-3">
+                        <span class="bg-orange-100 text-orange-700 text-xs font-bold px-3 py-1 rounded-full">Soal 9 • Teori Bilangan (SPLDV)</span>
+                        <span id="q9-status" class="text-xs text-slate-400 font-semibold"><i class="fa-regular fa-circle mr-1"></i> Belum dijawab</span>
+                    </div>
+                    <p class="text-slate-800 text-sm sm:text-base leading-relaxed">
+                        Dua kali sebuah bilangan positif dikurangi bilangan lainnya sama dengan <strong>12</strong>. Jika jumlah kedua bilangan tersebut adalah <strong>27</strong>, berapakah <strong>hasil kali kedua bilangan</strong> tersebut?
+                    </p>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+                        <label class="q9-opt flex items-center p-3 rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                            <input type="radio" name="q9" value="A" class="mr-3 text-brand-600">
+                            <span class="text-sm text-slate-700">A. 168</span>
+                        </label>
+                        <label class="q9-opt flex items-center p-3 rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                            <input type="radio" name="q9" value="B" class="mr-3 text-brand-600">
+                            <span class="text-sm text-slate-700">B. 175</span>
+                        </label>
+                        <label class="q9-opt flex items-center p-3 rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                            <input type="radio" name="q9" value="C" class="mr-3 text-brand-600">
+                            <span class="text-sm text-slate-700">C. 182</span>
+                        </label>
+                        <label class="q9-opt flex items-center p-3 rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                            <input type="radio" name="q9" value="D" class="mr-3 text-brand-600">
+                            <span class="text-sm text-slate-700">D. 196</span>
+                        </label>
+                    </div>
+
+                    <div class="flex flex-wrap items-center justify-between gap-2 pt-2">
+                        <button onclick="toggleHint('hint-9')" class="text-xs text-brand-600 font-semibold hover:underline flex items-center gap-1">
+                            <i class="fa-regular fa-lightbulb"></i> Tampilkan Petunjuk
+                        </button>
+                        <button onclick="checkQuestion(9, 'C')" class="bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold px-4 py-2 rounded-xl transition">
+                            Jawab & Periksa
+                        </button>
+                    </div>
+
+                    <div id="hint-9" class="hidden text-xs bg-amber-50 text-amber-800 p-3 rounded-xl border border-amber-200">
+                        <strong>Petunjuk:</strong> Persamaan 1: $2x - y = 12$. Persamaan 2: $x + y = 27$. Jumlahkan kedua persamaan untuk mengeliminasi $y$ dan temukan nilai $x$, lalu dapatkan $y$ dan kalikan keduanya.
+                    </div>
+
+                    <div id="explanation-9" class="hidden text-xs sm:text-sm bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2">
+                        <!-- Filled by JS -->
+                    </div>
+                </div>
+
+                <!-- SOAL 10 -->
+                <div id="q10-card" class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                    <div class="flex justify-between items-center border-b border-slate-100 pb-3">
+                        <span class="bg-cyan-100 text-cyan-700 text-xs font-bold px-3 py-1 rounded-full">Soal 10 • Geometri Segitiga (SPLTV)</span>
+                        <span id="q10-status" class="text-xs text-slate-400 font-semibold"><i class="fa-regular fa-circle mr-1"></i> Belum dijawab</span>
+                    </div>
+                    <p class="text-slate-800 text-sm sm:text-base leading-relaxed">
+                        Sebuah segitiga mempunyai keliling <strong>46 cm</strong>. Panjang sisi $a$ adalah <strong>5 cm lebih pendek dari sisi $b$</strong>. Sedangkan panjang sisi $c$ adalah <strong>3 cm lebih panjang dari sisi $b$</strong>. Berapakah panjang <strong>sisi terpanjang</strong> dari segitiga tersebut?
+                    </p>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+                        <label class="q10-opt flex items-center p-3 rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                            <input type="radio" name="q10" value="A" class="mr-3 text-brand-600">
+                            <span class="text-sm text-slate-700">A. 11 cm</span>
+                        </label>
+                        <label class="q10-opt flex items-center p-3 rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                            <input type="radio" name="q10" value="B" class="mr-3 text-brand-600">
+                            <span class="text-sm text-slate-700">B. 16 cm</span>
+                        </label>
+                        <label class="q10-opt flex items-center p-3 rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                            <input type="radio" name="q10" value="C" class="mr-3 text-brand-600">
+                            <span class="text-sm text-slate-700">C. 19 cm</span>
+                        </label>
+                        <label class="q10-opt flex items-center p-3 rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                            <input type="radio" name="q10" value="D" class="mr-3 text-brand-600">
+                            <span class="text-sm text-slate-700">D. 21 cm</span>
+                        </label>
+                    </div>
+
+                    <div class="flex flex-wrap items-center justify-between gap-2 pt-2">
+                        <button onclick="toggleHint('hint-10')" class="text-xs text-brand-600 font-semibold hover:underline flex items-center gap-1">
+                            <i class="fa-regular fa-lightbulb"></i> Tampilkan Petunjuk
+                        </button>
+                        <button onclick="checkQuestion(10, 'C')" class="bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold px-4 py-2 rounded-xl transition">
+                            Jawab & Periksa
+                        </button>
+                    </div>
+
+                    <div id="hint-10" class="hidden text-xs bg-amber-50 text-amber-800 p-3 rounded-xl border border-amber-200">
+                        <strong>Petunjuk:</strong> Model matematika: (1) $a + b + c = 46$, (2) $a = b - 5$, (3) $c = b + 3$. Substitusikan $a$ dan $c$ ke dalam persamaan keliling untuk menemukan $b$.
+                    </div>
+
+                    <div id="explanation-10" class="hidden text-xs sm:text-sm bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2">
+                        <!-- Filled by JS -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-900 text-slate-400 py-6 border-t border-slate-800 text-center text-xs mt-12">
+        <div class="max-w-7xl mx-auto px-4">
+            <p>© 2026 Modul Matematika Interaktif Kelas 10 SMA • Sistem Persamaan Linear</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+        let userScores = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0 };
+
+        document.addEventListener("DOMContentLoaded", function() {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: '$$', right: '$$', display: true},
+                    {left: '$', right: '$', display: false}
+                ],
+                throwOnError : false
+            });
+            calculateSPLDV();
+        });
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+
+            document.getElementById('tab-' + tabId).classList.remove('hidden');
+            
+            // Desktop & Mobile buttons
+            const navBtn = document.getElementById('nav-' + tabId);
+            const navBtnM = document.getElementById('nav-m-' + tabId);
+            if(navBtn) navBtn.classList.add('active');
+            if(navBtnM) navBtnM.classList.add('active');
+
+            // Re-render KaTeX if tab changed
+            renderMathInElement(document.getElementById('tab-' + tabId), {
+                delimiters: [
+                    {left: '$$', right: '$$', display: true},
+                    {left: '$', right: '$', display: false}
+                ]
+            });
+        }
+
+        function calculateSPLDV() {
+            const a1 = parseFloat(document.getElementById('sim-a1').value) || 0;
+            const b1 = parseFloat(document.getElementById('sim-b1').value) || 0;
+            const c1 = parseFloat(document.getElementById('sim-c1').value) || 0;
+            
+            const a2 = parseFloat(document.getElementById('sim-a2').value) || 0;
+            const b2 = parseFloat(document.getElementById('sim-b2').value) || 0;
+            const c2 = parseFloat(document.getElementById('sim-c2').value) || 0;
+
+            const det = (a1 * b2) - (a2 * b1);
+            const output = document.getElementById('sim-output');
+
+            if(det === 0) {
+                output.innerHTML = `<span class="text-rose-400"><i class="fa-solid fa-triangle-exclamation mr-1"></i> Sistem tidak memiliki solusi tunggal (Garis sejajar atau berimpit).</span>`;
+            } else {
+                const x = ((c1 * b2) - (c2 * b1)) / det;
+                const y = ((a1 * c2) - (a2 * c1)) / det;
+
+                const formatNum = (num) => Number.isInteger(num) ? num.toLocaleString('id-ID') : num.toFixed(2);
+
+                output.innerHTML = `
+                    <div class="flex flex-wrap gap-4 items-center">
+                        <span class="bg-indigo-900/80 px-3 py-1.5 rounded-lg border border-indigo-500/40">x = ${formatNum(x)}</span>
+                        <span class="bg-purple-900/80 px-3 py-1.5 rounded-lg border border-purple-500/40">y = ${formatNum(y)}</span>
+                        <span class="text-xs text-slate-300 font-normal">HP = {(${formatNum(x)}, ${formatNum(y)})}</span>
+                    </div>
+                `;
+            }
+        }
+
+        function toggleHint(hintId) {
+            const el = document.getElementById(hintId);
+            el.classList.toggle('hidden');
+        }
+
+        const explanations = {
+            1: `
+                <div class="font-bold text-slate-900 border-b pb-2 mb-3 flex items-center gap-2 text-sm">
+                    <i class="fa-solid fa-calculator text-brand-600"></i> Pembahasan Lengkap Soal 1:
+                </div>
+                <div class="space-y-2 leading-relaxed text-xs sm:text-sm">
+                    <p><strong>Langkah 1: Pemodelan Matematika</strong><br>
+                    Misalkan $x$ = harga 1 tiket Dewasa, dan $y$ = harga 1 tiket Anak-anak.<br>
+                    • Pembelian Siti: $2x + 3y = 120.000$ ...(Persamaan 1)<br>
+                    • Pembelian Budi: $3x + y = 110.000 \implies y = 110.000 - 3x$ ...(Persamaan 2)</p>
+
+                    <p><strong>Langkah 2: Substitusi $y$ ke Persamaan (1)</strong></p>
+                    $$\begin{aligned}
+                    2x + 3(110.000 - 3x) &= 120.000 \\
+                    2x + 330.000 - 9x &= 120.000 \\
+                    -7x + 330.000 &= 120.000 \\
+                    -7x &= 120.000 - 330.000 \\
+                    -7x &= -210.000 \\
+                    x &= \frac{-210.000}{-7} = 30.000
+                    \end{aligned}$$
+
+                    <p class="font-semibold text-emerald-600 mt-2 bg-emerald-50 p-2 rounded border border-emerald-200">
+                        <i class="fa-solid fa-circle-check"></i> Jadi, harga 1 tiket Dewasa ($x$) = Rp 30.000,00 (Jawaban C).
+                    </p>
+                </div>
+            `,
+            2: `
+                <div class="font-bold text-slate-900 border-b pb-2 mb-3 flex items-center gap-2 text-sm">
+                    <i class="fa-solid fa-calculator text-brand-600"></i> Pembahasan Lengkap Soal 2:
+                </div>
+                <div class="space-y-2 leading-relaxed text-xs sm:text-sm">
+                    <p><strong>Langkah 1: Pemodelan Matematika</strong><br>
+                    Misal $x$ = harga 1 buku tulis, $y$ = harga 1 pensil.<br>
+                    • Andi: $4x + 2y = 26.000 \implies 2x + y = 13.000 \implies y = 13.000 - 2x$ ...(1)<br>
+                    • Rina: $3x + 4y = 27.000$ ...(2)</p>
+
+                    <p><strong>Langkah 2: Substitusi $y$ ke Persamaan (2) untuk Mencari $x$</strong></p>
+                    $$\begin{aligned}
+                    3x + 4(13.000 - 2x) &= 27.000 \\
+                    3x + 52.000 - 8x &= 27.000 \\
+                    -5x &= 27.000 - 52.000 \\
+                    -5x &= -25.000 \implies x = 5.000 \text{ (Harga 1 Buku)}
+                    \end{aligned}$$
+
+                    <p><strong>Langkah 3: Hitung $y$ (Harga 1 Pensil)</strong><br>
+                    $y = 13.000 - 2(5.000) = 13.000 - 10.000 = 3.000$</p>
+
+                    <p><strong>Langkah 4: Hitung Total Belanjaan Ani ($2x + 2y$)</strong><br>
+                    Total = $2(5.000) + 2(3.000) = 10.000 + 6.000 = \text{Rp } 16.000,00$</p>
+
+                    <p class="font-semibold text-emerald-600 mt-2 bg-emerald-50 p-2 rounded border border-emerald-200">
+                        <i class="fa-solid fa-circle-check"></i> Jadi, total bayar Ani adalah Rp 16.000,00 (Jawaban B).
+                    </p>
+                </div>
+            `,
+            3: `
+                <div class="font-bold text-slate-900 border-b pb-2 mb-3 flex items-center gap-2 text-sm">
+                    <i class="fa-solid fa-calculator text-brand-600"></i> Pembahasan Lengkap Soal 3:
+                </div>
+                <div class="space-y-2 leading-relaxed text-xs sm:text-sm">
+                    <p><strong>Langkah 1: Pemodelan SPLTV</strong><br>
+                    Misal $x$ = Apel/kg, $y$ = Jeruk/kg, $z$ = Mangga/kg.<br>
+                    (1) $x + 2y + z = 75.000$<br>
+                    (2) $2x + y + 2z = 90.000$<br>
+                    (3) $3x + 2y + z = 105.000$</p>
+
+                    <p><strong>Langkah 2: Eliminasi Persamaan (3) dan (1)</strong><br>
+                    Kurangkan langsung Persamaan (3) dengan Persamaan (1) karena koefisien $2y$ dan $z$ identik:</p>
+                    $$\begin{aligned}
+                    3x + 2y + z &= 105.000 \\
+                    x + 2y + z &= 75.000 \\
+                    \hline
+                    2x &= 30.000 \implies x = \frac{30.000}{2} = 15.000
+                    \end{aligned}$$
+
+                    <p class="font-semibold text-emerald-600 mt-2 bg-emerald-50 p-2 rounded border border-emerald-200">
+                        <i class="fa-solid fa-circle-check"></i> Jadi, harga 1 kg buah Apel ($x$) adalah Rp 15.000,00 / kg (Jawaban B).
+                    </p>
+                </div>
+            `,
+            4: `
+                <div class="font-bold text-slate-900 border-b pb-2 mb-3 flex items-center gap-2 text-sm">
+                    <i class="fa-solid fa-calculator text-brand-600"></i> Pembahasan Lengkap Soal 4:
+                </div>
+                <div class="space-y-2 leading-relaxed text-xs sm:text-sm">
+                    <p><strong>Langkah 1: Menentukan Persamaan</strong><br>
+                    • Keliling $= 2(p + l) = 64 \implies p + l = 32$ ...(1)<br>
+                    • Panjang $6\text{ m}$ lebih dari lebar $\implies p - l = 6 \implies p = l + 6$ ...(2)</p>
+
+                    <p><strong>Langkah 2: Substitusi (2) ke (1)</strong></p>
+                    $$\begin{aligned}
+                    (l + 6) + l &= 32 \\
+                    2l + 6 &= 32 \\
+                    2l &= 32 - 6 = 26 \implies l = 13 \text{ m}
+                    \end{aligned}$$
+
+                    <p><strong>Langkah 3: Hitung $p$ dan Luas Taman</strong><br>
+                    $p = 13 + 6 = 19 \text{ m}$<br>
+                    $\text{Luas} = p \times l = 19 \times 13 = 247 \text{ m}^2$</p>
+
+                    <p class="font-semibold text-emerald-600 mt-2 bg-emerald-50 p-2 rounded border border-emerald-200">
+                        <i class="fa-solid fa-circle-check"></i> Jadi, luas taman tersebut adalah $247 \text{ m}^2$ (Jawaban A).
+                    </p>
+                </div>
+            `,
+            5: `
+                <div class="font-bold text-slate-900 border-b pb-2 mb-3 flex items-center gap-2 text-sm">
+                    <i class="fa-solid fa-calculator text-brand-600"></i> Pembahasan Lengkap Soal 5:
+                </div>
+                <div class="space-y-2 leading-relaxed text-xs sm:text-sm">
+                    <p><strong>Langkah 1: Menyusun Sistem Persamaan (SPLTV)</strong><br>
+                    • Jumlah umur: $A + I + B = 70$ ...(1)<br>
+                    • Umur Ayah: $A = I + 4$ ...(2)<br>
+                    • 4 tahun lalu: $(I - 4) = 4(B - 4) \implies I - 4 = 4B - 16 \implies I = 4B - 12$ ...(3)</p>
+
+                    <p><strong>Langkah 2: Nyatakan Semua Variabel dalam $B$</strong><br>
+                    • Dari (3): $I = 4B - 12$<br>
+                    • Substitusi $I$ ke (2): $A = (4B - 12) + 4 = 4B - 8$</p>
+
+                    <p><strong>Langkah 3: Masukkan $A$ dan $I$ ke Persamaan (1)</strong></p>
+                    $$\begin{aligned}
+                    (4B - 8) + (4B - 12) + B &= 70 \\
+                    9B - 20 &= 70 \\
+                    9B &= 90 \implies B = 10 \text{ tahun (Umur Budi)}
+                    \end{aligned}$$
+
+                    <p><strong>Langkah 4: Hitung Umur Ayah ($A$)</strong><br>
+                    $A = 4(10) - 8 = 40 - 8 = 32 \text{ tahun}$</p>
+
+                    <p class="font-semibold text-emerald-600 mt-2 bg-emerald-50 p-2 rounded border border-emerald-200">
+                        <i class="fa-solid fa-circle-check"></i> Jadi, umur Ayah sekarang adalah 32 tahun (Jawaban C).
+                    </p>
+                </div>
+            `,
+            6: `
+                <div class="font-bold text-slate-900 border-b pb-2 mb-3 flex items-center gap-2 text-sm">
+                    <i class="fa-solid fa-calculator text-brand-600"></i> Pembahasan Lengkap Soal 6:
+                </div>
+                <div class="space-y-2 leading-relaxed text-xs sm:text-sm">
+                    <p><strong>Langkah 1: Pemodelan Matematika</strong><br>
+                    Misal $m$ = jumlah mobil, $s$ = jumlah motor.<br>
+                    • Jumlah kendaraan: $m + s = 50 \implies s = 50 - m$ ...(1)<br>
+                    • Jumlah roda: $4m + 2s = 160$ ...(2)</p>
+
+                    <p><strong>Langkah 2: Substitusi $s$ ke Persamaan (2)</strong></p>
+                    $$\begin{aligned}
+                    4m + 2(50 - m) &= 160 \\
+                    4m + 100 - 2m &= 160 \\
+                    2m + 100 &= 160 \\
+                    2m &= 60 \implies m = 30 \text{ (Mobil)}
+                    \end{aligned}$$
+
+                    <p><strong>Langkah 3: Hitung Jumlah Motor ($s$) & Total Pendapatan</strong><br>
+                    $s = 50 - 30 = 20 \text{ (Motor)}$<br>
+                    Total = $(30 \times \text{Rp } 5.000) + (20 \times \text{Rp } 2.000) = 150.000 + 40.000 = \text{Rp } 190.000,00$</p>
+
+                    <p class="font-semibold text-emerald-600 mt-2 bg-emerald-50 p-2 rounded border border-emerald-200">
+                        <i class="fa-solid fa-circle-check"></i> Jadi, total pendapatan parkir adalah Rp 190.000,00 (Jawaban C).
+                    </p>
+                </div>
+            `,
+            7: `
+                <div class="font-bold text-slate-900 border-b pb-2 mb-3 flex items-center gap-2 text-sm">
+                    <i class="fa-solid fa-calculator text-brand-600"></i> Pembahasan Lengkap Soal 7:
+                </div>
+                <div class="space-y-2 leading-relaxed text-xs sm:text-sm">
+                    <p><strong>Langkah 1: Pemodelan Matematika</strong><br>
+                    Misal $k$ = harga 1 kemeja, $c$ = harga 1 celana.<br>
+                    (1) $3k + 2c = 450.000$<br>
+                    (2) $2k + 3c = 500.000$</p>
+
+                    <p><strong>Langkah 2: Trik Penggabungan Persamaan</strong><br>
+                    Jumlahkan kedua persamaan secara langsung:</p>
+                    $$\begin{aligned}
+                    (3k + 2c) + (2k + 3c) &= 450.000 + 500.000 \\
+                    5k + 5c &= 950.000 \\
+                    5(k + c) &= 950.000 \\
+                    k + c &= \frac{950.000}{5} = 190.000
+                    \end{aligned}$$
+
+                    <p class="font-semibold text-emerald-600 mt-2 bg-emerald-50 p-2 rounded border border-emerald-200">
+                        <i class="fa-solid fa-circle-check"></i> Jadi, harga 1 kemeja dan 1 celana ($k + c$) adalah Rp 190.000,00 (Jawaban C).
+                    </p>
+                </div>
+            `,
+            8: `
+                <div class="font-bold text-slate-900 border-b pb-2 mb-3 flex items-center gap-2 text-sm">
+                    <i class="fa-solid fa-calculator text-brand-600"></i> Pembahasan Lengkap Soal 8:
+                </div>
+                <div class="space-y-2 leading-relaxed text-xs sm:text-sm">
+                    <p><strong>Langkah 1: Pemodelan SPLTV</strong><br>
+                    Misal $K$ = Roti Keju, $C$ = Roti Cokelat, $S$ = Roti Sosis.<br>
+                    (1) $K + C + 2S = 28.000$<br>
+                    (2) $2K + C + S = 27.000$<br>
+                    (3) $K + 2C + S = 29.000$</p>
+
+                    <p><strong>Langkah 2: Jumlahkan Ketiga Persamaan</strong></p>
+                    $$\begin{aligned}
+                    (K + C + 2S) + (2K + C + S) + (K + 2C + S) &= 28.000 + 27.000 + 29.000 \\
+                    4K + 4C + 4S &= 84.000 \\
+                    K + C + S &= 21.000 \quad \text{...(4)}
+                    \end{aligned}$$
+
+                    <p><strong>Langkah 3: Bandingkan Persamaan (3) dan (4)</strong><br>
+                    Persamaan (3) dapat ditulis sebagai $(K + C + S) + C = 29.000$:</p>
+                    $$\begin{aligned}
+                    21.000 + C &= 29.000 \\
+                    C &= 29.000 - 21.000 = 8.000
+                    \end{aligned}$$
+
+                    <p class="font-semibold text-emerald-600 mt-2 bg-emerald-50 p-2 rounded border border-emerald-200">
+                        <i class="fa-solid fa-circle-check"></i> Jadi, harga 1 Roti Cokelat adalah Rp 8.000,00 (Jawaban D).
+                    </p>
+                </div>
+            `,
+            9: `
+                <div class="font-bold text-slate-900 border-b pb-2 mb-3 flex items-center gap-2 text-sm">
+                    <i class="fa-solid fa-calculator text-brand-600"></i> Pembahasan Lengkap Soal 9:
+                </div>
+                <div class="space-y-2 leading-relaxed text-xs sm:text-sm">
+                    <p><strong>Langkah 1: Menyusun Persamaan</strong><br>
+                    Misal dua bilangan tersebut adalah $x$ dan $y$.<br>
+                    (1) $2x - y = 12$<br>
+                    (2) $x + y = 27$</p>
+
+                    <p><strong>Langkah 2: Eliminasi $y$ dengan Menjumlahkan Kedua Persamaan</strong></p>
+                    $$\begin{aligned}
+                    (2x - y) + (x + y) &= 12 + 27 \\
+                    3x &= 39 \implies x = 13
+                    \end{aligned}$$
+
+                    <p><strong>Langkah 3: Tentukan Nilai $y$ dan Hasil Kali</strong><br>
+                    Substitusi $x = 13$ ke $x + y = 27 \implies y = 27 - 13 = 14$.<br>
+                    Hasil kali $x \times y = 13 \times 14 = 182$.</p>
+
+                    <p class="font-semibold text-emerald-600 mt-2 bg-emerald-50 p-2 rounded border border-emerald-200">
+                        <i class="fa-solid fa-circle-check"></i> Jadi, hasil kali kedua bilangan tersebut adalah 182 (Jawaban C).
+                    </p>
+                </div>
+            `,
+            10: `
+                <div class="font-bold text-slate-900 border-b pb-2 mb-3 flex items-center gap-2 text-sm">
+                    <i class="fa-solid fa-calculator text-brand-600"></i> Pembahasan Lengkap Soal 10:
+                </div>
+                <div class="space-y-2 leading-relaxed text-xs sm:text-sm">
+                    <p><strong>Langkah 1: Menyusun Sistem Persamaan</strong><br>
+                    • Keliling $= a + b + c = 46$ ...(1)<br>
+                    • $a = b - 5$ ...(2)<br>
+                    • $c = b + 3$ ...(3)</p>
+
+                    <p><strong>Langkah 2: Substitusi (2) dan (3) ke Persamaan Keliling (1)</strong></p>
+                    $$\begin{aligned}
+                    (b - 5) + b + (b + 3) &= 46 \\
+                    3b - 2 &= 46 \\
+                    3b &= 48 \implies b = 16 \text{ cm}
+                    \end{aligned}$$
+
+                    <p><strong>Langkah 3: Hitung Panjang Ketiga Sisi Segitiga</strong><br>
+                    • Sisi $a = 16 - 5 = 11\text{ cm}$<br>
+                    • Sisi $b = 16\text{ cm}$<br>
+                    • Sisi $c = 16 + 3 = 19\text{ cm}$ (Sisi Terpanjang)</p>
+
+                    <p class="font-semibold text-emerald-600 mt-2 bg-emerald-50 p-2 rounded border border-emerald-200">
+                        <i class="fa-solid fa-circle-check"></i> Jadi, panjang sisi terpanjang segitiga tersebut adalah 19 cm (Jawaban C).
+                    </p>
+                </div>
+            `
+        };
+
+        function checkQuestion(qNum, correctVal) {
+            const selected = document.querySelector(`input[name="q${qNum}"]:checked`);
+            const statusEl = document.getElementById(`q${qNum}-status`);
+            const expEl = document.getElementById(`explanation-${qNum}`);
+
+            if(!selected) {
+                alertCustom(`Pilih salah satu jawaban untuk Soal ${qNum} terlebih dahulu!`);
+                return;
+            }
+
+            if(selected.value === correctVal) {
+                userScores[qNum] = 10;
+                statusEl.innerHTML = `<span class="text-emerald-600 font-bold"><i class="fa-solid fa-circle-check mr-1"></i> Benar (+10)</span>`;
+            } else {
+                userScores[qNum] = 0;
+                statusEl.innerHTML = `<span class="text-rose-600 font-bold"><i class="fa-solid fa-circle-xmark mr-1"></i> Salah (0)</span>`;
+            }
+
+            expEl.classList.remove('hidden');
+            expEl.innerHTML = explanations[qNum];
+            
+            renderMathInElement(expEl, {
+                delimiters: [
+                    {left: '$$', right: '$$', display: true},
+                    {left: '$', right: '$', display: false}
+                ]
+            });
+
+            // Update Total Score
+            const total = Object.values(userScores).reduce((a, b) => a + b, 0);
+            document.getElementById('total-score').innerText = `${total} / 100`;
+        }
+
+        function alertCustom(message) {
+            const box = document.createElement('div');
+            box.className = 'fixed top-5 right-5 z-50 bg-slate-900 text-white text-xs sm:text-sm font-semibold px-5 py-3 rounded-xl shadow-2xl flex items-center gap-3 fade-in border border-slate-700';
+            box.innerHTML = `<i class="fa-solid fa-circle-info text-amber-400 text-lg"></i> <span>${message}</span>`;
+            document.body.appendChild(box);
+            setTimeout(() => box.remove(), 3000);
+        }
+    </script>
+</body>
+</html>
