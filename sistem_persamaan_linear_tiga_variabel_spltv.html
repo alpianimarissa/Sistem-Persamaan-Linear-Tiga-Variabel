@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Master SPLTV & Pemodelan Matematika Interaktif</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- MathJax for TeX Rendering -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['\\(', '\\)'], ['$', '$']],
+                displayMath: [['\\[', '\\]'], ['$$', '$$']]
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            500: '#0284c7',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                        },
+                        accent: {
+                            500: '#8b5cf6',
+                            600: '#7c3aed',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(226, 232, 240, 0.9);
+        }
+        .tab-active {
+            border-bottom: 3px solid #0284c7;
+            color: #0284c7;
+            font-weight: 700;
+        }
+        .sarrus-matrix-table td {
+            padding: 6px 12px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col selection:bg-brand-500 selection:text-white">
+
+    <!-- Top Navigation Bar -->
+    <header class="sticky top-0 z-40 bg-slate-900/95 text-white backdrop-blur-md border-b border-slate-800 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-500 to-accent-500 flex items-center justify-center font-black text-xl text-white shadow-md">
+                        3x3
+                    </div>
+                    <div>
+                        <h1 class="font-bold text-lg leading-tight">Master SPLTV & Pemodelan</h1>
+                        <p class="text-xs text-slate-400">Pembelajaran Konsep & Metode Terstruktur</p>
+                    </div>
+                </div>
+
+                <!-- Navigation Tabs -->
+                <nav class="hidden lg:flex space-x-1 text-sm font-medium">
+                    <a href="#tujuan" class="px-3 py-2 rounded-lg hover:bg-slate-800 transition">Tujuan</a>
+                    <a href="#warmup" class="px-3 py-2 rounded-lg hover:bg-slate-800 transition">Warm-Up (8 Soal)</a>
+                    <a href="#koneksi" class="px-3 py-2 rounded-lg hover:bg-slate-800 transition">Koneksi Nyata</a>
+                    <a href="#materi" class="px-3 py-2 rounded-lg hover:bg-slate-800 transition text-brand-400 font-semibold"><i class="fa-solid fa-graduation-cap mr-1"></i>Konsep & Metode</a>
+                    <a href="#kalkulator" class="px-3 py-2 rounded-lg hover:bg-slate-800 transition text-amber-400 font-semibold"><i class="fa-solid fa-calculator mr-1"></i>Solver Sarrus</a>
+                    <a href="#contoh" class="px-3 py-2 rounded-lg hover:bg-slate-800 transition text-emerald-400 font-semibold"><i class="fa-solid fa-book-open mr-1"></i>Ringkasan Soal</a>
+                </nav>
+
+                <!-- Global Quiz Score Badge -->
+                <div class="flex items-center space-x-2 bg-slate-800 px-3 py-1.5 rounded-full border border-slate-700">
+                    <i class="fa-solid fa-fire text-amber-400 text-xs"></i>
+                    <span class="text-xs font-semibold text-slate-300">Skor Warm-Up:</span>
+                    <span id="warmup-score-badge" class="text-xs font-bold text-emerald-400">0 / 8</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-16">
+
+        <!-- SECTION 1: TUJUAN PEMBELAJARAN & KONEKSI NYATA -->
+        <section id="tujuan" class="scroll-mt-20">
+            <div class="bg-gradient-to-br from-slate-900 via-brand-900 to-slate-900 text-white rounded-3xl p-6 sm:p-10 shadow-xl relative overflow-hidden">
+                <div class="absolute -right-10 -bottom-10 w-72 h-72 bg-brand-500/10 rounded-full blur-3xl pointer-events-none"></div>
+                
+                <div class="max-w-3xl space-y-4 relative z-10">
+                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-brand-500/20 text-brand-300 border border-brand-500/30">
+                        <i class="fa-solid fa-bullseye"></i> Target Pembelajaran Modul
+                    </span>
+                    <h2 class="text-2xl sm:text-4xl font-extrabold tracking-tight leading-tight">
+                        Pahami Konsep SPLTV Tanpa Kebingungan Tanda & Langkah
+                    </h2>
+                    <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+                        Di modul ini, Anda akan mempelajari 5 metode utama penyelesaian SPLTV dengan penjelasan langkah demi langkah yang terstruktur. Setiap langkah ditulis per baris secara jelas tanpa penggunaan simbol panah yang membingungkan.
+                    </p>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-4 text-xs font-medium">
+                        <div class="bg-white/10 backdrop-blur-md p-3 rounded-xl border border-white/10 flex items-center gap-2">
+                            <i class="fa-solid fa-table-cells text-brand-400 text-base"></i>
+                            <span>Aturan Cramer (Ekspansi 5 Kolom Sarrus)</span>
+                        </div>
+                        <div class="bg-white/10 backdrop-blur-md p-3 rounded-xl border border-white/10 flex items-center gap-2">
+                            <i class="fa-solid fa-layer-group text-amber-400 text-base"></i>
+                            <span>Eliminasi, Substitusi & Campuran</span>
+                        </div>
+                        <div class="bg-white/10 backdrop-blur-md p-3 rounded-xl border border-white/10 flex items-center gap-2">
+                            <i class="fa-solid fa-pen-ruler text-emerald-400 text-base"></i>
+                            <span>Pemodelan Soal Cerita Kontekstual</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: WARM-UP (8 SOAL PEMANASAN) -->
+        <section id="warmup" class="scroll-mt-20">
+            <div class="flex items-center justify-between mb-6">
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-900 flex items-center gap-2">
+                        <span class="w-8 h-8 rounded-lg bg-amber-500 text-white flex items-center justify-center text-sm"><i class="fa-solid fa-fire"></i></span>
+                        Warm-Up: 8 Soal Pemanasan Konsep Dasar
+                    </h2>
+                    <p class="text-slate-600 text-sm mt-1">Uji pemahaman dasar aljabar, determinan $2\times2$, serta variabel sebelum mendalami SPLTV $3\times3$!</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4" id="warmup-container">
+                <!-- WarmUp 1 -->
+                <div class="glass-card rounded-2xl p-5 shadow-sm hover:shadow-md transition flex flex-col justify-between" id="wu-card-1">
+                    <div>
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="text-xs font-extrabold text-amber-600 bg-amber-50 px-2 py-0.5 rounded border border-amber-200">Warm-Up 1</span>
+                            <span class="text-xs text-slate-400 font-medium" id="wu-status-1">Belum</span>
+                        </div>
+                        <p class="text-xs sm:text-sm font-semibold mb-3">Jika \(x + y = 7\) dan \(x - y = 1\), tentukan \(x\) dan \(y\)!</p>
+                        <div class="grid grid-cols-1 gap-1.5 text-xs mb-2">
+                            <button onclick="checkWarmup(1, 'A', false)" class="wu-btn-1 p-2 rounded-lg border border-slate-200 hover:border-brand-500 hover:bg-brand-50 transition text-left">A. \(x=5, y=2\)</button>
+                            <button onclick="checkWarmup(1, 'B', true)" class="wu-btn-1 p-2 rounded-lg border border-slate-200 hover:border-brand-500 hover:bg-brand-50 transition text-left">B. \(x=4, y=3\)</button>
+                            <button onclick="checkWarmup(1, 'C', false)" class="wu-btn-1 p-2 rounded-lg border border-slate-200 hover:border-brand-500 hover:bg-brand-50 transition text-left">C. \(x=3, y=4\)</button>
+                        </div>
+                    </div>
+                    <div id="wu-feedback-1" class="hidden text-xs p-2 rounded-lg mt-2"></div>
+                </div>
+
+                <!-- WarmUp 2 -->
+                <div class="glass-card rounded-2xl p-5 shadow-sm hover:shadow-md transition flex flex-col justify-between" id="wu-card-2">
+                    <div>
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="text-xs font-extrabold text-amber-600 bg-amber-50 px-2 py-0.5 rounded border border-amber-200">Warm-Up 2</span>
+                            <span class="text-xs text-slate-400 font-medium" id="wu-status-2">Belum</span>
+                        </div>
+                        <p class="text-xs sm:text-sm font-semibold mb-3">Jika \(2x + 3y = 12\) dan \(x = y + 1\), berapakah \(x\)?</p>
+                        <div class="grid grid-cols-1 gap-1.5 text-xs mb-2">
+                            <button onclick="checkWarmup(2, 'A', true)" class="wu-btn-2 p-2 rounded-lg border border-slate-200 hover:border-brand-500 hover:bg-brand-50 transition text-left">A. \(x = 3\)</button>
+                            <button onclick="checkWarmup(2, 'B', false)" class="wu-btn-2 p-2 rounded-lg border border-slate-200 hover:border-brand-500 hover:bg-brand-50 transition text-left">B. \(x = 2\)</button>
+                            <button onclick="checkWarmup(2, 'C', false)" class="wu-btn-2 p-2 rounded-lg border border-slate-200 hover:border-brand-500 hover:bg-brand-50 transition text-left">C. \(x = 4\)</button>
+                        </div>
+                    </div>
+                    <div id="wu-feedback-2" class="hidden text-xs p-2 rounded-lg mt-2"></div>
+                </div>
+
+                <!-- WarmUp 3 -->
+                <div class="glass-card rounded-2xl p-5 shadow-sm hover:shadow-md transition flex flex-col justify-between" id="wu-card-3">
+                    <div>
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="text-xs font-extrabold text-amber-600 bg-amber-50 px-2 py-0.5 rounded border border-amber-200">Warm-Up 3</span>
+                            <span class="text-xs text-slate-400 font-medium" id="wu-status-3">Belum</span>
+                        </div>
+                        <p class="text-xs sm:text-sm font-semibold mb-3">Determinan \(\begin{vmatrix} 3 & 2 \\ 1 & 4 \end{vmatrix}\) adalah...</p>
+                        <div class="grid grid-cols-1 gap-1.5 text-xs mb-2">
+                            <button onclick="checkWarmup(3, 'A', false)" class="wu-btn-3 p-2 rounded-lg border border-slate-200 hover:border-brand-500 hover:bg-brand-50 transition text-left">A. 14</button>
+                            <button onclick="checkWarmup(3, 'B', true)" class="wu-btn-3 p-2 rounded-lg border border-slate-200 hover:border-brand-500 hover:bg-brand-50 transition text-left">B. 10</button>
+                            <button onclick="checkWarmup(3, 'C', false)" class="wu-btn-3 p-2 rounded-lg border border-slate-200 hover:border-brand-500 hover:bg-brand-50 transition text-left">C. 8</button>
+                        </div>
+                    </div>
+                    <div id="wu-feedback-3" class="hidden text-xs p-2 rounded-lg mt-2"></div>
+                </div>
+
+                <!-- WarmUp 4 -->
+                <div class="glass-card rounded-2xl p-5 shadow-sm hover:shadow-md transition flex flex-col justify-between" id="wu-card-4">
+                    <div>
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="text-xs font-extrabold text-amber-600 bg-amber-50 px-2 py-0.5 rounded border border-amber-200">Warm-Up 4</span>
+                            <span class="text-xs text-slate-400 font-medium" id="wu-status-4">Belum</span>
+                        </div>
+                        <p class="text-xs sm:text-sm font-semibold mb-3">Nilai determinan \(\begin{vmatrix} 5 & -1 \\ 2 & 3 \end{vmatrix}\) adalah...</p>
+                        <div class="grid grid-cols-1 gap-1.5 text-xs mb-2">
+                            <button onclick="checkWarmup(4, 'A', false)" class="wu-btn-4 p-2 rounded-lg border border-slate-200 hover:border-brand-500 hover:bg-brand-50 transition text-left">A. 13</button>
+                            <button onclick="checkWarmup(4, 'B', true)" class="wu-btn-4 p-2 rounded-lg border border-slate-200 hover:border-brand-500 hover:bg-brand-50 transition text-left">B. 17</button>
+                            <button onclick="checkWarmup(4, 'C', false)" class="wu-btn-4 p-2 rounded-lg border border-slate-200 hover:border-brand-500 hover:bg-brand-50 transition text-left">C. -13</button>
+                        </div>
+                    </div>
+                    <div id="wu-feedback-4" class="hidden text-xs p-2 rounded-lg mt-2"></div>
+                </div>
+
+                <!-- WarmUp 5 -->
+                <div class="glass-card rounded-2xl p-5 shadow-sm hover:shadow-md transition flex flex-col justify-between" id="wu-card-5">
+                    <div>
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="text-xs font-extrabold text-amber-600 bg-amber-50 px-2 py-0.5 rounded border border-amber-200">Warm-Up 5</span>
+                            <span class="text-xs text-slate-400 font-medium" id="wu-status-5">Belum</span>
+                        </div>
+                        <p class="text-xs sm:text-sm font-semibold mb-3">Jika \(x + y + z = 10\) dan \(x = 2, y = 3\), maka \(z =\)...</p>
+                        <div class="grid grid-cols-1 gap-1.5 text-xs mb-2">
+                            <button onclick="checkWarmup(5, 'A', true)" class="wu-btn-5 p-2 rounded-lg border border-slate-200 hover:border-brand-500 hover:bg-brand-50 transition text-left">A. 5</button>
+                            <button onclick="checkWarmup(5, 'B', false)" class="wu-btn-5 p-2 rounded-lg border border-slate-200 hover:border-brand-500 hover:bg-brand-50 transition text-left">B. 4</button>
+                            <button onclick="checkWarmup(5, 'C', false)" class="wu-btn-5 p-2 rounded-lg border border-slate-200 hover:border-brand-500 hover:bg-brand-50 transition text-left">C. 6</button>
+                        </div>
+                    </div>
+                    <div id="wu-feedback-5" class="hidden text-xs p-2 rounded-lg mt-2"></div>
+                </div>
+
+                <!-- WarmUp 6 -->
+                <div class="glass-card rounded-2xl p-5 shadow-sm hover:shadow-md transition flex flex-col justify-between" id="wu-card-6">
+                    <div>
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="text-xs font-extrabold text-amber-600 bg-amber-50 px-2 py-0.5 rounded border border-amber-200">Warm-Up 6</span>
+                            <span class="text-xs text-slate-400 font-medium" id="wu-status-6">Belum</span>
+                        </div>
+                        <p class="text-xs sm:text-sm font-semibold mb-3">Jika \(x + z = 5\) dan \(x - z = 1\), maka \(x =\)...</p>
+                        <div class="grid grid-cols-1 gap-1.5 text-xs mb-2">
+                            <button onclick="checkWarmup(6, 'A', false)" class="wu-btn-6 p-2 rounded-lg border border-slate-200 hover:border-brand-500 hover:bg-brand-50 transition text-left">A. 2</button>
+                            <button onclick="checkWarmup(6, 'B', true)" class="wu-btn-6 p-2 rounded-lg border border-slate-200 hover:border-brand-500 hover:bg-brand-50 transition text-left">B. 3</button>
+                            <button onclick="checkWarmup(6, 'C', false)" class="wu-btn-6 p-2 rounded-lg border border-slate-200 hover:border-brand-500 hover:bg-brand-50 transition text-left">C. 4</button>
+                        </div>
+                    </div>
+                    <div id="wu-feedback-6" class="hidden text-xs p-2 rounded-lg mt-2"></div>
+                </div>
+
+                <!-- WarmUp 7 -->
+                <div class="glass-card rounded-2xl p-5 shadow-sm hover:shadow-md transition flex flex-col justify-between" id="wu-card-7">
+                    <div>
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="text-xs font-extrabold text-amber-600 bg-amber-50 px-2 py-0.5 rounded border border-amber-200">Warm-Up 7</span>
+                            <span class="text-xs text-slate-400 font-medium" id="wu-status-7">Belum</span>
+                        </div>
+                        <p class="text-xs sm:text-sm font-semibold mb-3">Pada pers. \(2x - 3y + z = 8\), koefisien dari \(y\) adalah...</p>
+                        <div class="grid grid-cols-1 gap-1.5 text-xs mb-2">
+                            <button onclick="checkWarmup(7, 'A', false)" class="wu-btn-7 p-2 rounded-lg border border-slate-200 hover:border-brand-500 hover:bg-brand-50 transition text-left">A. 3</button>
+                            <button onclick="checkWarmup(7, 'B', true)" class="wu-btn-7 p-2 rounded-lg border border-slate-200 hover:border-brand-500 hover:bg-brand-50 transition text-left">B. -3</button>
+                            <button onclick="checkWarmup(7, 'C', false)" class="wu-btn-7 p-2 rounded-lg border border-slate-200 hover:border-brand-500 hover:bg-brand-50 transition text-left">C. -3y</button>
+                        </div>
+                    </div>
+                    <div id="wu-feedback-7" class="hidden text-xs p-2 rounded-lg mt-2"></div>
+                </div>
+
+                <!-- WarmUp 8 -->
+                <div class="glass-card rounded-2xl p-5 shadow-sm hover:shadow-md transition flex flex-col justify-between" id="wu-card-8">
+                    <div>
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="text-xs font-extrabold text-amber-600 bg-amber-50 px-2 py-0.5 rounded border border-amber-200">Warm-Up 8</span>
+                            <span class="text-xs text-slate-400 font-medium" id="wu-status-8">Belum</span>
+                        </div>
+                        <p class="text-xs sm:text-sm font-semibold mb-3">"2 buku (\(x\)) & 1 pensil (\(y\)) seharga 5000" dalam aljabar:</p>
+                        <div class="grid grid-cols-1 gap-1.5 text-xs mb-2">
+                            <button onclick="checkWarmup(8, 'A', true)" class="wu-btn-8 p-2 rounded-lg border border-slate-200 hover:border-brand-500 hover:bg-brand-50 transition text-left">A. \(2x + y = 5000\)</button>
+                            <button onclick="checkWarmup(8, 'B', false)" class="wu-btn-8 p-2 rounded-lg border border-slate-200 hover:border-brand-500 hover:bg-brand-50 transition text-left">B. \(x + 2y = 5000\)</button>
+                            <button onclick="checkWarmup(8, 'C', false)" class="wu-btn-8 p-2 rounded-lg border border-slate-200 hover:border-brand-500 hover:bg-brand-50 transition text-left">C. \(2x + 2y = 5000\)</button>
+                        </div>
+                    </div>
+                    <div id="wu-feedback-8" class="hidden text-xs p-2 rounded-lg mt-2"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: MATERI & KONSEP LENGKAP -->
+        <section id="materi" class="scroll-mt-20">
+            <div class="bg-white rounded-3xl p-6 sm:p-10 border border-slate-200 shadow-md space-y-8">
+                <div>
+                    <div class="flex items-center gap-3">
+                        <span class="p-3 rounded-2xl bg-brand-100 text-brand-700 text-xl font-bold"><i class="fa-solid fa-graduation-cap"></i></span>
+                        <div>
+                            <h2 class="text-2xl font-extrabold text-slate-900">Konsep Lengkap & Algoritma Tiap Metode</h2>
+                            <p class="text-slate-500 text-sm">Penjelasan mendalam tanpa simbol panah yang membingungkan. Dibahas baris demi baris secara rinci.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Method Selection Tabs -->
+                <div class="border-b border-slate-200 flex space-x-2 overflow-x-auto text-sm font-semibold">
+                    <button onclick="switchMateriTab('cramer')" id="materi-tab-cramer" class="py-3 px-4 tab-active transition flex items-center gap-2 shrink-0">
+                        <i class="fa-solid fa-table-cells text-brand-600"></i> Aturan Cramer (5 Kolom Sarrus)
+                    </button>
+                    <button onclick="switchMateriTab('eliminasi')" id="materi-tab-eliminasi" class="py-3 px-4 text-slate-500 hover:text-slate-900 transition flex items-center gap-2 shrink-0">
+                        <i class="fa-solid fa-filter text-amber-500"></i> Metode Eliminasi
+                    </button>
+                    <button onclick="switchMateriTab('substitusi')" id="materi-tab-substitusi" class="py-3 px-4 text-slate-500 hover:text-slate-900 transition flex items-center gap-2 shrink-0">
+                        <i class="fa-solid fa-right-left text-emerald-500"></i> Metode Substitusi
+                    </button>
+                    <button onclick="switchMateriTab('campuran')" id="materi-tab-campuran" class="py-3 px-4 text-slate-500 hover:text-slate-900 transition flex items-center gap-2 shrink-0">
+                        <i class="fa-solid fa-layer-group text-purple-500"></i> Metode Campuran
+                    </button>
+                    <button onclick="switchMateriTab('pemodelan')" id="materi-tab-pemodelan" class="py-3 px-4 text-slate-500 hover:text-slate-900 transition flex items-center gap-2 shrink-0">
+                        <i class="fa-solid fa-pen-ruler text-rose-500"></i> Pemodelan Matematika
+                    </button>
+                </div>
+
+                <!-- TAB CONTENT: ATURAN CRAMER & SARRUS -->
+                <div id="materi-content-cramer" class="space-y-6">
+                    <div class="border-l-4 border-brand-500 pl-4 py-1 space-y-2">
+                        <span class="text-xs font-extrabold text-brand-600 bg-brand-50 px-2.5 py-1 rounded-md border border-brand-200">Penjelasan Metode Matriks & Determinan</span>
+                        <h3 class="font-bold text-xl text-slate-900">Mengapa Matriks Menjadi 5 Kolom? (Aturan Sarrus)</h3>
+                        <p class="text-slate-600 text-sm leading-relaxed">
+                            SPLTV terdiri dari 3 persamaan linear:
+                        </p>
+                        <div class="bg-slate-900 text-slate-100 p-4 rounded-xl font-mono text-xs sm:text-sm shadow-inner">
+                            Persamaan (1): \(a_1 x + b_1 y + c_1 z = d_1\)<br>
+                            Persamaan (2): \(a_2 x + b_2 y + c_2 z = d_2\)<br>
+                            Persamaan (3): \(a_3 x + b_3 y + c_3 z = d_3\)
+                        </div>
+                    </div>
+
+                    <!-- Explanation of 5-Column Expansion -->
+                    <div class="bg-brand-50/60 rounded-2xl p-6 border border-brand-200 space-y-4">
+                        <h4 class="font-bold text-base text-brand-900 flex items-center gap-2">
+                            <i class="fa-solid fa-circle-info text-brand-600"></i>
+                            Bentuk Matriks Sarrus 5 Kolom ($D, D_x, D_y, D_z$)
+                        </h4>
+                        <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                            Kolom 1 dan Kolom 2 diduplikasi di sebelah kanan garis pembatas untuk membentuk ekspansi 5 kolom:
+                        </p>
+
+                        <!-- Visual LaTeX 5-Column Matrix -->
+                        <div class="overflow-x-auto bg-white p-4 rounded-xl border border-brand-200 shadow-sm text-xs sm:text-sm text-center">
+                            \[
+                            D = \left[\begin{array}{ccc|cc}
+                            a_1 & b_1 & c_1 & a_1 & b_1 \\
+                            a_2 & b_2 & c_2 & a_2 & b_2 \\
+                            a_3 & b_3 & c_3 & a_3 & b_3
+                            \end{array}\right]
+                            \]
+                        </div>
+
+                        <!-- Rule of Multiplication -->
+                        <div class="space-y-3 text-xs sm:text-sm text-slate-700">
+                            <p class="font-bold text-slate-900">Aturan Perkalian Diagonal:</p>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                <div class="bg-emerald-50 p-3.5 rounded-xl border border-emerald-200">
+                                    <p class="font-bold text-emerald-800 mb-1"><i class="fa-solid fa-plus-circle"></i> 1. Diagonal Utama (Miring Kanan Bawah):</p>
+                                    <p class="font-mono text-xs mt-1 text-emerald-900 bg-white p-2 rounded border border-emerald-200">
+                                        (+) = (a_1 b_2 c_3) + (b_1 c_2 a_3) + (c_1 a_2 b_3)
+                                    </p>
+                                </div>
+                                <div class="bg-rose-50 p-3.5 rounded-xl border border-rose-200">
+                                    <p class="font-bold text-rose-800 mb-1"><i class="fa-solid fa-minus-circle"></i> 2. Diagonal Samping (Miring Kanan Atas):</p>
+                                    <p class="font-mono text-xs mt-1 text-rose-900 bg-white p-2 rounded border border-rose-200">
+                                        (-) = (c_1 b_2 a_3) + (a_1 c_2 b_3) + (b_1 a_2 c_3)
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="bg-slate-900 text-amber-300 p-3 rounded-xl text-center font-bold font-mono">
+                                Formula: \(D = \text{Diagonal Utama} - \text{Diagonal Samping}\)
+                            </div>
+                        </div>
+
+                        <!-- How Dx, Dy, Dz are formed -->
+                        <div class="space-y-3 text-xs sm:text-sm text-slate-700 pt-2 border-t border-brand-200">
+                            <p class="font-bold text-slate-900">Penulisan Matriks Sarrus $D_x, D_y,$ dan $D_z$:</p>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-center">
+                                <div class="bg-white p-3 rounded-xl border border-slate-200">
+                                    <p class="font-bold text-brand-700 mb-2">Matriks \(D_x\)</p>
+                                    \[
+                                    D_x = \left[\begin{array}{ccc|cc}
+                                    d_1 & b_1 & c_1 & d_1 & b_1 \\
+                                    d_2 & b_2 & c_2 & d_2 & b_2 \\
+                                    d_3 & b_3 & c_3 & d_3 & b_3
+                                    \end{array}\right]
+                                    \]
+                                </div>
+
+                                <div class="bg-white p-3 rounded-xl border border-slate-200">
+                                    <p class="font-bold text-brand-700 mb-2">Matriks \(D_y\)</p>
+                                    \[
+                                    D_y = \left[\begin{array}{ccc|cc}
+                                    a_1 & d_1 & c_1 & a_1 & d_1 \\
+                                    a_2 & d_2 & c_2 & a_2 & d_2 \\
+                                    a_3 & d_3 & c_3 & a_3 & d_3
+                                    \end{array}\right]
+                                    \]
+                                </div>
+
+                                <div class="bg-white p-3 rounded-xl border border-slate-200">
+                                    <p class="font-bold text-brand-700 mb-2">Matriks \(D_z\)</p>
+                                    \[
+                                    D_z = \left[\begin{array}{ccc|cc}
+                                    a_1 & b_1 & d_1 & a_1 & b_1 \\
+                                    a_2 & b_2 & d_2 & a_2 & b_2 \\
+                                    a_3 & b_3 & d_3 & a_3 & b_3
+                                    \end{array}\right]
+                                    \]
+                                </div>
+                            </div>
+
+                            <div class="bg-brand-100/70 p-3 rounded-xl font-bold text-brand-900 text-center font-mono">
+                                Solusi: \(x = \frac{D_x}{D}\), &nbsp;&nbsp; \(y = \frac{D_y}{D}\), &nbsp;&nbsp; \(z = \frac{D_z}{D}\)
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Worked Example for Cramer -->
+                    <div class="bg-slate-50 rounded-2xl p-5 border border-slate-200 space-y-3">
+                        <div class="flex items-center gap-2 text-brand-700 font-bold text-sm">
+                            <i class="fa-solid fa-circle-check"></i> Contoh Soal Khusus: Aturan Cramer (Sarrus)
+                        </div>
+                        <div class="text-xs sm:text-sm font-semibold text-slate-800 bg-white p-3 rounded-xl border border-slate-200">
+                            \[
+                            \begin{cases}
+                            x + y + z = 6 \\
+                            x - y + z = 2 \\
+                            2x + y - z = 1
+                            \end{cases}
+                            \]
+                        </div>
+                        
+                        <div class="bg-white p-4 rounded-xl border border-slate-200 text-xs space-y-4 text-slate-700">
+                            <div>
+                                <p class="font-bold text-slate-900 mb-1">1. Hitung Determinan Utama ($D$):</p>
+                                \[
+                                D = \left[\begin{array}{ccc|cc}
+                                1 & 1 & 1 & 1 & 1 \\
+                                1 & -1 & 1 & 1 & -1 \\
+                                2 & 1 & -1 & 2 & 1
+                                \end{array}\right]
+                                \]
+                                \[
+                                D = \left[(1)(-1)(-1) + (1)(1)(2) + (1)(1)(1)\right] - \left[(1)(-1)(2) + (1)(1)(1) + (1)(1)(-1)\right]
+                                \]
+                                \[
+                                D = (1 + 2 + 1) - (-2 + 1 - 1) = 4 - (-2) = 6
+                                \]
+                            </div>
+
+                            <div>
+                                <p class="font-bold text-slate-900 mb-1">2. Hitung Matriks $D_x$, $D_y$, dan $D_z$:</p>
+                                \[
+                                D_x = \left[\begin{array}{ccc|cc}
+                                6 & 1 & 1 & 6 & 1 \\
+                                2 & -1 & 1 & 2 & -1 \\
+                                1 & 1 & -1 & 1 & 1
+                                \end{array}\right] = 6
+                                \]
+                                \[
+                                D_y = \left[\begin{array}{ccc|cc}
+                                1 & 6 & 1 & 1 & 6 \\
+                                1 & 2 & 1 & 1 & 2 \\
+                                2 & 1 & -1 & 2 & 1
+                                \end{array}\right] = 12
+                                \]
+                                \[
+                                D_z = \left[\begin{array}{ccc|cc}
+                                1 & 1 & 6 & 1 & 1 \\
+                                1 & -1 & 2 & 1 & -1 \\
+                                2 & 1 & 1 & 2 & 1
+                                \end{array}\right] = 18
+                                \]
+                            </div>
+
+                            <div class="pt-2 border-t border-slate-200 font-bold text-emerald-700 text-center text-sm">
+                                \[
+                                x = \frac{D_x}{D} = \frac{6}{6} = 1, \quad y = \frac{D_y}{D} = \frac{12}{6} = 2, \quad z = \frac{D_z}{D} = \frac{18}{6} = 3
+                                \]
+                                <p class="mt-2 text-slate-900">HP = \(\{(1, 2, 3)\}\)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB CONTENT: METODE ELIMINASI -->
+                <div id="materi-content-eliminasi" class="hidden space-y-6">
+                    <div class="border-l-4 border-amber-500 pl-4 py-1 space-y-2">
+                        <span class="text-xs font-extrabold text-amber-600 bg-amber-50 px-2.5 py-1 rounded-md border border-amber-200">Metode Murni Eliminasi</span>
+                        <h3 class="font-bold text-xl text-slate-900">Penyelesaian Vertikal Bertingkat</h3>
+                    </div>
+
+                    <!-- Worked Example for Eliminasi -->
+                    <div class="bg-slate-50 rounded-2xl p-5 border border-slate-200 space-y-3">
+                        <div class="flex items-center gap-2 text-amber-800 font-bold text-sm">
+                            <i class="fa-solid fa-circle-check"></i> Contoh Soal: Metode Eliminasi
+                        </div>
+                        <div class="text-xs sm:text-sm font-semibold text-slate-800 bg-white p-3 rounded-xl border border-slate-200">
+                            \[
+                            \begin{cases}
+                            x + 2y + z = 8 & \text{--- (1)} \\
+                            2x - y + z = 3 & \text{--- (2)} \\
+                            3x + y - z = 2 & \text{--- (3)}
+                            \end{cases}
+                            \]
+                        </div>
+
+                        <div class="bg-white p-4 rounded-xl border border-amber-200 text-xs space-y-4 text-slate-700">
+                            <!-- Step 1 -->
+                            <div>
+                                <p class="font-bold text-slate-900 mb-2">Langkah 1: Eliminasi \(z\) dari (1) dan (2)</p>
+                                \[
+                                \begin{array}{r@{\quad}l}
+                                x + 2y + z &= 8 \\
+                                2x - y + z &= 3 \\
+                                \hline
+                                -x + 3y &= 5 \quad \text{--- (4)}
+                                \end{array} \quad (-)
+                                \]
+                            </div>
+
+                            <!-- Step 2 -->
+                            <div>
+                                <p class="font-bold text-slate-900 mb-2">Langkah 2: Eliminasi \(z\) dari (2) dan (3)</p>
+                                \[
+                                \begin{array}{r@{\quad}l}
+                                2x - y + z &= 3 \\
+                                3x + y - z &= 2 \\
+                                \hline
+                                5x &= 5 \\
+                                x &= \frac{5}{5} = 1
+                                \end{array} \quad (+)
+                                \]
+                            </div>
+
+                            <!-- Step 3 -->
+                            <div>
+                                <p class="font-bold text-slate-900 mb-2">Langkah 3: Cari \(y\) menggunakan Persamaan (4)</p>
+                                \[
+                                \begin{aligned}
+                                -x + 3y &= 5 \\
+                                -(1) + 3y &= 5 \\
+                                3y &= 6 \\
+                                y &= \frac{6}{3} = 2
+                                \end{aligned}
+                                \]
+                            </div>
+
+                            <!-- Step 4 -->
+                            <div>
+                                <p class="font-bold text-slate-900 mb-2">Langkah 4: Eliminasi \(y\) dari (1) dan (2) untuk Mencari \(z\)</p>
+                                \[
+                                \begin{array}{r@{\quad}l@{\quad}l}
+                                x + 2y + z = 8 &\xrightarrow{\times 1}& x + 2y + z = 8 \\
+                                2x - y + z = 3 &\xrightarrow{\times 2}& 4x - 2y + 2z = 6 \\
+                                \hline
+                                && 5x + 3z = 14
+                                \end{array} \quad (+)
+                                \]
+                                \[
+                                \begin{aligned}
+                                5(1) + 3z &= 14 \\
+                                3z &= 9 \\
+                                z &= \frac{9}{3} = 3
+                                \end{aligned}
+                                \]
+                            </div>
+
+                            <div class="pt-2 border-t border-slate-200 font-bold text-emerald-700 text-center text-sm">
+                                HP = \(\{(1, 2, 3)\}\)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB CONTENT: METODE SUBSTITUSI -->
+                <div id="materi-content-substitusi" class="hidden space-y-6">
+                    <div class="border-l-4 border-emerald-500 pl-4 py-1 space-y-2">
+                        <span class="text-xs font-extrabold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-md border border-emerald-200">Metode Murni Substitusi</span>
+                        <h3 class="font-bold text-xl text-slate-900">Mengisolasi & Mengganti Variabel</h3>
+                    </div>
+
+                    <!-- Worked Example for Substitusi -->
+                    <div class="bg-slate-50 rounded-2xl p-5 border border-slate-200 space-y-3">
+                        <div class="flex items-center gap-2 text-emerald-800 font-bold text-sm">
+                            <i class="fa-solid fa-circle-check"></i> Contoh Soal: Metode Substitusi
+                        </div>
+                        <div class="text-xs sm:text-sm font-semibold text-slate-800 bg-white p-3 rounded-xl border border-slate-200">
+                            \[
+                            \begin{cases}
+                            x = y + 1 & \text{--- (1)} \\
+                            y = z + 2 & \text{--- (2)} \\
+                            x + y + z = 12 & \text{--- (3)}
+                            \end{cases}
+                            \]
+                        </div>
+
+                        <div class="bg-white p-4 rounded-xl border border-emerald-200 text-xs space-y-4 text-slate-700">
+                            <div>
+                                <p class="font-bold text-slate-900 mb-1">Langkah 1: Substitusi (2) ke (1)</p>
+                                \[
+                                x = (z + 2) + 1 \implies x = z + 3
+                                \]
+                            </div>
+
+                            <div>
+                                <p class="font-bold text-slate-900 mb-1">Langkah 2: Substitusi \(x\) dan \(y\) ke Persamaan (3)</p>
+                                \[
+                                \begin{aligned}
+                                (z + 3) + (z + 2) + z &= 12 \\
+                                3z + 5 &= 12 \\
+                                3z &= 6 \\
+                                z &= \frac{6}{3} = 2
+                                \end{aligned}
+                                \]
+                            </div>
+
+                            <div>
+                                <p class="font-bold text-slate-900 mb-1">Langkah 3: Hitung Nilai \(y\) dan \(x\)</p>
+                                \[
+                                y = 2 + 2 = 4
+                                \]
+                                \[
+                                x = 2 + 3 = 5
+                                \]
+                            </div>
+
+                            <div class="pt-2 border-t border-slate-200 font-bold text-emerald-700 text-center text-sm">
+                                HP = \(\{(5, 4, 2)\}\)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB CONTENT: METODE CAMPURAN -->
+                <div id="materi-content-campuran" class="hidden space-y-6">
+                    <div class="border-l-4 border-purple-500 pl-4 py-1 space-y-2">
+                        <span class="text-xs font-extrabold text-purple-600 bg-purple-50 px-2.5 py-1 rounded-md border border-purple-200">Metode Campuran</span>
+                        <h3 class="font-bold text-xl text-slate-900">Eliminasi Awal & Substitusi Akhir</h3>
+                    </div>
+
+                    <!-- Worked Example for Campuran -->
+                    <div class="bg-slate-50 rounded-2xl p-5 border border-slate-200 space-y-3">
+                        <div class="flex items-center gap-2 text-purple-800 font-bold text-sm">
+                            <i class="fa-solid fa-circle-check"></i> Contoh Soal: Metode Campuran
+                        </div>
+                        <div class="text-xs sm:text-sm font-semibold text-slate-800 bg-white p-3 rounded-xl border border-slate-200">
+                            \[
+                            \begin{cases}
+                            2x + y + z = 9 & \text{--- (1)} \\
+                            x + 2y + z = 8 & \text{--- (2)} \\
+                            x + y + 2z = 7 & \text{--- (3)}
+                            \end{cases}
+                            \]
+                        </div>
+
+                        <div class="bg-white p-4 rounded-xl border border-purple-200 text-xs space-y-4 text-slate-700">
+                            <div>
+                                <p class="font-bold text-slate-900 mb-2">Langkah 1: Eliminasi \(z\) dari (1) dan (2)</p>
+                                \[
+                                \begin{array}{r@{\quad}l}
+                                2x + y + z &= 9 \\
+                                x + 2y + z &= 8 \\
+                                \hline
+                                x - y &= 1 \implies x = y + 1 \quad \text{--- (4)}
+                                \end{array} \quad (-)
+                                \]
+                            </div>
+
+                            <div>
+                                <p class="font-bold text-slate-900 mb-2">Langkah 2: Eliminasi \(x\) dari (2) dan (3)</p>
+                                \[
+                                \begin{array}{r@{\quad}l}
+                                x + 2y + z &= 8 \\
+                                x + y + 2z &= 7 \\
+                                \hline
+                                y - z &= 1 \implies z = y - 1 \quad \text{--- (5)}
+                                \end{array} \quad (-)
+                                \]
+                            </div>
+
+                            <div>
+                                <p class="font-bold text-slate-900 mb-1">Langkah 3: Substitusi (4) dan (5) ke (1)</p>
+                                \[
+                                \begin{aligned}
+                                2(y + 1) + y + (y - 1) &= 9 \\
+                                2y + 2 + y + y - 1 &= 9 \\
+                                4y + 1 &= 9 \\
+                                y &= \frac{8}{4} = 2
+                                \end{aligned}
+                                \]
+                            </div>
+
+                            <div>
+                                <p class="font-bold text-slate-900 mb-1">Langkah 4: Hitung Nilai \(x\) dan \(z\)</p>
+                                \[
+                                x = 2 + 1 = 3, \quad z = 2 - 1 = 1
+                                \]
+                            </div>
+
+                            <div class="pt-2 border-t border-slate-200 font-bold text-emerald-700 text-center text-sm">
+                                HP = \(\{(3, 2, 1)\}\)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB CONTENT: PEMODELAN MATEMATIKA -->
+                <div id="materi-content-pemodelan" class="hidden space-y-6">
+                    <div class="border-l-4 border-rose-500 pl-4 py-1 space-y-2">
+                        <span class="text-xs font-extrabold text-rose-600 bg-rose-50 px-2.5 py-1 rounded-md border border-rose-200">Aplikasi Soal Cerita</span>
+                        <h3 class="font-bold text-xl text-slate-900">Pemodelan Aljabar Kontekstual</h3>
+                    </div>
+
+                    <!-- Worked Example for Pemodelan -->
+                    <div class="bg-slate-50 rounded-2xl p-5 border border-slate-200 space-y-3">
+                        <div class="flex items-center gap-2 text-rose-800 font-bold text-sm">
+                            <i class="fa-solid fa-circle-check"></i> Contoh Soal: Pemodelan Toko Buah
+                        </div>
+                        <p class="text-xs sm:text-sm text-slate-800 leading-relaxed bg-white p-3 rounded-xl border border-slate-200">
+                            Ani: 2kg Apel, 1kg Jeruk, 1kg Mangga = Rp75.000<br>
+                            Budi: 1kg Apel, 2kg Jeruk, 1kg Mangga = Rp70.000<br>
+                            Cici: 1kg Apel, 1kg Jeruk, 2kg Mangga = Rp85.000
+                        </p>
+
+                        <div class="bg-white p-4 rounded-xl border border-rose-200 text-xs space-y-4 text-slate-700">
+                            <div>
+                                <p class="font-bold text-slate-900 mb-1">Model Matematika (dalam ribuan Rp):</p>
+                                \[
+                                \begin{cases}
+                                2x + y + z = 75 & \text{--- (1)} \\
+                                x + 2y + z = 70 & \text{--- (2)} \\
+                                x + y + 2z = 85 & \text{--- (3)}
+                                \end{cases}
+                                \]
+                            </div>
+
+                            <div>
+                                <p class="font-bold text-slate-900 mb-2">Eliminasi Vertikal:</p>
+                                \[
+                                \begin{array}{r@{\quad}l}
+                                2x + y + z &= 75 \\
+                                x + 2y + z &= 70 \\
+                                \hline
+                                x - y &= 5 \implies x = y + 5
+                                \end{array} \quad (-)
+                                \]
+                                \[
+                                \begin{array}{r@{\quad}l}
+                                x + y + 2z &= 85 \\
+                                x + 2y + z &= 70 \\
+                                \hline
+                                -y + z &= 15 \implies z = y + 15
+                                \end{array} \quad (-)
+                                \]
+                            </div>
+
+                            <div>
+                                <p class="font-bold text-slate-900 mb-1">Substitusi & Hasil Akhir:</p>
+                                \[
+                                2(y + 5) + y + (y + 15) = 75 \implies 4y + 25 = 75 \implies y = 12.5
+                                \]
+                                \[
+                                x = 12.5 + 5 = 17.5, \quad z = 12.5 + 15 = 27.5
+                                \]
+                            </div>
+
+                            <div class="pt-2 border-t border-slate-200 font-bold text-emerald-700 text-center text-sm space-y-1">
+                                <p>Apel = Rp17.500 / kg</p>
+                                <p>Jeruk = Rp12.500 / kg</p>
+                                <p>Mangga = Rp27.500 / kg</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: KALKULATOR SOLVER SARRUS -->
+        <section id="kalkulator" class="scroll-mt-20">
+            <div class="bg-slate-900 text-white rounded-3xl p-6 sm:p-10 border border-slate-800 shadow-xl space-y-6">
+                <div class="flex items-center gap-3">
+                    <span class="p-3 rounded-2xl bg-amber-500/20 text-amber-400 text-xl font-bold border border-amber-500/30">
+                        <i class="fa-solid fa-calculator"></i>
+                    </span>
+                    <div>
+                        <h2 class="text-2xl font-extrabold">Kalkulator Interaktif Solver Sarrus / Cramer</h2>
+                        <p class="text-slate-400 text-sm">Masukkan koefisien dan konstanta SPLTV untuk melihat langkah determinan secara otomatis!</p>
+                    </div>
+                </div>
+
+                <!-- Matrix Inputs -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 font-mono text-xs">
+                    <!-- Row 1 -->
+                    <div class="bg-slate-800 p-4 rounded-2xl border border-slate-700 space-y-2">
+                        <span class="text-brand-400 font-bold">Persamaan 1:</span>
+                        <div class="grid grid-cols-4 gap-1.5 text-center">
+                            <div><label class="text-slate-400 block mb-1">x</label><input type="number" id="calc-a1" value="1" class="w-full bg-slate-900 border border-slate-600 rounded p-1.5 text-center text-white focus:border-brand-500"></div>
+                            <div><label class="text-slate-400 block mb-1">y</label><input type="number" id="calc-b1" value="1" class="w-full bg-slate-900 border border-slate-600 rounded p-1.5 text-center text-white focus:border-brand-500"></div>
+                            <div><label class="text-slate-400 block mb-1">z</label><input type="number" id="calc-c1" value="1" class="w-full bg-slate-900 border border-slate-600 rounded p-1.5 text-center text-white focus:border-brand-500"></div>
+                            <div><label class="text-amber-400 block mb-1">= d</label><input type="number" id="calc-d1" value="6" class="w-full bg-slate-900 border border-amber-500/50 rounded p-1.5 text-center text-amber-300 font-bold"></div>
+                        </div>
+                    </div>
+
+                    <!-- Row 2 -->
+                    <div class="bg-slate-800 p-4 rounded-2xl border border-slate-700 space-y-2">
+                        <span class="text-brand-400 font-bold">Persamaan 2:</span>
+                        <div class="grid grid-cols-4 gap-1.5 text-center">
+                            <div><label class="text-slate-400 block mb-1">x</label><input type="number" id="calc-a2" value="1" class="w-full bg-slate-900 border border-slate-600 rounded p-1.5 text-center text-white focus:border-brand-500"></div>
+                            <div><label class="text-slate-400 block mb-1">y</label><input type="number" id="calc-b2" value="-1" class="w-full bg-slate-900 border border-slate-600 rounded p-1.5 text-center text-white focus:border-brand-500"></div>
+                            <div><label class="text-slate-400 block mb-1">z</label><input type="number" id="calc-c2" value="1" class="w-full bg-slate-900 border border-slate-600 rounded p-1.5 text-center text-white focus:border-brand-500"></div>
+                            <div><label class="text-amber-400 block mb-1">= d</label><input type="number" id="calc-d2" value="2" class="w-full bg-slate-900 border border-amber-500/50 rounded p-1.5 text-center text-amber-300 font-bold"></div>
+                        </div>
+                    </div>
+
+                    <!-- Row 3 -->
+                    <div class="bg-slate-800 p-4 rounded-2xl border border-slate-700 space-y-2">
+                        <span class="text-brand-400 font-bold">Persamaan 3:</span>
+                        <div class="grid grid-cols-4 gap-1.5 text-center">
+                            <div><label class="text-slate-400 block mb-1">x</label><input type="number" id="calc-a3" value="2" class="w-full bg-slate-900 border border-slate-600 rounded p-1.5 text-center text-white focus:border-brand-500"></div>
+                            <div><label class="text-slate-400 block mb-1">y</label><input type="number" id="calc-b3" value="1" class="w-full bg-slate-900 border border-slate-600 rounded p-1.5 text-center text-white focus:border-brand-500"></div>
+                            <div><label class="text-slate-400 block mb-1">z</label><input type="number" id="calc-c3" value="-1" class="w-full bg-slate-900 border border-slate-600 rounded p-1.5 text-center text-white focus:border-brand-500"></div>
+                            <div><label class="text-amber-400 block mb-1">= d</label><input type="number" id="calc-d3" value="1" class="w-full bg-slate-900 border border-amber-500/50 rounded p-1.5 text-center text-amber-300 font-bold"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex justify-center">
+                    <button onclick="calculateLiveCramer()" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-6 py-2.5 rounded-xl transition flex items-center gap-2 shadow-lg text-sm">
+                        <i class="fa-solid fa-play"></i> Hitung Determinan & Solusi Akhir
+                    </button>
+                </div>
+
+                <!-- Calculator Output Container -->
+                <div id="calc-output" class="hidden bg-slate-950 p-5 rounded-2xl border border-slate-800 space-y-3 font-mono text-xs">
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 5: RANGKUMAN CONTOH SOAL 5 METODE -->
+        <section id="contoh" class="scroll-mt-20">
+            <div class="flex items-center justify-between mb-6">
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-900 flex items-center gap-2">
+                        <span class="w-8 h-8 rounded-lg bg-emerald-500 text-white flex items-center justify-center text-sm"><i class="fa-solid fa-book-open"></i></span>
+                        Rangkuman Ringkas Contoh Soal 5 Metode
+                    </h2>
+                    <p class="text-slate-600 text-sm mt-1">Satu contoh soal beserta ringkasan hasil untuk masing-masing metode.</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Card 1: Cramer -->
+                <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm space-y-3">
+                    <span class="text-xs font-bold text-brand-600 bg-brand-50 px-2.5 py-1 rounded-md border border-brand-200">1. Aturan Cramer (Sarrus)</span>
+                    <p class="text-xs font-semibold text-slate-800">
+                        x + y + z = 6<br>
+                        x - y + z = 2<br>
+                        2x + y - z = 1
+                    </p>
+                    <div class="p-3 bg-slate-900 text-emerald-400 rounded-xl font-mono text-xs">
+                        Determinan: D = 6, D_x = 6, D_y = 12, D_z = 18<br>
+                        <strong>HP = {(1, 2, 3)}</strong>
+                    </div>
+                </div>
+
+                <!-- Card 2: Eliminasi -->
+                <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm space-y-3">
+                    <span class="text-xs font-bold text-amber-600 bg-amber-50 px-2.5 py-1 rounded-md border border-amber-200">2. Metode Eliminasi</span>
+                    <p class="text-xs font-semibold text-slate-800">
+                        x + 2y + z = 8<br>
+                        2x - y + z = 3<br>
+                        3x + y - z = 2
+                    </p>
+                    <div class="p-3 bg-slate-900 text-amber-400 rounded-xl font-mono text-xs">
+                        Eliminasi z secara berpasangan.<br>
+                        <strong>HP = {(1, 2, 3)}</strong>
+                    </div>
+                </div>
+
+                <!-- Card 3: Substitusi -->
+                <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm space-y-3">
+                    <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-md border border-emerald-200">3. Metode Substitusi</span>
+                    <p class="text-xs font-semibold text-slate-800">
+                        x = y + 1<br>
+                        y = z + 2<br>
+                        x + y + z = 12
+                    </p>
+                    <div class="p-3 bg-slate-900 text-emerald-300 rounded-xl font-mono text-xs">
+                        Isolasi variabel lalu substitusikan.<br>
+                        <strong>HP = {(5, 4, 2)}</strong>
+                    </div>
+                </div>
+
+                <!-- Card 4: Campuran -->
+                <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm space-y-3">
+                    <span class="text-xs font-bold text-purple-600 bg-purple-50 px-2.5 py-1 rounded-md border border-purple-200">4. Metode Campuran</span>
+                    <p class="text-xs font-semibold text-slate-800">
+                        2x + y + z = 9<br>
+                        x + 2y + z = 8<br>
+                        x + y + 2z = 7
+                    </p>
+                    <div class="p-3 bg-slate-900 text-purple-300 rounded-xl font-mono text-xs">
+                        Eliminasi di awal, substitusi di akhir.<br>
+                        <strong>HP = {(3, 2, 1)}</strong>
+                    </div>
+                </div>
+
+                <!-- Card 5: Pemodelan -->
+                <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm space-y-3 md:col-span-2 lg:col-span-2">
+                    <span class="text-xs font-bold text-rose-600 bg-rose-50 px-2.5 py-1 rounded-md border border-rose-200">5. Pemodelan Toko Buah (Soal Cerita)</span>
+                    <p class="text-xs text-slate-700">Mencari harga 1 kg Apel (x), Jeruk (y), dan Mangga (z) dari 3 transaksi belanja.</p>
+                    <div class="p-3 bg-slate-900 text-rose-300 rounded-xl font-mono text-xs">
+                        Model: 2x + y + z = 75, x + 2y + z = 70, x + y + 2z = 85<br>
+                        <strong>Hasil Akhir: Apel = Rp17.500, Jeruk = Rp12.500, Mangga = Rp27.500</strong>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 border-t border-slate-800 text-slate-400 py-8 mt-16 text-center text-xs">
+        <div class="max-w-7xl mx-auto px-4 space-y-2">
+            <p class="font-semibold text-slate-300">Media Pembelajaran Matematika Interaktif SMA - Master SPLTV & Pemodelan</p>
+            <p class="text-slate-500">Dikembangkan untuk Pemahaman Konsep Lengkap, Terstruktur & Tanpa Simbol Panah.</p>
+        </div>
+    </footer>
+
+    <script>
+        let warmupAnswers = {};
+        let warmupScore = 0;
+
+        // Handle Warmup Question Checking (8 Soal)
+        function checkWarmup(num, choice, isCorrect) {
+            const btns = document.querySelectorAll(`.wu-btn-${num}`);
+            btns.forEach(btn => btn.disabled = true);
+
+            const feedback = document.getElementById(`wu-feedback-${num}`);
+            const status = document.getElementById(`wu-status-${num}`);
+            feedback.classList.remove('hidden');
+
+            if (isCorrect) {
+                feedback.className = "text-xs p-2.5 rounded-lg bg-emerald-50 text-emerald-800 border border-emerald-200 font-medium mt-2";
+                feedback.innerHTML = "<i class='fa-solid fa-circle-check text-emerald-600 mr-1'></i> <strong>Benar!</strong> Jawaban Anda tepat sekali.";
+                status.textContent = "Benar";
+                status.className = "text-xs text-emerald-600 font-bold";
+                warmupAnswers[num] = true;
+            } else {
+                feedback.className = "text-xs p-2.5 rounded-lg bg-rose-50 text-rose-800 border border-rose-200 font-medium mt-2";
+                feedback.innerHTML = "<i class='fa-solid fa-circle-xmark text-rose-600 mr-1'></i> <strong>Kurang Tepat.</strong> Periksa kembali operasi hitungnya.";
+                status.textContent = "Salah";
+                status.className = "text-xs text-rose-600 font-bold";
+                warmupAnswers[num] = false;
+            }
+
+            updateWarmupScore();
+        }
+
+        function updateWarmupScore() {
+            let correct = 0;
+            Object.keys(warmupAnswers).forEach(k => {
+                if (warmupAnswers[k] === true) correct++;
+            });
+            warmupScore = correct;
+            document.getElementById('warmup-score-badge').textContent = `${warmupScore} / 8`;
+        }
+
+        // Switch Concept Tabs
+        function switchMateriTab(tabName) {
+            const tabs = ['cramer', 'eliminasi', 'substitusi', 'campuran', 'pemodelan'];
+            tabs.forEach(t => {
+                const btn = document.getElementById(`materi-tab-${t}`);
+                const content = document.getElementById(`materi-content-${t}`);
+                if (t === tabName) {
+                    btn.className = "py-3 px-4 tab-active transition flex items-center gap-2 shrink-0";
+                    content.classList.remove('hidden');
+                } else {
+                    btn.className = "py-3 px-4 text-slate-500 hover:text-slate-900 transition flex items-center gap-2 shrink-0";
+                    content.classList.add('hidden');
+                }
+            });
+            if (window.MathJax) {
+                MathJax.typesetPromise();
+            }
+        }
+
+        // Live Cramer Calculator Logic
+        function calculateLiveCramer() {
+            const a1 = parseFloat(document.getElementById('calc-a1').value) || 0;
+            const b1 = parseFloat(document.getElementById('calc-b1').value) || 0;
+            const c1 = parseFloat(document.getElementById('calc-c1').value) || 0;
+            const d1 = parseFloat(document.getElementById('calc-d1').value) || 0;
+
+            const a2 = parseFloat(document.getElementById('calc-a2').value) || 0;
+            const b2 = parseFloat(document.getElementById('calc-b2').value) || 0;
+            const c2 = parseFloat(document.getElementById('calc-c2').value) || 0;
+            const d2 = parseFloat(document.getElementById('calc-d2').value) || 0;
+
+            const a3 = parseFloat(document.getElementById('calc-a3').value) || 0;
+            const b3 = parseFloat(document.getElementById('calc-b3').value) || 0;
+            const c3 = parseFloat(document.getElementById('calc-c3').value) || 0;
+            const d3 = parseFloat(document.getElementById('calc-d3').value) || 0;
+
+            function det3x3(m11, m12, m13, m21, m22, m23, m31, m32, m33) {
+                const pos = (m11 * m22 * m33) + (m12 * m23 * m31) + (m13 * m21 * m32);
+                const neg = (m13 * m22 * m31) + (m11 * m23 * m32) + (m12 * m21 * m33);
+                return { total: pos - neg, pos, neg };
+            }
+
+            const D = det3x3(a1, b1, c1, a2, b2, c2, a3, b3, c3);
+            const Dx = det3x3(d1, b1, c1, d2, b2, c2, d3, b3, c3);
+            const Dy = det3x3(a1, d1, c1, a2, d2, c2, a3, d3, c3);
+            const Dz = det3x3(a1, b1, d1, a2, b2, d2, a3, b3, d3);
+
+            const outputDiv = document.getElementById('calc-output');
+            outputDiv.classList.remove('hidden');
+
+            if (D.total === 0) {
+                outputDiv.innerHTML = `
+                    <div class="p-3 bg-rose-500/20 text-rose-300 rounded-xl border border-rose-500/40 font-sans">
+                        <strong><i class="fa-solid fa-triangle-exclamation mr-1"></i> Determinan Utama D = 0:</strong>
+                        Sistem tidak memiliki solusi tunggal.
+                    </div>
+                `;
+            } else {
+                const x = Dx.total / D.total;
+                const y = Dy.total / D.total;
+                const z = Dz.total / D.total;
+
+                const formatVal = (v) => Number.isInteger(v) ? v : v.toFixed(2);
+
+                outputDiv.innerHTML = `
+                    <div class="text-amber-400 font-sans font-bold text-sm mb-2 border-b border-slate-800 pb-2">
+                        <i class="fa-solid fa-square-poll-vertical mr-1"></i> Hasil Perhitungan Determinan Sarrus:
+                    </div>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-slate-300">
+                        <div class="bg-slate-900 p-2.5 rounded-lg border border-slate-800">D = <strong class="text-white">${D.total}</strong></div>
+                        <div class="bg-slate-900 p-2.5 rounded-lg border border-slate-800">Dx = <strong class="text-purple-400">${Dx.total}</strong></div>
+                        <div class="bg-slate-900 p-2.5 rounded-lg border border-slate-800">Dy = <strong class="text-blue-400">${Dy.total}</strong></div>
+                        <div class="bg-slate-900 p-2.5 rounded-lg border border-slate-800">Dz = <strong class="text-emerald-400">${Dz.total}</strong></div>
+                    </div>
+                    <div class="p-4 bg-emerald-500/20 text-emerald-300 rounded-xl border border-emerald-500/40 mt-3 font-sans text-center">
+                        <div class="font-bold text-base">
+                            \\[ x = \\frac{D_x}{D} = \\frac{${Dx.total}}{${D.total}} = ${formatVal(x)} \\]
+                            \\[ y = \\frac{D_y}{D} = \\frac{${Dy.total}}{${D.total}} = ${formatVal(y)} \\]
+                            \\[ z = \\frac{D_z}{D} = \\frac{${Dz.total}}{${D.total}} = ${formatVal(z)} \\]
+                        </div>
+                    </div>
+                `;
+                if (window.MathJax) {
+                    MathJax.typesetPromise();
+                }
+            }
+        }
+
+        // Initialize App
+        window.onload = function() {
+            calculateLiveCramer();
+        };
+    </script>
+</body>
+</html>
