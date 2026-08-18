@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Penguatan & Modul Terbimbing SPLTV</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- MathJax for TeX Rendering -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['\\(', '\\)'], ['$', '$']],
+                displayMath: [['\\[', '\\]'], ['$$', '$$']]
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            800: '#1e40af',
+                            900: '#1e3a8a',
+                        },
+                        accent: {
+                            500: '#10b981',
+                            600: '#059669',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(226, 232, 240, 0.9);
+        }
+        .tab-active {
+            border-bottom: 3px solid #2563eb;
+            color: #2563eb;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col selection:bg-brand-500 selection:text-white">
+
+    <!-- Header & Navigasi -->
+    <header class="sticky top-0 z-40 bg-slate-900/95 text-white backdrop-blur-md border-b border-slate-800 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-accent-500 flex items-center justify-center font-black text-xl text-white shadow-md">
+                        3x3+
+                    </div>
+                    <div>
+                        <h1 class="font-bold text-lg leading-tight">Penguatan SPLTV & Pemodelan</h1>
+                        <p class="text-xs text-slate-400">Modul Pembelajaran Interaktif & Latihan Terbimbing</p>
+                    </div>
+                </div>
+
+                <!-- Navigation Tabs -->
+                <nav class="hidden lg:flex space-x-1 text-sm font-medium">
+                    <a href="#tujuan" class="px-3 py-2 rounded-lg hover:bg-slate-800 transition">Tujuan</a>
+                    <a href="#warmup" class="px-3 py-2 rounded-lg hover:bg-slate-800 transition">Warm-Up</a>
+                    <a href="#koneksi" class="px-3 py-2 rounded-lg hover:bg-slate-800 transition">Koneksi Nyata</a>
+                    <a href="#penguatan-materi" class="px-3 py-2 rounded-lg hover:bg-slate-800 transition text-brand-400 font-semibold"><i class="fa-solid fa-graduation-cap mr-1"></i>Materi & Penguatan</a>
+                    <a href="#contoh-soal" class="px-3 py-2 rounded-lg hover:bg-slate-800 transition text-amber-400 font-semibold"><i class="fa-solid fa-book-open mr-1"></i>Contoh Soal</a>
+                    <a href="#latihan-terbimbing" class="px-3 py-2 rounded-lg hover:bg-slate-800 transition text-emerald-400 font-semibold"><i class="fa-solid fa-pen-to-square mr-1"></i>Latihan Terbimbing</a>
+                </nav>
+
+                <!-- Status Skor Latihan -->
+                <div class="flex items-center space-x-2 bg-slate-800 px-3 py-1.5 rounded-full border border-slate-700">
+                    <i class="fa-solid fa-star text-amber-400 text-xs"></i>
+                    <span class="text-xs font-semibold text-slate-300">Skor Warm-Up:</span>
+                    <span id="warmup-score-badge" class="text-xs font-bold text-emerald-400">0 / 8</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-16">
+
+        <!-- SECTION 1: TUJUAN PEMBELAJARAN -->
+        <section id="tujuan" class="scroll-mt-20">
+            <div class="bg-gradient-to-br from-slate-900 via-brand-900 to-slate-900 text-white rounded-3xl p-6 sm:p-10 shadow-xl relative overflow-hidden">
+                <div class="absolute -right-10 -bottom-10 w-72 h-72 bg-brand-500/10 rounded-full blur-3xl pointer-events-none"></div>
+                
+                <div class="max-w-3xl space-y-4 relative z-10">
+                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-brand-500/20 text-brand-300 border border-brand-500/30">
+                        <i class="fa-solid fa-bullseye"></i> Capaian Pembelajaran Modul Penguatan
+                    </span>
+                    <h2 class="text-2xl sm:text-4xl font-extrabold tracking-tight leading-tight">
+                        Menguasai Konsep SPLTV, Analisis Solusi, dan Strategi Efisien
+                    </h2>
+                    <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+                        Modul penguatan ini dirancang untuk mendalamkan pemahaman Anda mengenai penyelesaian SPLTV, mengenali karakteristik solusi (Tunggal, Tak Hingga, Tidak Ada Solusi), memilih metode terbaik sesuai tipe soal, serta melatih pemodelan soal cerita secara terstruktur.
+                    </p>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-4 text-xs font-medium">
+                        <div class="bg-white/10 backdrop-blur-md p-3 rounded-xl border border-white/10 flex items-center gap-2">
+                            <i class="fa-solid fa-magnifying-glass-chart text-brand-400 text-base"></i>
+                            <span>Analisis Kuantitas Solusi (Determinan)</span>
+                        </div>
+                        <div class="bg-white/10 backdrop-blur-md p-3 rounded-xl border border-white/10 flex items-center gap-2">
+                            <i class="fa-solid fa-bolt text-amber-400 text-base"></i>
+                            <span>Pemilihan Metode Efisien (Trik Aljabar)</span>
+                        </div>
+                        <div class="bg-white/10 backdrop-blur-md p-3 rounded-xl border border-white/10 flex items-center gap-2">
+                            <i class="fa-solid fa-list-check text-emerald-400 text-base"></i>
+                            <span>Latihan Terbimbing dengan Umpan Balik</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: WARM-UP (8 SOAL PEMANASAN) -->
+        <section id="warmup" class="scroll-mt-20">
+            <div class="flex items-center justify-between mb-6">
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-900 flex items-center gap-2">
+                        <span class="w-8 h-8 rounded-lg bg-amber-500 text-white flex items-center justify-center text-sm"><i class="fa-solid fa-fire"></i></span>
+                        Warm-Up: 8 Soal Pemanasan Logika & Aljabar
+                    </h2>
+                    <p class="text-slate-600 text-sm mt-1">Uji pemahaman dasar manipulasi aljabar dan konsep sistem persamaan sebelum mendalami materi penguatan!</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4" id="warmup-container">
+                <!-- WarmUp 1 -->
+                <div class="glass-card rounded-2xl p-5 shadow-sm hover:shadow-md transition flex flex-col justify-between" id="wu-card-1">
+                    <div>
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="text-xs font-extrabold text-amber-600 bg-amber-50 px-2 py-0.5 rounded border border-amber-200">Warm-Up 1</span>
+                            <span class="text-xs text-slate-400 font-medium" id="wu-status-1">Belum</span>
+                        </div>
+                        <p class="text-xs sm:text-sm font-semibold mb-3">Manakah di bawah ini yang merupakan bentuk umum persamaan linear tiga variabel?</p>
+                        <div class="grid grid-cols-1 gap-1.5 text-xs mb-2">
+                            <button onclick="checkWarmup(1, 'A', false)" class="wu-btn-1 p-2 rounded-lg border border-slate-200 hover:border-brand-500 hover:bg-brand-50 transition text-left">A. \(ax^2 + by + cz = d\)</button>
+                            <button onclick="checkWarmup(1, 'B', true)" class="wu-btn-1 p-2 rounded-lg border border-slate-200 hover:border-brand-500 hover:bg-brand-50 transition text-left">B. \(ax + by + cz = d\)</button>
+                            <button onclick="checkWarmup(1, 'C', false)" class="wu-btn-1 p-2 rounded-lg border border-slate-200 hover:border-brand-500 hover:bg-brand-50 transition text-left">C. \(axy + bz = c\)</button>
+                        </div>
+                    </div>
+                    <div id="wu-feedback-1" class="hidden text-xs p-2 rounded-lg mt-2"></div>
+                </div>
+
+                <!-- WarmUp 2 -->
+                <div class="glass-card rounded-2xl p-5 shadow-sm hover:shadow-md transition flex flex-col justify-between" id="wu-card-2">
+                    <div>
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="text-xs font-extrabold text-amber-600 bg-amber-50 px-2 py-0.5 rounded border border-amber-200">Warm-Up 2</span>
+                            <span class="text-xs text-slate-400 font-medium" id="wu-status-2">Belum</span>
+                        </div>
+                        <p class="text-xs sm:text-sm font-semibold mb-3">Jika \(x + y + z = 15\), \(x + y = 9\), berapakah nilai \(z\)?</p>
+                        <div class="grid grid-cols-1 gap-1.5 text-xs mb-2">
+                            <button onclick="checkWarmup(2, 'A', false)" class="wu-btn-2 p-2 rounded-lg border border-slate-200 hover:border-brand-500 hover:bg-brand-50 transition text-left">A. 5</button>
+                            <button onclick="checkWarmup(2, 'B', true)" class="wu-btn-2 p-2 rounded-lg border border-slate-200 hover:border-brand-500 hover:bg-brand-50 transition text-left">B. 6</button>
+                            <button onclick="checkWarmup(2, 'C', false)" class="wu-btn-2 p-2 rounded-lg border border-slate-200 hover:border-brand-500 hover:bg-brand-50 transition text-left">C. 7</button>
+                        </div>
+                    </div>
+                    <div id="wu-feedback-2" class="hidden text-xs p-2 rounded-lg mt-2"></div>
+                </div>
+
+                <!-- WarmUp 3 -->
+                <div class="glass-card rounded-2xl p-5 shadow-sm hover:shadow-md transition flex flex-col justify-between" id="wu-card-3">
+                    <div>
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="text-xs font-extrabold text-amber-600 bg-amber-50 px-2 py-0.5 rounded border border-amber-200">Warm-Up 3</span>
+                            <span class="text-xs text-slate-400 font-medium" id="wu-status-3">Belum</span>
+                        </div>
+                        <p class="text-xs sm:text-sm font-semibold mb-3">Jika nilai determinan utama \(D = 0\) dan \(D_x \neq 0\), maka sistem tersebut memiliki...</p>
+                        <div class="grid grid-cols-1 gap-1.5 text-xs mb-2">
+                            <button onclick="checkWarmup(3, 'A', false)" class="wu-btn-3 p-2 rounded-lg border border-slate-200 hover:border-brand-500 hover:bg-brand-50 transition text-left">A. Tepat satu solusi</button>
+                            <button onclick="checkWarmup(3, 'B', true)" class="wu-btn-3 p-2 rounded-lg border border-slate-200 hover:border-brand-500 hover:bg-brand-50 transition text-left">B. Tidak ada solusi (kontradiksi)</button>
+                            <button onclick="checkWarmup(3, 'C', false)" class="wu-btn-3 p-2 rounded-lg border border-slate-200 hover:border-brand-500 hover:bg-brand-50 transition text-left">C. Tak hingga solusi</button>
+                        </div>
+                    </div>
+                    <div id="wu-feedback-3" class="hidden text-xs p-2 rounded-lg mt-2"></div>
+                </div>
+
+                <!-- WarmUp 4 -->
+                <div class="glass-card rounded-2xl p-5 shadow-sm hover:shadow-md transition flex flex-col justify-between" id="wu-card-4">
+                    <div>
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="text-xs font-extrabold text-amber-600 bg-amber-50 px-2 py-0.5 rounded border border-amber-200">Warm-Up 4</span>
+                            <span class="text-xs text-slate-400 font-medium" id="wu-status-4">Belum</span>
+                        </div>
+                        <p class="text-xs sm:text-sm font-semibold mb-3">Hasil penjumlahan dari persamaan \(x+y=5\) dan \(x-y=3\) adalah...</p>
+                        <div class="grid grid-cols-1 gap-1.5 text-xs mb-2">
+                            <button onclick="checkWarmup(4, 'A', true)" class="wu-btn-4 p-2 rounded-lg border border-slate-200 hover:border-brand-500 hover:bg-brand-50 transition text-left">A. \(2x = 8 \implies x = 4\)</button>
+                            <button onclick="checkWarmup(4, 'B', false)" class="wu-btn-4 p-2 rounded-lg border border-slate-200 hover:border-brand-500 hover:bg-brand-50 transition text-left">B. \(2y = 8 \implies y = 4\)</button>
+                            <button onclick="checkWarmup(4, 'C', false)" class="wu-btn-4 p-2 rounded-lg border border-slate-200 hover:border-brand-500 hover:bg-brand-50 transition text-left">C. \(2x = 2 \implies x = 1\)</button>
+                        </div>
+                    </div>
+                    <div id="wu-feedback-4" class="hidden text-xs p-2 rounded-lg mt-2"></div>
+                </div>
+
+                <!-- WarmUp 5 -->
+                <div class="glass-card rounded-2xl p-5 shadow-sm hover:shadow-md transition flex flex-col justify-between" id="wu-card-5">
+                    <div>
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="text-xs font-extrabold text-amber-600 bg-amber-50 px-2 py-0.5 rounded border border-amber-200">Warm-Up 5</span>
+                            <span class="text-xs text-slate-400 font-medium" id="wu-status-5">Belum</span>
+                        </div>
+                        <p class="text-xs sm:text-sm font-semibold mb-3">Metode yang mengalikan koefisien agar satu variabel hilang disebut metode...</p>
+                        <div class="grid grid-cols-1 gap-1.5 text-xs mb-2">
+                            <button onclick="checkWarmup(5, 'A', true)" class="wu-btn-5 p-2 rounded-lg border border-slate-200 hover:border-brand-500 hover:bg-brand-50 transition text-left">A. Eliminasi</button>
+                            <button onclick="checkWarmup(5, 'B', false)" class="wu-btn-5 p-2 rounded-lg border border-slate-200 hover:border-brand-500 hover:bg-brand-50 transition text-left">B. Substitusi</button>
+                            <button onclick="checkWarmup(5, 'C', false)" class="wu-btn-5 p-2 rounded-lg border border-slate-200 hover:border-brand-500 hover:bg-brand-50 transition text-left">C. Grafis</button>
+                        </div>
+                    </div>
+                    <div id="wu-feedback-5" class="hidden text-xs p-2 rounded-lg mt-2"></div>
+                </div>
+
+                <!-- WarmUp 6 -->
+                <div class="glass-card rounded-2xl p-5 shadow-sm hover:shadow-md transition flex flex-col justify-between" id="wu-card-6">
+                    <div>
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="text-xs font-extrabold text-amber-600 bg-amber-50 px-2 py-0.5 rounded border border-amber-200">Warm-Up 6</span>
+                            <span class="text-xs text-slate-400 font-medium" id="wu-status-6">Belum</span>
+                        </div>
+                        <p class="text-xs sm:text-sm font-semibold mb-3">Berapa determinan matriks \(\begin{vmatrix} 4 & 1 \\ 2 & 3 \end{vmatrix}\)?</p>
+                        <div class="grid grid-cols-1 gap-1.5 text-xs mb-2">
+                            <button onclick="checkWarmup(6, 'A', false)" class="wu-btn-6 p-2 rounded-lg border border-slate-200 hover:border-brand-500 hover:bg-brand-50 transition text-left">A. 14</button>
+                            <button onclick="checkWarmup(6, 'B', true)" class="wu-btn-6 p-2 rounded-lg border border-slate-200 hover:border-brand-500 hover:bg-brand-50 transition text-left">B. 10</button>
+                            <button onclick="checkWarmup(6, 'C', false)" class="wu-btn-6 p-2 rounded-lg border border-slate-200 hover:border-brand-500 hover:bg-brand-50 transition text-left">C. 8</button>
+                        </div>
+                    </div>
+                    <div id="wu-feedback-6" class="hidden text-xs p-2 rounded-lg mt-2"></div>
+                </div>
+
+                <!-- WarmUp 7 -->
+                <div class="glass-card rounded-2xl p-5 shadow-sm hover:shadow-md transition flex flex-col justify-between" id="wu-card-7">
+                    <div>
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="text-xs font-extrabold text-amber-600 bg-amber-50 px-2 py-0.5 rounded border border-amber-200">Warm-Up 7</span>
+                            <span class="text-xs text-slate-400 font-medium" id="wu-status-7">Belum</span>
+                        </div>
+                        <p class="text-xs sm:text-sm font-semibold mb-3">Persamaan \(3x - 2y = 12\). Jika dinyatakkan dalam bentuk \(y = ...\), maka...</p>
+                        <div class="grid grid-cols-1 gap-1.5 text-xs mb-2">
+                            <button onclick="checkWarmup(7, 'A', true)" class="wu-btn-7 p-2 rounded-lg border border-slate-200 hover:border-brand-500 hover:bg-brand-50 transition text-left">A. \(y = \frac{3x - 12}{2}\)</button>
+                            <button onclick="checkWarmup(7, 'B', false)" class="wu-btn-7 p-2 rounded-lg border border-slate-200 hover:border-brand-500 hover:bg-brand-50 transition text-left">B. \(y = \frac{12 - 3x}{2}\)</button>
+                            <button onclick="checkWarmup(7, 'C', false)" class="wu-btn-7 p-2 rounded-lg border border-slate-200 hover:border-brand-500 hover:bg-brand-50 transition text-left">C. \(y = 3x - 6\)</button>
+                        </div>
+                    </div>
+                    <div id="wu-feedback-7" class="hidden text-xs p-2 rounded-lg mt-2"></div>
+                </div>
+
+                <!-- WarmUp 8 -->
+                <div class="glass-card rounded-2xl p-5 shadow-sm hover:shadow-md transition flex flex-col justify-between" id="wu-card-8">
+                    <div>
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="text-xs font-extrabold text-amber-600 bg-amber-50 px-2 py-0.5 rounded border border-amber-200">Warm-Up 8</span>
+                            <span class="text-xs text-slate-400 font-medium" id="wu-status-8">Belum</span>
+                        </div>
+                        <p class="text-xs sm:text-sm font-semibold mb-3">Jumlah tiga bilangan adalah 20. Bilangan pertama 2 kali bilangan kedua. Modelnya?</p>
+                        <div class="grid grid-cols-1 gap-1.5 text-xs mb-2">
+                            <button onclick="checkWarmup(8, 'A', true)" class="wu-btn-8 p-2 rounded-lg border border-slate-200 hover:border-brand-500 hover:bg-brand-50 transition text-left">A. \(x+y+z=20\) dan \(x=2y\)</button>
+                            <button onclick="checkWarmup(8, 'B', false)" class="wu-btn-8 p-2 rounded-lg border border-slate-200 hover:border-brand-500 hover:bg-brand-50 transition text-left">B. \(x+y+z=20\) dan \(y=2x\)</button>
+                            <button onclick="checkWarmup(8, 'C', false)" class="wu-btn-8 p-2 rounded-lg border border-slate-200 hover:border-brand-500 hover:bg-brand-50 transition text-left">C. \(x+2y+z=20\)</button>
+                        </div>
+                    </div>
+                    <div id="wu-feedback-8" class="hidden text-xs p-2 rounded-lg mt-2"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: KONEKSI NYATA -->
+        <section id="koneksi" class="scroll-mt-20">
+            <div class="bg-white rounded-3xl p-6 sm:p-10 border border-slate-200 shadow-md space-y-6">
+                <div class="flex items-center gap-3">
+                    <span class="p-3 rounded-2xl bg-emerald-100 text-emerald-700 text-xl font-bold"><i class="fa-solid fa-earth-americas"></i></span>
+                    <div>
+                        <h2 class="text-2xl font-extrabold text-slate-900">Koneksi Nyata: Aplikasi SPLTV di Kehidupan Nyata</h2>
+                        <p class="text-slate-500 text-sm">Mengapa SPLTV sangat penting di luar ruang kelas matematika?</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2">
+                    <!-- Case 1 -->
+                    <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-3">
+                        <div class="w-10 h-10 rounded-xl bg-brand-500 text-white flex items-center justify-center font-bold">
+                            <i class="fa-solid fa-flask text-lg"></i>
+                        </div>
+                        <h3 class="font-bold text-slate-900 text-base">1. Kimia & Pencampuran Larutan</h3>
+                        <p class="text-slate-600 text-xs leading-relaxed">
+                            Apoteker dan kimiawan menghitung persentase campuran 3 bahan kimia berbedamemenuhi konsentrasi sasaran (misal: Larutan A 10%, B 25%, dan C 50% untuk membuat 500 mL larutan 30%).
+                        </p>
+                    </div>
+
+                    <!-- Case 2 -->
+                    <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-3">
+                        <div class="w-10 h-10 rounded-xl bg-amber-500 text-white flex items-center justify-center font-bold">
+                            <i class="fa-solid fa-chart-line text-lg"></i>
+                        </div>
+                        <h3 class="font-bold text-slate-900 text-base">2. Analisis Keuangan & Portofolio</h3>
+                        <p class="text-slate-600 text-xs leading-relaxed">
+                            Manajer investasi mengalokasikan modal ke 3 jenis instrumen investasi (Saham, Obligasi, Deposito) untuk mencapai target dividen tahunan dengan risiko terukur.
+                        </p>
+                    </div>
+
+                    <!-- Case 3 -->
+                    <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-3">
+                        <div class="w-10 h-10 rounded-xl bg-purple-500 text-white flex items-center justify-center font-bold">
+                            <i class="fa-solid fa-microchip text-lg"></i>
+                        </div>
+                        <h3 class="font-bold text-slate-900 text-base">3. Kelistrikan & Hukum Kirchhoff</h3>
+                        <p class="text-slate-600 text-xs leading-relaxed">
+                            Insinyur elektro menentukan kuat arus listrik ($I_1, I_2, I_3$) pada rangkaian 3 loop bercabang menggunakan Hukum II Kirchhoff ($ \sum V + \sum IR = 0 $).
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: KONSEP MATERI LENGKAP & PENGUATAN -->
+        <section id="penguatan-materi" class="scroll-mt-20">
+            <div class="bg-white rounded-3xl p-6 sm:p-10 border border-slate-200 shadow-md space-y-8">
+                <div class="flex items-center gap-3">
+                    <span class="p-3 rounded-2xl bg-brand-100 text-brand-700 text-xl font-bold"><i class="fa-solid fa-graduation-cap"></i></span>
+                    <div>
+                        <h2 class="text-2xl font-extrabold text-slate-900">Materi Penguatan & Analisis Jenis Solusi</h2>
+                        <p class="text-slate-500 text-sm">Pendalaman teori, deteksi dini jenis solusi, serta trik memilih metode tercepat.</p>
+                    </div>
+                </div>
+
+                <!-- Sub-Materi 1: Analisis Kuantitas Solusi -->
+                <div class="bg-gradient-to-r from-brand-50 to-indigo-50 p-6 rounded-2xl border border-brand-200 space-y-4">
+                    <h3 class="font-bold text-lg text-brand-900 flex items-center gap-2">
+                        <i class="fa-solid fa-diagram-project text-brand-600"></i>
+                        1. Analisis Jenis Solusi SPLTV (Geometri & Determinan)
+                    </h3>
+                    <p class="text-slate-700 text-xs sm:text-sm leading-relaxed">
+                        Secara geometris, setiap persamaan linear 3 variabel merepresentasikan sebuah **Bidang Datar** di ruang 3 dimensi ($R^3$). Interseksi (perpotongan) 3 bidang datar tersebut menentukan banyaknya solusi:
+                    </p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs font-sans">
+                        <!-- Solusi Tunggal -->
+                        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-2">
+                            <span class="px-2.5 py-1 rounded bg-emerald-100 text-emerald-800 font-bold text-xs inline-block">1. Solusi Tunggal</span>
+                            <p class="font-bold text-slate-800">Kondisi Determinan: \(D \neq 0\)</p>
+                            <p class="text-slate-600 leading-relaxed">Ketiga bidang berpotongan di tepat **satu titik** \((x, y, z)\). Memiliki tepat satu HP.</p>
+                        </div>
+
+                        <!-- Tak Hingga Solusi -->
+                        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-2">
+                            <span class="px-2.5 py-1 rounded bg-amber-100 text-amber-800 font-bold text-xs inline-block">2. Tak Hingga Solusi</span>
+                            <p class="font-bold text-slate-800">Kondisi: \(D = 0\) DAN \(D_x = D_y = D_z = 0\)</p>
+                            <p class="text-slate-600 leading-relaxed">Ketiga bidang berpotongan sepanjang **sebuah garis** atau saling berhimpit (konsisten dependen).</p>
+                        </div>
+
+                        <!-- Tidak Ada Solusi -->
+                        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-2">
+                            <span class="px-2.5 py-1 rounded bg-rose-100 text-rose-800 font-bold text-xs inline-block">3. Tidak Ada Solusi</span>
+                            <p class="font-bold text-slate-800">Kondisi: \(D = 0\) DAN minimal satu \(D_k \neq 0\)</p>
+                            <p class="text-slate-600 leading-relaxed">Bidang-bidang sejajar atau membentuk "tenda" segitiga yang tidak memiliki titik temu bersama (inkonsisten).</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sub-Materi 2: Matriks Sarrus Ringkas -->
+                <div class="space-y-4">
+                    <h3 class="font-bold text-lg text-slate-900 flex items-center gap-2">
+                        <i class="fa-solid fa-table-cells text-brand-600"></i>
+                        2. Ringkasan Penggunaan Aturan Cramer & Ekspansi Sarrus
+                    </h3>
+                    <p class="text-slate-600 text-xs sm:text-sm leading-relaxed">
+                        Aturan Cramer sangat efisien jika koefisien variabel berupa angka sederhana atau saat kita hanya ingin mencari **satu variabel saja** (misalnya hanya mencari nilai $y$ tanpa harus menyelesaikan seluruh sistem).
+                    </p>
+
+                    <div class="bg-slate-900 text-slate-100 p-5 rounded-2xl font-mono text-xs space-y-3">
+                        <div class="text-amber-400 font-bold mb-1">// RUMUS UTAMA CRAMER:</div>
+                        <p>D  = det(Matriks Utama Koefisien)</p>
+                        <p>Dx = det(Matriks Utama dengan Kolom X diganti Konstanta d)</p>
+                        <p>Dy = det(Matriks Utama dengan Kolom Y diganti Konstanta d)</p>
+                        <p>Dz = det(Matriks Utama dengan Kolom Z diganti Konstanta d)</p>
+                        <div class="pt-2 border-t border-slate-700 text-emerald-400 font-bold">
+                            Hasil: x = Dx / D, &nbsp; y = Dy / D, &nbsp; z = Dz / D
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sub-Materi 3: Strategi Pemilihan Metode -->
+                <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-3">
+                    <h3 class="font-bold text-base text-slate-900 flex items-center gap-2">
+                        <i class="fa-solid fa-lightbulb text-amber-500"></i>
+                        3. Trik Memilih Metode Tercepat
+                    </h3>
+                    <ul class="list-disc list-inside space-y-2 text-xs sm:text-sm text-slate-700 leading-relaxed">
+                        <li><strong>Gunakan Substitusi:</strong> Jika salah satu persamaan sudah mengisolasi variabel, seperti $x = 2y - z + 1$.</li>
+                        <li><strong>Gunakan Eliminasi-Substitusi (Campuran):</strong> Sangat direkomendasikan untuk sebagian besar soal ujian karena meminimalkan risiko salah tanda positif/negatif.</li>
+                        <li><strong>Gunakan Aturan Cramer:</strong> Sangat efektif jika ditanyakan nilai tunggal (misal hanya nilai $z$) atau ketika koefisien variabel bernilai bulat kecil.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 5: CONTOH SOAL DENGAN PENJELASAN VERTIKAL -->
+        <section id="contoh-soal" class="scroll-mt-20">
+            <div class="bg-white rounded-3xl p-6 sm:p-10 border border-slate-200 shadow-md space-y-8">
+                <div class="flex items-center gap-3">
+                    <span class="p-3 rounded-2xl bg-amber-100 text-amber-700 text-xl font-bold"><i class="fa-solid fa-book-open"></i></span>
+                    <div>
+                        <h2 class="text-2xl font-extrabold text-slate-900">Contoh Soal Pembahasan Terstruktur</h2>
+                        <p class="text-slate-500 text-sm">Penulisan solusi vertikal yang rapi dan mudah diikuti tanpa simbol panah berbelit.</p>
+                    </div>
+                </div>
+
+                <!-- Contoh Soal 1: Metode Campuran -->
+                <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-4">
+                    <div class="flex items-center justify-between border-b border-slate-200 pb-3">
+                        <span class="font-bold text-brand-700 text-sm">Contoh 1: Metode Campuran (SPLTV Standar)</span>
+                        <span class="text-xs bg-brand-100 text-brand-800 font-bold px-2.5 py-1 rounded-full">Tingkat: Sedang</span>
+                    </div>
+
+                    <p class="text-xs sm:text-sm font-semibold text-slate-800">
+                        Tentukan himpunan penyelesaian dari SPLTV berikut:
+                    </p>
+                    <div class="bg-white p-3 rounded-xl border border-slate-200 text-xs font-mono">
+                        Persamaan (1): \(2x + y + z = 13\)<br>
+                        Persamaan (2): \(x + 3y + 2z = 21\)<br>
+                        Persamaan (3): \(3x + 2y + z = 16\)
+                    </div>
+
+                    <div class="bg-white p-5 rounded-xl border border-slate-200 text-xs space-y-4 text-slate-700 leading-relaxed">
+                        <p class="font-bold text-slate-900">Langkah 1: Eliminasi variabel \(z\) dari Persamaan (1) dan Persamaan (3)</p>
+                        \[
+                        \begin{array}{r@{\quad}l}
+                        2x + y + z &= 13 \\
+                        3x + 2y + z &= 16 \\
+                        \hline
+                        -x - y &= -3 \implies x + y = 3 \quad \text{--- (Persamaan 4)}
+                        \end{array} \quad (-)
+                        \]
+
+                        <p class="font-bold text-slate-900">Langkah 2: Eliminasi variabel \(z\) dari Persamaan (1) dan Persamaan (2)</p>
+                        <p>Samakan koefisien \(z\) dengan mengalikan Persamaan (1) dengan 2:</p>
+                        \[
+                        \begin{array}{r@{\quad}l}
+                        4x + 2y + 2z &= 26 \\
+                        x + 3y + 2z &= 21 \\
+                        \hline
+                        3x - y &= 5 \quad \text{--- (Persamaan 5)}
+                        \end{array} \quad (-)
+                        \]
+
+                        <p class="font-bold text-slate-900">Langkah 3: Eliminasi variabel \(y\) dari Persamaan (4) dan Persamaan (5)</p>
+                        \[
+                        \begin{array}{r@{\quad}l}
+                        x + y &= 3 \\
+                        3x - y &= 5 \\
+                        \hline
+                        4x &= 8 \\
+                        x &= 2
+                        \end{array} \quad (+)
+                        \]
+
+                        <p class="font-bold text-slate-900">Langkah 4: Substitusi nilai \(x = 2\) ke Persamaan (4)</p>
+                        \[
+                        x + y = 3 \implies 2 + y = 3 \implies y = 1
+                        \]
+
+                        <p class="font-bold text-slate-900">Langkah 5: Substitusi \(x = 2\) dan \(y = 1\) ke Persamaan (1)</p>
+                        \[
+                        2(2) + 1 + z = 13 \implies 4 + 1 + z = 13 \implies 5 + z = 13 \implies z = 8
+                        \]
+
+                        <div class="pt-3 border-t border-slate-200 font-bold text-emerald-700 text-center text-sm">
+                            Himpunan Penyelesaian HP = \(\{(2, 1, 8)\}\)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 6: LATIHAN SOAL TERBIMBING INTERAKTIF -->
+        <section id="latihan-terbimbing" class="scroll-mt-20">
+            <div class="bg-white rounded-3xl p-6 sm:p-10 border border-slate-200 shadow-md space-y-8">
+                <div class="flex items-center gap-3">
+                    <span class="p-3 rounded-2xl bg-emerald-100 text-emerald-700 text-xl font-bold"><i class="fa-solid fa-pen-to-square"></i></span>
+                    <div>
+                        <h2 class="text-2xl font-extrabold text-slate-900">Latihan Soal Terbimbing Interaktif</h2>
+                        <p class="text-slate-500 text-sm">Kerjakan latihan berikut per langkah. Gunakan fitur "Petunjuk Langkah" jika merasa kesulitan!</p>
+                    </div>
+                </div>
+
+                <!-- Soal Terbimbing 1 -->
+                <div class="bg-slate-50 rounded-2xl p-6 border border-slate-200 space-y-5">
+                    <div class="flex items-center justify-between border-b border-slate-200 pb-3">
+                        <span class="font-bold text-slate-900 text-sm">Soal Terbimbing 1: Menghitung Nilai Spesifik Variabel</span>
+                        <span class="text-xs bg-emerald-100 text-emerald-800 font-bold px-2.5 py-1 rounded-full">Latihan 1</span>
+                    </div>
+
+                    <p class="text-xs sm:text-sm text-slate-800 font-medium">
+                        Diketahui sistem persamaan linear tiga variabel:
+                    </p>
+                    <div class="bg-white p-3 rounded-xl border border-slate-200 text-xs font-mono">
+                        (1) \(x + y + z = 9\)<br>
+                        (2) \(2x - y + z = 7\)<br>
+                        (3) \(x + 2y - z = 6\)
+                    </div>
+
+                    <!-- Step Guidance Accordion -->
+                    <div class="space-y-3">
+                        <button onclick="toggleHint('hint-1')" class="text-xs font-bold text-brand-600 hover:text-brand-800 flex items-center gap-1.5 transition">
+                            <i class="fa-solid fa-lightbulb text-amber-500"></i> Buka / Tutup Petunjuk Langkah Penyelesaian
+                        </button>
+                        
+                        <div id="hint-1" class="hidden bg-brand-50/70 p-4 rounded-xl border border-brand-200 text-xs text-slate-700 space-y-2">
+                            <p><strong>Langkah 1:</strong> Jumlahkan pers. (1) dan pers. (2) untuk mengeliminasi variabel \(y\).</p>
+                            <p><strong>Langkah 2:</strong> Kalikan pers. (1) dengan 2 lalu kurangkan dengan pers. (3) untuk mengeliminasi \(y\).</p>
+                            <p><strong>Langkah 3:</strong> Selesaikan 2 persamaan baru tersebut untuk mendapatkan nilai \(x, y, z\).</p>
+                        </div>
+                    </div>
+
+                    <!-- Question Input / Options -->
+                    <div class="space-y-3 pt-2">
+                        <p class="text-xs sm:text-sm font-bold text-slate-900">Berapakah nilai dari \(x + 2y + 3z\)?</p>
+                        
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+                            <button onclick="checkGuided(1, 'A', false)" class="guided-btn-1 p-3 rounded-xl border border-slate-200 hover:border-brand-500 bg-white hover:bg-brand-50 transition text-left font-medium">
+                                A. 20
+                            </button>
+                            <button onclick="checkGuided(1, 'B', true)" class="guided-btn-1 p-3 rounded-xl border border-slate-200 hover:border-brand-500 bg-white hover:bg-brand-50 transition text-left font-medium">
+                                B. 23
+                            </button>
+                            <button onclick="checkGuided(1, 'C', false)" class="guided-btn-1 p-3 rounded-xl border border-slate-200 hover:border-brand-500 bg-white hover:bg-brand-50 transition text-left font-medium">
+                                C. 18
+                            </button>
+                        </div>
+
+                        <div id="guided-feedback-1" class="hidden text-xs p-3 rounded-xl font-medium mt-3"></div>
+                    </div>
+                </div>
+
+                <!-- Soal Terbimbing 2: Pemodelan Soal Cerita -->
+                <div class="bg-slate-50 rounded-2xl p-6 border border-slate-200 space-y-5">
+                    <div class="flex items-center justify-between border-b border-slate-200 pb-3">
+                        <span class="font-bold text-slate-900 text-sm">Soal Terbimbing 2: Pemodelan Aplikasi Belanja</span>
+                        <span class="text-xs bg-emerald-100 text-emerald-800 font-bold px-2.5 py-1 rounded-full">Latihan 2</span>
+                    </div>
+
+                    <p class="text-xs sm:text-sm text-slate-800 leading-relaxed">
+                        Di sebuah toko alat tulis:
+                        <br>• Dika membeli 3 buku, 2 pensil, dan 1 penghapus seharga Rp20.000,00.
+                        <br>• Eka membeli 2 buku, 3 pensil, dan 2 penghapus seharga Rp19.000,00.
+                        <br>• Fajar membeli 1 buku, 1 pensil, dan 3 penghapus seharga Rp11.000,00.
+                    </p>
+
+                    <!-- Step Guidance Accordion -->
+                    <div class="space-y-3">
+                        <button onclick="toggleHint('hint-2')" class="text-xs font-bold text-brand-600 hover:text-brand-800 flex items-center gap-1.5 transition">
+                            <i class="fa-solid fa-lightbulb text-amber-500"></i> Buka / Tutup Petunjuk Langkah Penyelesaian
+                        </button>
+                        
+                        <div id="hint-2" class="hidden bg-brand-50/70 p-4 rounded-xl border border-brand-200 text-xs text-slate-700 space-y-2">
+                            <p><strong>Langkah 1:</strong> Misalkan buku = \(x\), pensil = \(y\), penghapus = \(z\) (dalam ribuan rupiah).</p>
+                            <p><strong>Langkah 2:</strong> Buat 3 persamaan: \(3x + 2y + z = 20\), \(2x + 3y + 2z = 19\), \(x + y + 3z = 11\).</p>
+                            <p><strong>Langkah 3:</strong> Selesaikan SPLTV tersebut untuk menemukan harga satuan masing-masing barang.</p>
+                        </div>
+                    </div>
+
+                    <!-- Question Input / Options -->
+                    <div class="space-y-3 pt-2">
+                        <p class="text-xs sm:text-sm font-bold text-slate-900">Berapakah harga 1 buku (\(x\))?</p>
+                        
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+                            <button onclick="checkGuided(2, 'A', true)" class="guided-btn-2 p-3 rounded-xl border border-slate-200 hover:border-brand-500 bg-white hover:bg-brand-50 transition text-left font-medium">
+                                A. Rp4.000,00
+                            </button>
+                            <button onclick="checkGuided(2, 'B', false)" class="guided-btn-2 p-3 rounded-xl border border-slate-200 hover:border-brand-500 bg-white hover:bg-brand-50 transition text-left font-medium">
+                                B. Rp5.000,00
+                            </button>
+                            <button onclick="checkGuided(2, 'C', false)" class="guided-btn-2 p-3 rounded-xl border border-slate-200 hover:border-brand-500 bg-white hover:bg-brand-50 transition text-left font-medium">
+                                C. Rp3.500,00
+                            </button>
+                        </div>
+
+                        <div id="guided-feedback-2" class="hidden text-xs p-3 rounded-xl font-medium mt-3"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 border-t border-slate-800 text-slate-400 py-8 mt-16 text-center text-xs">
+        <div class="max-w-7xl mx-auto px-4 space-y-2">
+            <p class="font-semibold text-slate-300">Modul Penguatan Matematika Interaktif SMA - Master SPLTV & Pemodelan</p>
+            <p class="text-slate-500">Didesain untuk Pemahaman Terstruktur, Analisis Solusi, dan Pembelajaran Mandiri Terbimbing.</p>
+        </div>
+    </footer>
+
+    <!-- Interactive JavaScript Logic -->
+    <script>
+        let warmupAnswers = {};
+        let warmupScore = 0;
+
+        // Warm-up Checker
+        function checkWarmup(num, choice, isCorrect) {
+            const btns = document.querySelectorAll(`.wu-btn-${num}`);
+            btns.forEach(btn => btn.disabled = true);
+
+            const feedback = document.getElementById(`wu-feedback-${num}`);
+            const status = document.getElementById(`wu-status-${num}`);
+            feedback.classList.remove('hidden');
+
+            if (isCorrect) {
+                feedback.className = "text-xs p-2.5 rounded-lg bg-emerald-50 text-emerald-800 border border-emerald-200 font-medium mt-2";
+                feedback.innerHTML = "<i class='fa-solid fa-circle-check text-emerald-600 mr-1'></i> <strong>Tepat Sekali!</strong> Pemahaman dasar Anda sudah sangat baik.";
+                status.textContent = "Benar";
+                status.className = "text-xs text-emerald-600 font-bold";
+                warmupAnswers[num] = true;
+            } else {
+                feedback.className = "text-xs p-2.5 rounded-lg bg-rose-50 text-rose-800 border border-rose-200 font-medium mt-2";
+                feedback.innerHTML = "<i class='fa-solid fa-circle-xmark text-rose-600 mr-1'></i> <strong>Kurang Tepat.</strong> Perhatikan kembali sifat-sifat aljabar dan determinannya.";
+                status.textContent = "Salah";
+                status.className = "text-xs text-rose-600 font-bold";
+                warmupAnswers[num] = false;
+            }
+
+            updateWarmupScore();
+        }
+
+        function updateWarmupScore() {
+            let correct = 0;
+            Object.keys(warmupAnswers).forEach(k => {
+                if (warmupAnswers[k] === true) correct++;
+            });
+            warmupScore = correct;
+            document.getElementById('warmup-score-badge').textContent = `${warmupScore} / 8`;
+        }
+
+        // Toggle Hint Accordion
+        function toggleHint(id) {
+            const el = document.getElementById(id);
+            if (el.classList.contains('hidden')) {
+                el.classList.remove('hidden');
+            } else {
+                el.classList.add('hidden');
+            }
+        }
+
+        // Check Guided Practice Questions
+        function checkGuided(num, choice, isCorrect) {
+            const btns = document.querySelectorAll(`.guided-btn-${num}`);
+            btns.forEach(btn => btn.disabled = true);
+
+            const feedback = document.getElementById(`guided-feedback-${num}`);
+            feedback.classList.remove('hidden');
+
+            if (num === 1) {
+                if (isCorrect) {
+                    feedback.className = "text-xs p-3 rounded-xl bg-emerald-50 text-emerald-800 border border-emerald-200 font-medium mt-3";
+                    feedback.innerHTML = `
+                        <p class="font-bold mb-1"><i class="fa-solid fa-circle-check text-emerald-600 mr-1"></i> Jawaban Anda Benar! (B. 23)</p>
+                        <p class="text-slate-700">Pembahasan ringkas: Dari penyelesaian SPLTV didapatkan nilai \(x = 2, y = 3, z = 4\). Maka \(x + 2y + 3z = 2 + 2(3) + 3(4) = 2 + 6 + 12 = 23\).</p>
+                    `;
+                } else {
+                    feedback.className = "text-xs p-3 rounded-xl bg-rose-50 text-rose-800 border border-rose-200 font-medium mt-3";
+                    feedback.innerHTML = `
+                        <p class="font-bold mb-1"><i class="fa-solid fa-circle-xmark text-rose-600 mr-1"></i> Jawaban Kurang Tepat.</p>
+                        <p class="text-slate-700">Nilai yang benar adalah B. 23. Hasil eliminasi menghasilkan \(x = 2, y = 3, z = 4\).</p>
+                    `;
+                }
+            } else if (num === 2) {
+                if (isCorrect) {
+                    feedback.className = "text-xs p-3 rounded-xl bg-emerald-50 text-emerald-800 border border-emerald-200 font-medium mt-3";
+                    feedback.innerHTML = `
+                        <p class="font-bold mb-1"><i class="fa-solid fa-circle-check text-emerald-600 mr-1"></i> Jawaban Anda Benar! (A. Rp4.000,00)</p>
+                        <p class="text-slate-700">Pembahasan ringkas: Dengan metode campuran diperoleh harga 1 buku \(x = 4\) (Rp4.000,00), 1 pensil \(y = 3\) (Rp3.000,00), dan 1 penghapus \(z = 2\) (Rp2.000,00).</p>
+                    `;
+                } else {
+                    feedback.className = "text-xs p-3 rounded-xl bg-rose-50 text-rose-800 border border-rose-200 font-medium mt-3";
+                    feedback.innerHTML = `
+                        <p class="font-bold mb-1"><i class="fa-solid fa-circle-xmark text-rose-600 mr-1"></i> Jawaban Kurang Tepat.</p>
+                        <p class="text-slate-700">Jawaban yang benar adalah A. Rp4.000,00. Periksa kembali perkalian koefisien saat mengeliminasi variabel \(z\).</p>
+                    `;
+                }
+            }
+
+            if (window.MathJax) {
+                MathJax.typesetPromise();
+            }
+        }
+    </script>
+</body>
+</html>
