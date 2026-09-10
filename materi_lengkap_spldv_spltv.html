@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Materi Lengkap SPLDV & SPLTV - Metode Substitusi, Eliminasi, dan Campuran</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- MathJax for rendering LaTeX -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            options: {
+                ignoreHtmlClass: 'tex2jax_ignore',
+                processHtmlClass: 'tex2jax_process'
+            }
+        };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" id="MathJax-script" async></script>
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['Fira Code', 'monospace'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            500: '#0284c7',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .mjx-chtml { font-size: 105% !important; }
+        .solution-step {
+            border-left: 3px solid #0284c7;
+            padding-left: 1rem;
+            margin-bottom: 0.75rem;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col">
+
+    <!-- Header / Navbar -->
+    <header class="sticky top-0 z-50 bg-slate-900 text-white shadow-md border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="bg-sky-500 p-2 rounded-lg text-slate-900 font-bold">
+                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="font-bold text-lg sm:text-xl text-white tracking-tight">Modul SPLDV & SPLTV</h1>
+                    <p class="text-xs text-sky-400 font-medium">Metode Substitusi, Eliminasi & Campuran</p>
+                </div>
+            </div>
+            
+            <!-- Quick Navigation Links -->
+            <nav class="hidden md:flex items-center space-x-1 text-sm font-medium">
+                <a href="#spldv" class="px-3 py-2 rounded-md hover:bg-slate-800 text-slate-300 hover:text-white transition">SPLDV</a>
+                <a href="#spltv" class="px-3 py-2 rounded-md hover:bg-slate-800 text-slate-300 hover:text-white transition">SPLTV</a>
+                <a href="#kalkulator" class="px-3 py-2 rounded-md bg-sky-600 hover:bg-sky-500 text-white font-semibold shadow transition">Kalkulator Solver</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10">
+
+        <!-- Hero Intro Banner -->
+        <section class="bg-gradient-to-r from-slate-900 via-sky-950 to-slate-900 rounded-2xl p-6 sm:p-8 text-white shadow-xl relative overflow-hidden border border-slate-800">
+            <div class="relative z-10 max-w-3xl">
+                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-sky-500/20 text-sky-300 border border-sky-500/30 mb-3">
+                    Materi & Ringkasan Praktis
+                </span>
+                <h2 class="text-2xl sm:text-4xl font-extrabold tracking-tight mb-3">
+                    Sistem Persamaan Linear 2 & 3 Variabel
+                </h2>
+                <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+                    Panduan ringkas, padat, dan sistematis penyelesaian SPLDV dan SPLTV dengan 3 metode utama: <span class="text-sky-300 font-semibold">Substitusi</span>, <span class="text-sky-300 font-semibold">Eliminasi</span>, dan <span class="text-sky-300 font-semibold">Campuran</span>.
+                </p>
+            </div>
+        </section>
+
+        <!-- Filter Bar -->
+        <section class="sticky top-20 z-40 bg-white/90 backdrop-blur-md p-3 sm:p-4 rounded-xl border border-slate-200 shadow-sm flex flex-wrap gap-2 items-center justify-between">
+            <div class="flex flex-wrap gap-2 items-center">
+                <span class="text-xs font-bold uppercase tracking-wider text-slate-400 mr-2">Filter Topik:</span>
+                <button onclick="filterTopic('all')" id="btn-all" class="filter-btn px-4 py-1.5 rounded-lg text-xs font-semibold bg-sky-600 text-white shadow-sm transition">Semua</button>
+                <button onclick="filterTopic('spldv')" id="btn-spldv" class="filter-btn px-4 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700 transition">SPLDV</button>
+                <button onclick="filterTopic('spltv')" id="btn-spltv" class="filter-btn px-4 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700 transition">SPLTV</button>
+            </div>
+            <div class="flex flex-wrap gap-2 items-center">
+                <span class="text-xs font-bold uppercase tracking-wider text-slate-400 mr-2">Metode:</span>
+                <button onclick="filterMethod('all')" id="mbtn-all" class="method-btn px-3 py-1.5 rounded-md text-xs font-medium bg-slate-800 text-white transition">Semua Metode</button>
+                <button onclick="filterMethod('substitusi')" id="mbtn-substitusi" class="method-btn px-3 py-1.5 rounded-md text-xs font-medium bg-slate-100 hover:bg-slate-200 text-slate-700 transition">Substitusi</button>
+                <button onclick="filterMethod('eliminasi')" id="mbtn-eliminasi" class="method-btn px-3 py-1.5 rounded-md text-xs font-medium bg-slate-100 hover:bg-slate-200 text-slate-700 transition">Eliminasi</button>
+                <button onclick="filterMethod('campuran')" id="mbtn-campuran" class="method-btn px-3 py-1.5 rounded-md text-xs font-medium bg-slate-100 hover:bg-slate-200 text-slate-700 transition">Campuran</button>
+            </div>
+        </section>
+
+        <!-- ==================== SECTION 1: SPLDV ==================== -->
+        <section id="spldv" class="topic-section space-y-6">
+            <div class="border-b border-slate-200 pb-3 flex items-center justify-between">
+                <div>
+                    <h2 class="text-2xl font-extrabold text-slate-900 tracking-tight flex items-center gap-2">
+                        <span class="bg-sky-100 text-sky-800 text-sm font-bold px-3 py-1 rounded-md">BAGIAN 1</span>
+                        Sistem Persamaan Linear Dua Variabel (SPLDV)
+                    </h2>
+                </div>
+            </div>
+
+            <!-- Bentuk Umum SPLDV -->
+            <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
+                <h3 class="text-sm font-bold uppercase text-slate-500 tracking-wider mb-2">Bentuk Umum SPLDV</h3>
+                <div class="bg-slate-50 p-4 rounded-lg border border-slate-200 text-center text-lg font-semibold text-slate-800">
+                    $$ax + by = c$$
+                    $$dx + ey = f$$
+                </div>
+            </div>
+
+            <!-- SPLDV: A. METODE SUBSTITUSI -->
+            <div class="method-card card-substitusi bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+                <div class="bg-amber-500/10 border-b border-amber-500/20 px-6 py-4 flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                        <span class="px-2.5 py-1 bg-amber-500 text-white text-xs font-bold rounded">1.A</span>
+                        <h3 class="font-bold text-slate-900 text-lg">Metode Substitusi (SPLDV)</h3>
+                    </div>
+                    <span class="text-xs bg-amber-100 text-amber-800 font-semibold px-2.5 py-1 rounded-full">Mengisolasi & Memasukkan Variable</span>
+                </div>
+                <div class="p-6 space-y-8">
+                    <p class="text-sm text-slate-600">
+                        <strong>Prinsip:</strong> Mengisolasi salah satu variabel dari satu persamaan, lalu memasukkannya ke persamaan lainnya.
+                    </p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Contoh 1 -->
+                        <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 space-y-3">
+                            <div class="flex justify-between items-center border-b border-slate-200 pb-2">
+                                <span class="font-bold text-slate-800 text-sm">Contoh 1</span>
+                                <span class="text-xs bg-slate-200 text-slate-700 font-mono px-2 py-0.5 rounded">SPLDV Substitusi</span>
+                            </div>
+                            <p class="text-xs font-semibold text-slate-500">Soal:</p>
+                            <div class="bg-white p-3 rounded border border-slate-200 font-mono text-sm">
+                                1) $2x + y = 7$<br>
+                                2) $x - 3y = -7$
+                            </div>
+                            <p class="text-xs font-semibold text-slate-500">Langkah Penyelesaian:</p>
+                            <div class="space-y-2 text-xs sm:text-sm text-slate-700">
+                                <div class="solution-step">
+                                    <strong>1. Isolasi $y$</strong> pada (1):<br>
+                                    $y = 7 - 2x$
+                                </div>
+                                <div class="solution-step">
+                                    <strong>2. Substitusi $y$</strong> ke (2):<br>
+                                    $x - 3(7 - 2x) = -7$<br>
+                                    $x - 21 + 6x = -7$<br>
+                                    $7x = 14 \implies \mathbf{x = 2}$
+                                </div>
+                                <div class="solution-step">
+                                    <strong>3. Substitusi $x = 2$</strong> ke $y = 7 - 2x$:<br>
+                                    $y = 7 - 2(2) = 3 \implies \mathbf{y = 3}$
+                                </div>
+                            </div>
+                            <div class="bg-sky-50 border border-sky-200 text-sky-900 font-bold p-3 rounded-lg text-center text-sm">
+                                Himpunan Penyelesaian (HP): $\{(2, 3)\}$
+                            </div>
+                        </div>
+
+                        <!-- Contoh 2 -->
+                        <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 space-y-3">
+                            <div class="flex justify-between items-center border-b border-slate-200 pb-2">
+                                <span class="font-bold text-slate-800 text-sm">Contoh 2</span>
+                                <span class="text-xs bg-slate-200 text-slate-700 font-mono px-2 py-0.5 rounded">SPLDV Substitusi</span>
+                            </div>
+                            <p class="text-xs font-semibold text-slate-500">Soal:</p>
+                            <div class="bg-white p-3 rounded border border-slate-200 font-mono text-sm">
+                                1) $3x + 2y = 12$<br>
+                                2) $2x + y = 7$
+                            </div>
+                            <p class="text-xs font-semibold text-slate-500">Langkah Penyelesaian:</p>
+                            <div class="space-y-2 text-xs sm:text-sm text-slate-700">
+                                <div class="solution-step">
+                                    <strong>1. Isolasi $y$</strong> pada (2):<br>
+                                    $y = 7 - 2x$
+                                </div>
+                                <div class="solution-step">
+                                    <strong>2. Substitusi $y$</strong> ke (1):<br>
+                                    $3x + 2(7 - 2x) = 12$<br>
+                                    $3x + 14 - 4x = 12$<br>
+                                    $-x = -2 \implies \mathbf{x = 2}$
+                                </div>
+                                <div class="solution-step">
+                                    <strong>3. Substitusi $x = 2$</strong> ke $y = 7 - 2x$:<br>
+                                    $y = 7 - 2(2) = 3 \implies \mathbf{y = 3}$
+                                </div>
+                            </div>
+                            <div class="bg-sky-50 border border-sky-200 text-sky-900 font-bold p-3 rounded-lg text-center text-sm">
+                                Himpunan Penyelesaian (HP): $\{(2, 3)\}$
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SPLDV: B. METODE ELIMINASI -->
+            <div class="method-card card-eliminasi bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+                <div class="bg-emerald-500/10 border-b border-emerald-500/20 px-6 py-4 flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                        <span class="px-2.5 py-1 bg-emerald-600 text-white text-xs font-bold rounded">1.B</span>
+                        <h3 class="font-bold text-slate-900 text-lg">Metode Eliminasi (SPLDV)</h3>
+                    </div>
+                    <span class="text-xs bg-emerald-100 text-emerald-800 font-semibold px-2.5 py-1 rounded-full">Menghilangkan Variabel</span>
+                </div>
+                <div class="p-6 space-y-8">
+                    <p class="text-sm text-slate-600">
+                        <strong>Prinsip:</strong> Menghilangkan salah satu variabel dengan menyamakan koefisiennya melalui perkalian, lalu mengurangkan atau menjumlahkan kedua persamaan.
+                    </p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Contoh 1 -->
+                        <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 space-y-3">
+                            <div class="flex justify-between items-center border-b border-slate-200 pb-2">
+                                <span class="font-bold text-slate-800 text-sm">Contoh 1</span>
+                                <span class="text-xs bg-slate-200 text-slate-700 font-mono px-2 py-0.5 rounded">SPLDV Eliminasi</span>
+                            </div>
+                            <p class="text-xs font-semibold text-slate-500">Soal:</p>
+                            <div class="bg-white p-3 rounded border border-slate-200 font-mono text-sm">
+                                1) $2x + 3y = 12$<br>
+                                2) $x - y = 1$
+                            </div>
+                            <p class="text-xs font-semibold text-slate-500">Langkah Penyelesaian:</p>
+                            <div class="space-y-2 text-xs sm:text-sm text-slate-700">
+                                <div class="solution-step">
+                                    <strong>1. Eliminasi $y$ untuk cari $x$:</strong><br>
+                                    $\begin{aligned}
+                                    2x + 3y &= 12 & (\times 1) \implies 2x + 3y = 12 \\
+                                    x - y &= 1 & (\times 3) \implies 3x - 3y = 3
+                                    \end{aligned}$<br>
+                                    (Dijumlahkan) $\implies 5x = 15 \implies \mathbf{x = 3}$
+                                </div>
+                                <div class="solution-step">
+                                    <strong>2. Eliminasi $x$ untuk cari $y$:</strong><br>
+                                    $\begin{aligned}
+                                    2x + 3y &= 12 & (\times 1) \implies 2x + 3y = 12 \\
+                                    x - y &= 1 & (\times 2) \implies 2x - 2y = 2
+                                    \end{aligned}$<br>
+                                    (Dikurangkan) $\implies 5y = 10 \implies \mathbf{y = 2}$
+                                </div>
+                            </div>
+                            <div class="bg-sky-50 border border-sky-200 text-sky-900 font-bold p-3 rounded-lg text-center text-sm">
+                                Himpunan Penyelesaian (HP): $\{(3, 2)\}$
+                            </div>
+                        </div>
+
+                        <!-- Contoh 2 -->
+                        <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 space-y-3">
+                            <div class="flex justify-between items-center border-b border-slate-200 pb-2">
+                                <span class="font-bold text-slate-800 text-sm">Contoh 2</span>
+                                <span class="text-xs bg-slate-200 text-slate-700 font-mono px-2 py-0.5 rounded">SPLDV Eliminasi</span>
+                            </div>
+                            <p class="text-xs font-semibold text-slate-500">Soal:</p>
+                            <div class="bg-white p-3 rounded border border-slate-200 font-mono text-sm">
+                                1) $3x + 4y = 11$<br>
+                                2) $2x - 5y = -8$
+                            </div>
+                            <p class="text-xs font-semibold text-slate-500">Langkah Penyelesaian:</p>
+                            <div class="space-y-2 text-xs sm:text-sm text-slate-700">
+                                <div class="solution-step">
+                                    <strong>1. Eliminasi $x$ untuk cari $y$:</strong><br>
+                                    $\begin{aligned}
+                                    3x + 4y &= 11 & (\times 2) \implies 6x + 8y = 22 \\
+                                    2x - 5y &= -8 & (\times 3) \implies 6x - 15y = -24
+                                    \end{aligned}$<br>
+                                    (Dikurangkan) $\implies 23y = 46 \implies \mathbf{y = 2}$
+                                </div>
+                                <div class="solution-step">
+                                    <strong>2. Eliminasi $y$ untuk cari $x$:</strong><br>
+                                    $\begin{aligned}
+                                    3x + 4y &= 11 & (\times 5) \implies 15x + 20y = 55 \\
+                                    2x - 5y &= -8 & (\times 4) \implies 8x - 20y = -32
+                                    \end{aligned}$<br>
+                                    (Dijumlahkan) $\implies 23x = 23 \implies \mathbf{x = 1}$
+                                </div>
+                            </div>
+                            <div class="bg-sky-50 border border-sky-200 text-sky-900 font-bold p-3 rounded-lg text-center text-sm">
+                                Himpunan Penyelesaian (HP): $\{(1, 2)\}$
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SPLDV: C. METODE CAMPURAN -->
+            <div class="method-card card-campuran bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+                <div class="bg-indigo-500/10 border-b border-indigo-500/20 px-6 py-4 flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                        <span class="px-2.5 py-1 bg-indigo-600 text-white text-xs font-bold rounded">1.C</span>
+                        <h3 class="font-bold text-slate-900 text-lg">Metode Campuran / Gabungan (SPLDV)</h3>
+                    </div>
+                    <span class="text-xs bg-indigo-100 text-indigo-800 font-semibold px-2.5 py-1 rounded-full">Eliminasi Dulu, Lalu Substitusi</span>
+                </div>
+                <div class="p-6 space-y-8">
+                    <p class="text-sm text-slate-600">
+                        <strong>Prinsip:</strong> Menggunakan <em>Eliminasi</em> untuk menemukan satu variabel, lalu memasukinya dengan <em>Substitusi</em> ke persamaan awal untuk mendapatkan variabel kedua (Metode ter-efisien).
+                    </p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Contoh 1 -->
+                        <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 space-y-3">
+                            <div class="flex justify-between items-center border-b border-slate-200 pb-2">
+                                <span class="font-bold text-slate-800 text-sm">Contoh 1</span>
+                                <span class="text-xs bg-slate-200 text-slate-700 font-mono px-2 py-0.5 rounded">SPLDV Campuran</span>
+                            </div>
+                            <p class="text-xs font-semibold text-slate-500">Soal:</p>
+                            <div class="bg-white p-3 rounded border border-slate-200 font-mono text-sm">
+                                1) $3x + 2y = 13$<br>
+                                2) $2x - y = 4$
+                            </div>
+                            <p class="text-xs font-semibold text-slate-500">Langkah Penyelesaian:</p>
+                            <div class="space-y-2 text-xs sm:text-sm text-slate-700">
+                                <div class="solution-step">
+                                    <strong>1. Eliminasi $y$:</strong><br>
+                                    $\begin{aligned}
+                                    3x + 2y &= 13 & (\times 1) \implies 3x + 2y = 13 \\
+                                    2x - y &= 4 & (\times 2) \implies 4x - 2y = 8
+                                    \end{aligned}$<br>
+                                    (Dijumlahkan) $\implies 7x = 21 \implies \mathbf{x = 3}$
+                                </div>
+                                <div class="solution-step">
+                                    <strong>2. Substitusi $x = 3$</strong> ke persamaan (2):<br>
+                                    $2(3) - y = 4$<br>
+                                    $6 - y = 4 \implies \mathbf{y = 2}$
+                                </div>
+                            </div>
+                            <div class="bg-sky-50 border border-sky-200 text-sky-900 font-bold p-3 rounded-lg text-center text-sm">
+                                Himpunan Penyelesaian (HP): $\{(3, 2)\}$
+                            </div>
+                        </div>
+
+                        <!-- Contoh 2 -->
+                        <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 space-y-3">
+                            <div class="flex justify-between items-center border-b border-slate-200 pb-2">
+                                <span class="font-bold text-slate-800 text-sm">Contoh 2</span>
+                                <span class="text-xs bg-slate-200 text-slate-700 font-mono px-2 py-0.5 rounded">SPLDV Campuran</span>
+                            </div>
+                            <p class="text-xs font-semibold text-slate-500">Soal:</p>
+                            <div class="bg-white p-3 rounded border border-slate-200 font-mono text-sm">
+                                1) $4x - 3y = 1$<br>
+                                2) $2x + 5y = 20$
+                            </div>
+                            <p class="text-xs font-semibold text-slate-500">Langkah Penyelesaian:</p>
+                            <div class="space-y-2 text-xs sm:text-sm text-slate-700">
+                                <div class="solution-step">
+                                    <strong>1. Eliminasi $x$:</strong><br>
+                                    $\begin{aligned}
+                                    4x - 3y &= 1 & (\times 1) \implies 4x - 3y = 1 \\
+                                    2x + 5y &= 20 & (\times 2) \implies 4x + 10y = 40
+                                    \end{aligned}$<br>
+                                    (Dikurangkan) $\implies -13y = -39 \implies \mathbf{y = 3}$
+                                </div>
+                                <div class="solution-step">
+                                    <strong>2. Substitusi $y = 3$</strong> ke persamaan (2):<br>
+                                    $2x + 5(3) = 20$<br>
+                                    $2x + 15 = 20 \implies 2x = 5 \implies \mathbf{x = 2,5}$
+                                </div>
+                            </div>
+                            <div class="bg-sky-50 border border-sky-200 text-sky-900 font-bold p-3 rounded-lg text-center text-sm">
+                                Himpunan Penyelesaian (HP): $\{(2,5;\; 3)\}$
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== SECTION 2: SPLTV ==================== -->
+        <section id="spltv" class="topic-section space-y-6 pt-6">
+            <div class="border-b border-slate-200 pb-3 flex items-center justify-between">
+                <div>
+                    <h2 class="text-2xl font-extrabold text-slate-900 tracking-tight flex items-center gap-2">
+                        <span class="bg-purple-100 text-purple-800 text-sm font-bold px-3 py-1 rounded-md">BAGIAN 2</span>
+                        Sistem Persamaan Linear Tiga Variabel (SPLTV)
+                    </h2>
+                </div>
+            </div>
+
+            <!-- Bentuk Umum SPLTV -->
+            <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
+                <h3 class="text-sm font-bold uppercase text-slate-500 tracking-wider mb-2">Bentuk Umum SPLTV</h3>
+                <div class="bg-slate-50 p-4 rounded-lg border border-slate-200 text-center text-lg font-semibold text-slate-800">
+                    $$a_1x + b_1y + c_1z = d_1$$
+                    $$a_2x + b_2y + c_2z = d_2$$
+                    $$a_3x + b_3y + c_3z = d_3$$
+                </div>
+            </div>
+
+            <!-- SPLTV: A. METODE SUBSTITUSI -->
+            <div class="method-card card-substitusi bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+                <div class="bg-amber-500/10 border-b border-amber-500/20 px-6 py-4 flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                        <span class="px-2.5 py-1 bg-amber-500 text-white text-xs font-bold rounded">2.A</span>
+                        <h3 class="font-bold text-slate-900 text-lg">Metode Substitusi (SPLTV)</h3>
+                    </div>
+                    <span class="text-xs bg-amber-100 text-amber-800 font-semibold px-2.5 py-1 rounded-full">Substitusi Berantai</span>
+                </div>
+                <div class="p-6 space-y-8">
+                    <p class="text-sm text-slate-600">
+                        <strong>Prinsip:</strong> Mengisolasi satu variabel dari salah satu persamaan, lalu disubstitusikan ke dua persamaan lainnya hingga terbentuk SPLDV.
+                    </p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Contoh 1 -->
+                        <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 space-y-3">
+                            <div class="flex justify-between items-center border-b border-slate-200 pb-2">
+                                <span class="font-bold text-slate-800 text-sm">Contoh 1</span>
+                                <span class="text-xs bg-slate-200 text-slate-700 font-mono px-2 py-0.5 rounded">SPLTV Substitusi</span>
+                            </div>
+                            <p class="text-xs font-semibold text-slate-500">Soal:</p>
+                            <div class="bg-white p-3 rounded border border-slate-200 font-mono text-sm">
+                                1) $x + y + z = 6$<br>
+                                2) $x + 2y - z = 2$<br>
+                                3) $2x - y + z = 3$
+                            </div>
+                            <p class="text-xs font-semibold text-slate-500">Langkah Penyelesaian:</p>
+                            <div class="space-y-2 text-xs sm:text-sm text-slate-700">
+                                <div class="solution-step">
+                                    <strong>1. Isolasi $x$ dari (1):</strong><br>
+                                    $x = 6 - y - z$
+                                </div>
+                                <div class="solution-step">
+                                    <strong>2. Substitusi $x$ ke (2) & (3):</strong><br>
+                                    • Ke (2): $(6-y-z)+2y-z=2 \implies y - 2z = -4 \quad \text{--- (4)}$<br>
+                                    • Ke (3): $2(6-y-z)-y+z=3 \implies 3y + z = 9 \quad \text{--- (5)}$
+                                </div>
+                                <div class="solution-step">
+                                    <strong>3. Selesaikan SPLDV (4) & (5):</strong><br>
+                                    Dari (5): $z = 9 - 3y$<br>
+                                    Substitusi ke (4): $y - 2(9 - 3y) = -4 \implies 7y = 14 \implies \mathbf{y = 2}$
+                                </div>
+                                <div class="solution-step">
+                                    <strong>4. Cari nilai $z$ dan $x$:</strong><br>
+                                    • $z = 9 - 3(2) \implies \mathbf{z = 3}$<br>
+                                    • $x = 6 - 2 - 3 \implies \mathbf{x = 1}$
+                                </div>
+                            </div>
+                            <div class="bg-sky-50 border border-sky-200 text-sky-900 font-bold p-3 rounded-lg text-center text-sm">
+                                Himpunan Penyelesaian (HP): $\{(1, 2, 3)\}$
+                            </div>
+                        </div>
+
+                        <!-- Contoh 2 -->
+                        <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 space-y-3">
+                            <div class="flex justify-between items-center border-b border-slate-200 pb-2">
+                                <span class="font-bold text-slate-800 text-sm">Contoh 2</span>
+                                <span class="text-xs bg-slate-200 text-slate-700 font-mono px-2 py-0.5 rounded">SPLTV Substitusi</span>
+                            </div>
+                            <p class="text-xs font-semibold text-slate-500">Soal:</p>
+                            <div class="bg-white p-3 rounded border border-slate-200 font-mono text-sm">
+                                1) $x - y + z = 2$<br>
+                                2) $2x + y + z = 7$<br>
+                                3) $x + y - z = 0$
+                            </div>
+                            <p class="text-xs font-semibold text-slate-500">Langkah Penyelesaian:</p>
+                            <div class="space-y-2 text-xs sm:text-sm text-slate-700">
+                                <div class="solution-step">
+                                    <strong>1. Isolasi $z$ dari (3):</strong><br>
+                                    $z = x + y$
+                                </div>
+                                <div class="solution-step">
+                                    <strong>2. Substitusi $z$ ke (1):</strong><br>
+                                    $x - y + (x + y) = 2 \implies 2x = 2 \implies \mathbf{x = 1}$
+                                </div>
+                                <div class="solution-step">
+                                    <strong>3. Substitusi $x = 1$ & $z = 1 + y$ ke (2):</strong><br>
+                                    $2(1) + y + (1 + y) = 7 \implies 3 + 2y = 7 \implies \mathbf{y = 2}$
+                                </div>
+                                <div class="solution-step">
+                                    <strong>4. Hitung $z$:</strong><br>
+                                    $z = 1 + 2 \implies \mathbf{z = 3}$
+                                </div>
+                            </div>
+                            <div class="bg-sky-50 border border-sky-200 text-sky-900 font-bold p-3 rounded-lg text-center text-sm">
+                                Himpunan Penyelesaian (HP): $\{(1, 2, 3)\}$
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SPLTV: B. METODE ELIMINASI MURNI -->
+            <div class="method-card card-eliminasi bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+                <div class="bg-emerald-500/10 border-b border-emerald-500/20 px-6 py-4 flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                        <span class="px-2.5 py-1 bg-emerald-600 text-white text-xs font-bold rounded">2.B</span>
+                        <h3 class="font-bold text-slate-900 text-lg">Metode Eliminasi Murni (SPLTV)</h3>
+                    </div>
+                    <span class="text-xs bg-emerald-100 text-emerald-800 font-semibold px-2.5 py-1 rounded-full">Eliminasi Bertahap</span>
+                </div>
+                <div class="p-6 space-y-8">
+                    <p class="text-sm text-slate-600">
+                        <strong>Prinsip:</strong> Mengeliminasi satu variabel yang sama dari dua pasang persamaan untuk mendapatkan persamaan SPLDV, kemudian dieliminasi kembali.
+                    </p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Contoh 1 -->
+                        <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 space-y-3">
+                            <div class="flex justify-between items-center border-b border-slate-200 pb-2">
+                                <span class="font-bold text-slate-800 text-sm">Contoh 1</span>
+                                <span class="text-xs bg-slate-200 text-slate-700 font-mono px-2 py-0.5 rounded">SPLTV Eliminasi</span>
+                            </div>
+                            <p class="text-xs font-semibold text-slate-500">Soal:</p>
+                            <div class="bg-white p-3 rounded border border-slate-200 font-mono text-sm">
+                                1) $x + y + z = 6$<br>
+                                2) $2x - y + z = 3$<br>
+                                3) $x + 2y + 2z = 11$
+                            </div>
+                            <p class="text-xs font-semibold text-slate-500">Langkah Penyelesaian:</p>
+                            <div class="space-y-2 text-xs sm:text-sm text-slate-700">
+                                <div class="solution-step">
+                                    <strong>1. Eliminasi $y$ dari (1) & (2):</strong><br>
+                                    (Dijumlahkan) $\implies 3x + 2z = 9 \quad \text{--- (4)}$
+                                </div>
+                                <div class="solution-step">
+                                    <strong>2. Eliminasi $y$ dari (1) & (3):</strong><br>
+                                    $\begin{aligned}
+                                    2x + 2y + 2z &= 12 \quad (\times 2) \\
+                                    x + 2y + 2z &= 11 \quad (\times 1)
+                                    \end{aligned}$<br>
+                                    (Dikurangkan) $\implies \mathbf{x = 1}$
+                                </div>
+                                <div class="solution-step">
+                                    <strong>3. Hitung $z$ & $y$:</strong><br>
+                                    • Substitusi $x=1$ ke (4) $\implies 3(1)+2z=9 \implies \mathbf{z = 3}$<br>
+                                    • Hitung $y$ dari (1) $\implies 1 + y + 3 = 6 \implies \mathbf{y = 2}$
+                                </div>
+                            </div>
+                            <div class="bg-sky-50 border border-sky-200 text-sky-900 font-bold p-3 rounded-lg text-center text-sm">
+                                Himpunan Penyelesaian (HP): $\{(1, 2, 3)\}$
+                            </div>
+                        </div>
+
+                        <!-- Contoh 2 -->
+                        <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 space-y-3">
+                            <div class="flex justify-between items-center border-b border-slate-200 pb-2">
+                                <span class="font-bold text-slate-800 text-sm">Contoh 2</span>
+                                <span class="text-xs bg-slate-200 text-slate-700 font-mono px-2 py-0.5 rounded">SPLTV Eliminasi</span>
+                            </div>
+                            <p class="text-xs font-semibold text-slate-500">Soal:</p>
+                            <div class="bg-white p-3 rounded border border-slate-200 font-mono text-sm">
+                                1) $2x + y - z = 2$<br>
+                                2) $x - 2y + z = 3$<br>
+                                3) $3x + y + 2z = 11$
+                            </div>
+                            <p class="text-xs font-semibold text-slate-500">Langkah Penyelesaian:</p>
+                            <div class="space-y-2 text-xs sm:text-sm text-slate-700">
+                                <div class="solution-step">
+                                    <strong>1. Eliminasi $z$ dari (1) & (2):</strong><br>
+                                    (Dijumlahkan) $\implies 3x - y = 5 \quad \text{--- (4)}$
+                                </div>
+                                <div class="solution-step">
+                                    <strong>2. Eliminasi $z$ dari (1) & (3):</strong><br>
+                                    $\begin{aligned}
+                                    4x + 2y - 2z &= 4 \quad (\times 2) \\
+                                    3x + y + 2z &= 11 \quad (\times 1)
+                                    \end{aligned}$<br>
+                                    (Dijumlahkan) $\implies 7x + 3y = 15 \quad \text{--- (5)}$
+                                </div>
+                                <div class="solution-step">
+                                    <strong>3. Eliminasi $y$ dari (4) & (5):</strong><br>
+                                    $9x - 3y = 15 \implies 16x = 32 \implies \mathbf{x = 2}$<br>
+                                    Maka $y = 3(2) - 5 = 1 \implies \mathbf{y = 1}$
+                                </div>
+                                <div class="solution-step">
+                                    <strong>4. Hitung $z$ dari (1):</strong><br>
+                                    $2(2) + 1 - z = 2 \implies \mathbf{z = 3}$
+                                </div>
+                            </div>
+                            <div class="bg-sky-50 border border-sky-200 text-sky-900 font-bold p-3 rounded-lg text-center text-sm">
+                                Himpunan Penyelesaian (HP): $\{(2, 1, 3)\}$
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SPLTV: C. METODE CAMPURAN -->
+            <div class="method-card card-campuran bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+                <div class="bg-indigo-500/10 border-b border-indigo-500/20 px-6 py-4 flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                        <span class="px-2.5 py-1 bg-indigo-600 text-white text-xs font-bold rounded">2.C</span>
+                        <h3 class="font-bold text-slate-900 text-lg">Metode Campuran (SPLTV)</h3>
+                    </div>
+                    <span class="text-xs bg-indigo-100 text-indigo-800 font-semibold px-2.5 py-1 rounded-full">Metode Paling Praktis</span>
+                </div>
+                <div class="p-6 space-y-8">
+                    <p class="text-sm text-slate-600">
+                        <strong>Prinsip:</strong> Eliminasi variabel untuk menyederhanakan menjadi SPLDV hingga mendapat 1 atau 2 variabel, lalu lakukan substitusi untuk variabel sisanya.
+                    </p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Contoh 1 -->
+                        <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 space-y-3">
+                            <div class="flex justify-between items-center border-b border-slate-200 pb-2">
+                                <span class="font-bold text-slate-800 text-sm">Contoh 1</span>
+                                <span class="text-xs bg-slate-200 text-slate-700 font-mono px-2 py-0.5 rounded">SPLTV Campuran</span>
+                            </div>
+                            <p class="text-xs font-semibold text-slate-500">Soal:</p>
+                            <div class="bg-white p-3 rounded border border-slate-200 font-mono text-sm">
+                                1) $x + 2y + z = 8$<br>
+                                2) $2x + y + z = 7$<br>
+                                3) $x - y + 2z = 5$
+                            </div>
+                            <p class="text-xs font-semibold text-slate-500">Langkah Penyelesaian:</p>
+                            <div class="space-y-2 text-xs sm:text-sm text-slate-700">
+                                <div class="solution-step">
+                                    <strong>1. Eliminasi $z$ dari (1)&(2) dan (1)&(3):</strong><br>
+                                    • (1) dikurangi (2) $\implies -x + y = 1 \quad \text{--- (4)}$<br>
+                                    • $2 \times (1)$ dikurangi (3) $\implies x + 5y = 11 \quad \text{--- (5)}$
+                                </div>
+                                <div class="solution-step">
+                                    <strong>2. Eliminasi $x$ dari (4) & (5):</strong><br>
+                                    (Dijumlahkan) $\implies 6y = 12 \implies \mathbf{y = 2}$
+                                </div>
+                                <div class="solution-step">
+                                    <strong>3. Substitusi $y = 2$ ke (4):</strong><br>
+                                    $-x + 2 = 1 \implies \mathbf{x = 1}$
+                                </div>
+                                <div class="solution-step">
+                                    <strong>4. Substitusi $x=1, y=2$ ke (1):</strong><br>
+                                    $1 + 2(2) + z = 8 \implies \mathbf{z = 3}$
+                                </div>
+                            </div>
+                            <div class="bg-sky-50 border border-sky-200 text-sky-900 font-bold p-3 rounded-lg text-center text-sm">
+                                Himpunan Penyelesaian (HP): $\{(1, 2, 3)\}$
+                            </div>
+                        </div>
+
+                        <!-- Contoh 2 -->
+                        <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 space-y-3">
+                            <div class="flex justify-between items-center border-b border-slate-200 pb-2">
+                                <span class="font-bold text-slate-800 text-sm">Contoh 2</span>
+                                <span class="text-xs bg-slate-200 text-slate-700 font-mono px-2 py-0.5 rounded">SPLTV Campuran</span>
+                            </div>
+                            <p class="text-xs font-semibold text-slate-500">Soal:</p>
+                            <div class="bg-white p-3 rounded border border-slate-200 font-mono text-sm">
+                                1) $2x + y + z = 9$<br>
+                                2) $x + 2y - z = 6$<br>
+                                3) $3x - y + 2z = 11$
+                            </div>
+                            <p class="text-xs font-semibold text-slate-500">Langkah Penyelesaian:</p>
+                            <div class="space-y-2 text-xs sm:text-sm text-slate-700">
+                                <div class="solution-step">
+                                    <strong>1. Eliminasi $z$ dari (1)&(2) dan (2)&(3):</strong><br>
+                                    • (1)+(2) $\implies 3x + 3y = 15 \implies x + y = 5 \quad \text{--- (4)}$<br>
+                                    • $2 \times (2) + (3) \implies 5x + 3y = 23 \quad \text{--- (5)}$
+                                </div>
+                                <div class="solution-step">
+                                    <strong>2. Eliminasi $y$ dari $3\times(4)$ & (5):</strong><br>
+                                    $(5) - 3\times(4) \implies 2x = 8 \implies \mathbf{x = 4}$
+                                </div>
+                                <div class="solution-step">
+                                    <strong>3. Substitusi $x = 4$ ke (4):</strong><br>
+                                    $4 + y = 5 \implies \mathbf{y = 1}$
+                                </div>
+                                <div class="solution-step">
+                                    <strong>4. Substitusi $x=4, y=1$ ke (1):</strong><br>
+                                    $2(4) + 1 + z = 9 \implies \mathbf{z = 0}$
+                                </div>
+                            </div>
+                            <div class="bg-sky-50 border border-sky-200 text-sky-900 font-bold p-3 rounded-lg text-center text-sm">
+                                Himpunan Penyelesaian (HP): $\{(4, 1, 0)\}$
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== SECTION 3: KALKULATOR SOLVER ==================== -->
+        <section id="kalkulator" class="bg-slate-900 rounded-2xl p-6 sm:p-8 text-white shadow-xl space-y-6">
+            <div class="flex items-center gap-3">
+                <div class="p-2 bg-sky-500 rounded-lg text-slate-900">
+                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                    </svg>
+                </div>
+                <div>
+                    <h2 class="text-xl sm:text-2xl font-bold">Kalkulator Solver Interaktif (SPLDV)</h2>
+                    <p class="text-xs sm:text-sm text-slate-400">Masukkan koefisien persamaan untuk memeriksa hasil secara langsung</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-slate-800/80 p-5 rounded-xl border border-slate-700">
+                <!-- Persamaan 1 -->
+                <div class="space-y-3">
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-sky-400">Persamaan 1 ($a_1 x + b_1 y = c_1$)</h3>
+                    <div class="grid grid-cols-3 gap-2">
+                        <div>
+                            <label class="text-xs text-slate-400 block mb-1">a1 (x)</label>
+                            <input type="number" id="a1" value="2" class="w-full bg-slate-900 border border-slate-700 rounded p-2 text-white text-center focus:border-sky-500 focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="text-xs text-slate-400 block mb-1">b1 (y)</label>
+                            <input type="number" id="b1" value="3" class="w-full bg-slate-900 border border-slate-700 rounded p-2 text-white text-center focus:border-sky-500 focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="text-xs text-slate-400 block mb-1">c1 (Konstanta)</label>
+                            <input type="number" id="c1" value="12" class="w-full bg-slate-900 border border-slate-700 rounded p-2 text-white text-center focus:border-sky-500 focus:outline-none">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Persamaan 2 -->
+                <div class="space-y-3">
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-sky-400">Persamaan 2 ($a_2 x + b_2 y = c_2$)</h3>
+                    <div class="grid grid-cols-3 gap-2">
+                        <div>
+                            <label class="text-xs text-slate-400 block mb-1">a2 (x)</label>
+                            <input type="number" id="a2" value="1" class="w-full bg-slate-900 border border-slate-700 rounded p-2 text-white text-center focus:border-sky-500 focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="text-xs text-slate-400 block mb-1">b2 (y)</label>
+                            <input type="number" id="b2" value="-1" class="w-full bg-slate-900 border border-slate-700 rounded p-2 text-white text-center focus:border-sky-500 focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="text-xs text-slate-400 block mb-1">c2 (Konstanta)</label>
+                            <input type="number" id="c2" value="1" class="w-full bg-slate-900 border border-slate-700 rounded p-2 text-white text-center focus:border-sky-500 focus:outline-none">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex flex-col sm:flex-row gap-4 items-center justify-between">
+                <button onclick="hitungSPLDV()" class="w-full sm:w-auto px-6 py-2.5 bg-sky-500 hover:bg-sky-400 text-slate-900 font-bold rounded-lg shadow-md transition text-sm">
+                    Hitung Penyelesaian
+                </button>
+
+                <div id="solver-result" class="w-full sm:w-auto bg-slate-800 border border-slate-700 px-6 py-2.5 rounded-lg text-center font-mono text-sm text-sky-300">
+                    Hasil HP: {(3, 2)}
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 border-t border-slate-800 text-slate-500 py-6 text-center text-xs">
+        <p>Modul Belajar Matematika: SPLDV & SPLTV • Metode Substitusi, Eliminasi, dan Campuran</p>
+    </footer>
+
+    <!-- Interactive Script -->
+    <script>
+        // Filter topic functions
+        function filterTopic(topic) {
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('bg-sky-600', 'text-white');
+                btn.classList.add('bg-slate-100', 'text-slate-700');
+            });
+            document.getElementById('btn-' + topic).classList.remove('bg-slate-100', 'text-slate-700');
+            document.getElementById('btn-' + topic).classList.add('bg-sky-600', 'text-white');
+
+            const sections = document.querySelectorAll('.topic-section');
+            sections.forEach(sec => {
+                if (topic === 'all' || sec.id === topic) {
+                    sec.style.display = 'block';
+                } else {
+                    sec.style.display = 'none';
+                }
+            });
+        }
+
+        // Filter method functions
+        function filterMethod(method) {
+            document.querySelectorAll('.method-btn').forEach(btn => {
+                btn.classList.remove('bg-slate-800', 'text-white');
+                btn.classList.add('bg-slate-100', 'text-slate-700');
+            });
+            document.getElementById('mbtn-' + method).classList.remove('bg-slate-100', 'text-slate-700');
+            document.getElementById('mbtn-' + method).classList.add('bg-slate-800', 'text-white');
+
+            const cards = document.querySelectorAll('.method-card');
+            cards.forEach(card => {
+                if (method === 'all' || card.classList.contains('card-' + method)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Interactive SPLDV Solver Logic (Cramer Rule / Determinant method for speed)
+        function hitungSPLDV() {
+            const a1 = parseFloat(document.getElementById('a1').value);
+            const b1 = parseFloat(document.getElementById('b1').value);
+            const c1 = parseFloat(document.getElementById('c1').value);
+
+            const a2 = parseFloat(document.getElementById('a2').value);
+            const b2 = parseFloat(document.getElementById('b2').value);
+            const c2 = parseFloat(document.getElementById('c2').value);
+
+            const resultDiv = document.getElementById('solver-result');
+
+            const D = (a1 * b2) - (b1 * a2);
+            const Dx = (c1 * b2) - (b1 * c2);
+            const Dy = (a1 * c2) - (c1 * a2);
+
+            if (D === 0) {
+                if (Dx === 0 && Dy === 0) {
+                    resultDiv.innerHTML = '<span class="text-amber-400">Penyelesaian tak hingga (Saling berimpit)</span>';
+                } else {
+                    resultDiv.innerHTML = '<span class="text-rose-400">Tidak ada penyelesaian (Saling sejajar)</span>';
+                }
+            } else {
+                const x = Dx / D;
+                const y = Dy / D;
+                
+                // Format decimal max 2 decimal places if needed
+                const xFormatted = Number.isInteger(x) ? x : x.toFixed(2);
+                const yFormatted = Number.isInteger(y) ? y : y.toFixed(2);
+
+                resultDiv.innerHTML = `Hasil HP: {(${xFormatted}, ${yFormatted})}`;
+            }
+        }
+    </script>
+</body>
+</html>
