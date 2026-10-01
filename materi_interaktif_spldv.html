@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Materi Interaktif SPLDV</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+    </script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .tab-btn.active {
+            border-bottom-color: #4f46e5;
+            color: #4f46e5;
+            font-weight: 600;
+        }
+        .math-expr {
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
+
+    <!-- Header Navbar -->
+    <header class="bg-indigo-700 text-white shadow-md sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex flex-col sm:flex-row justify-between items-center gap-3">
+            <div class="flex items-center gap-3">
+                <div class="bg-white text-indigo-700 w-10 h-10 rounded-lg flex items-center justify-center font-black text-xl shadow leading-none select-none">
+                    <span class="text-indigo-700 font-serif font-bold text-lg">{ x, y }</span>
+                </div>
+                <div>
+                    <h1 class="text-xl font-extrabold tracking-tight">Master SPLDV</h1>
+                    <p class="text-xs text-indigo-200">Substitusi, Eliminasi & Campuran</p>
+                </div>
+            </div>
+            <nav class="flex overflow-x-auto w-full sm:w-auto text-sm gap-1 bg-indigo-800/60 p-1 rounded-xl">
+                <button onclick="switchTab('konsep')" id="nav-konsep" class="tab-btn px-3 py-1.5 rounded-lg text-white font-medium hover:bg-indigo-600 transition active bg-indigo-600">
+                    <i class="fa-solid fa-book-open mr-1"></i> Konsep
+                </button>
+                <button onclick="switchTab('panduan')" id="nav-panduan" class="tab-btn px-3 py-1.5 rounded-lg text-indigo-100 font-medium hover:bg-indigo-600 transition">
+                    <i class="fa-solid fa-compass mr-1"></i> Kapan Pakai?
+                </button>
+                <button onclick="switchTab('contoh')" id="nav-contoh" class="tab-btn px-3 py-1.5 rounded-lg text-indigo-100 font-medium hover:bg-indigo-600 transition">
+                    <i class="fa-solid fa-list-check mr-1"></i> Contoh Soal
+                </button>
+                <button onclick="switchTab('solver')" id="nav-solver" class="tab-btn px-3 py-1.5 rounded-lg text-indigo-100 font-medium hover:bg-indigo-600 transition">
+                    <i class="fa-solid fa-calculator mr-1"></i> Solver
+                </button>
+                <button onclick="switchTab('kuis')" id="nav-kuis" class="tab-btn px-3 py-1.5 rounded-lg text-indigo-100 font-medium hover:bg-indigo-600 transition">
+                    <i class="fa-solid fa-gamepad mr-1"></i> Latihan
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 py-6 flex-grow w-full">
+
+        <!-- TAB 1: KONSEP DASAR & METODE -->
+        <section id="tab-konsep" class="space-y-6">
+            <!-- Ringkasan Bentuk Umum & Komponen -->
+            <div class="bg-white p-5 sm:p-6 rounded-2xl shadow-sm border border-slate-200 space-y-5">
+                <div class="flex items-center gap-3">
+                    <span class="p-2 bg-indigo-100 text-indigo-700 rounded-lg"><i class="fa-solid fa-shapes text-xl"></i></span>
+                    <div>
+                        <h2 class="text-xl font-bold text-slate-800">Bentuk Umum & Komponen SPLDV</h2>
+                        <p class="text-xs text-slate-500">Mengenal bentuk umum beserta Koefisien, Variabel, dan Konstanta</p>
+                    </div>
+                </div>
+
+                <!-- Formula display -->
+                <div class="bg-indigo-50/80 border border-indigo-200 rounded-xl p-4 text-center">
+                    <div class="text-lg sm:text-xl font-bold text-indigo-900 math-expr">
+                        \[ \begin{cases} ax + by = c \\ dx + ey = f \end{cases} \]
+                    </div>
+                </div>
+
+                <!-- Penjelasan Komponen (Koefisien, Variabel, Konstanta) -->
+                <div>
+                    <h3 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3"><i class="fa-solid fa-magnifying-glass-chart mr-1"></i> Bedah Komponen Persamaan: <span class="text-indigo-600 font-mono text-sm">2x + 3y = 12</span></h3>
+                    <div class="grid sm:grid-cols-3 gap-3">
+                        <!-- Koefisien -->
+                        <div class="p-3.5 bg-amber-50 border border-amber-200 rounded-xl">
+                            <div class="flex items-center gap-2 mb-1">
+                                <span class="w-2.5 h-2.5 rounded-full bg-amber-500 inline-block"></span>
+                                <strong class="text-xs font-bold text-amber-900 uppercase">1. Koefisien</strong>
+                            </div>
+                            <p class="text-xs text-slate-700">Angka pengali yang berada di depan variabel.</p>
+                            <div class="mt-2 text-xs font-semibold text-amber-800 bg-amber-100/70 p-1.5 rounded text-center">
+                                Pada $2x + 3y = 12$, Koefisiennya adalah <strong class="font-mono text-amber-900">2</strong> dan <strong class="font-mono text-amber-900">3</strong>.
+                            </div>
+                        </div>
+
+                        <!-- Variabel -->
+                        <div class="p-3.5 bg-blue-50 border border-blue-200 rounded-xl">
+                            <div class="flex items-center gap-2 mb-1">
+                                <span class="w-2.5 h-2.5 rounded-full bg-blue-500 inline-block"></span>
+                                <strong class="text-xs font-bold text-blue-900 uppercase">2. Variabel</strong>
+                            </div>
+                            <p class="text-xs text-slate-700">Simbol/huruf yang mewakili nilai yang belum diketahui.</p>
+                            <div class="mt-2 text-xs font-semibold text-blue-800 bg-blue-100/70 p-1.5 rounded text-center">
+                                Pada $2x + 3y = 12$, Variabelnya adalah <strong class="font-mono text-blue-900">x</strong> dan <strong class="font-mono text-blue-900">y</strong>.
+                            </div>
+                        </div>
+
+                        <!-- Konstanta -->
+                        <div class="p-3.5 bg-emerald-50 border border-emerald-200 rounded-xl">
+                            <div class="flex items-center gap-2 mb-1">
+                                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block"></span>
+                                <strong class="text-xs font-bold text-emerald-900 uppercase">3. Konstanta</strong>
+                            </div>
+                            <p class="text-xs text-slate-700">Nilai tetap berupa angka tunggal tanpa variabel.</p>
+                            <div class="mt-2 text-xs font-semibold text-emerald-800 bg-emerald-100/70 p-1.5 rounded text-center">
+                                Pada $2x + 3y = 12$, Konstantanya adalah <strong class="font-mono text-emerald-900">12</strong>.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3 Metode Overview Grid -->
+            <div class="grid md:grid-cols-3 gap-5">
+                <!-- Substitusi -->
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 hover:border-indigo-300 transition flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="px-2.5 py-1 bg-amber-100 text-amber-800 text-xs font-bold rounded-full">Metode 1</span>
+                            <i class="fa-solid fa-right-left text-amber-500 text-xl"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-slate-800 mb-2">Substitusi</h3>
+                        <p class="text-xs text-slate-600 mb-3">Mengganti/menukar satu variabel dengan ungkapan dari variabel lainnya.</p>
+                        <ul class="text-xs space-y-1.5 text-slate-700 mb-4 list-disc pl-4">
+                            <li>Ubah 1 persamaan menjadi $x = ...$ atau $y = ...$</li>
+                            <li>Masukkan (substitusi) ke persamaan kedua.</li>
+                            <li>Selesaikan nilai variabel pertama.</li>
+                            <li>Cari nilai variabel sisanya.</li>
+                        </ul>
+                    </div>
+                    <div class="bg-amber-50 p-2.5 rounded-lg text-xs text-amber-900 border border-amber-200">
+                        <strong>Ciri Utama:</strong> Efektif jika ada variabel berkoefisien $1$ atau $-1$.
+                    </div>
+                </div>
+
+                <!-- Eliminasi -->
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 hover:border-indigo-300 transition flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="px-2.5 py-1 bg-rose-100 text-rose-800 text-xs font-bold rounded-full">Metode 2</span>
+                            <i class="fa-solid fa-eraser text-rose-500 text-xl"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-slate-800 mb-2">Eliminasi</h3>
+                        <p class="text-xs text-slate-600 mb-3">Menghilangkan salah satu variabel dengan menyamakan koefisiennya.</p>
+                        <ul class="text-xs space-y-1.5 text-slate-700 mb-4 list-disc pl-4">
+                            <li>Samakan koefisien variabel sasaran (KPK).</li>
+                            <li><strong>Kurangkan</strong> jika tanda sama, <strong>Jumlahkan</strong> jika tanda beda.</li>
+                            <li>Dapatkan nilai variabel pertama.</li>
+                            <li>Ulangi langkah eliminasi untuk variabel kedua.</li>
+                        </ul>
+                    </div>
+                    <div class="bg-rose-50 p-2.5 rounded-lg text-xs text-rose-900 border border-rose-200">
+                        <strong>Ciri Utama:</strong> Cocok jika koefisien variabel bernilai bulat besar/tanpa koefisien $1$.
+                    </div>
+                </div>
+
+                <!-- Campuran -->
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 hover:border-indigo-300 transition flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="px-2.5 py-1 bg-emerald-100 text-emerald-800 text-xs font-bold rounded-full">Metode 3</span>
+                            <i class="fa-solid fa-bolt text-emerald-500 text-xl"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-slate-800 mb-2">Campuran (Hibrida)</h3>
+                        <p class="text-xs text-slate-600 mb-3">Menggabungkan Eliminasi terlebih dahulu, dilanjutkan Substitusi.</p>
+                        <ul class="text-xs space-y-1.5 text-slate-700 mb-4 list-disc pl-4">
+                            <li>Gunakan <strong>Eliminasi</strong> untuk menemukan 1 variabel.</li>
+                            <li><strong>Substitusikan</strong> nilai variabel yang didapat ke persamaan yang paling sederhana.</li>
+                            <li>Sangat cepat dan minim potensi salah hitung.</li>
+                        </ul>
+                    </div>
+                    <div class="bg-emerald-50 p-2.5 rounded-lg text-xs text-emerald-900 border border-emerald-200">
+                        <strong>Rekomendasi Utama:</strong> Metode tersingkat & paling fleksibel untuk sebagian besar soal!
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 2: PANDUAN PEMILIHAN METODE -->
+        <section id="tab-panduan" class="hidden space-y-6">
+            <div class="bg-white p-5 sm:p-6 rounded-2xl shadow-sm border border-slate-200">
+                <div class="flex items-center gap-3 mb-2">
+                    <span class="p-2 bg-indigo-100 text-indigo-700 rounded-lg"><i class="fa-solid fa-lightbulb text-xl"></i></span>
+                    <h2 class="text-xl font-bold text-slate-800">Kapan Waktu yang Tepat Menggunakan Masing-Masing Metode?</h2>
+                </div>
+                <p class="text-sm text-slate-600">Pilihan metode mempengaruhi kecepatan dan akurasi pengerjaan. Gunakan panduan praktis berikut:</p>
+            </div>
+
+            <!-- Matrix Tabel Perbandingan -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-sm">
+                        <thead class="bg-slate-100 text-slate-700 border-b border-slate-200 font-semibold">
+                            <tr>
+                                <th class="p-4">Kondisi / Ciri-Ciri Soal</th>
+                                <th class="p-4 text-center">Metode Terbaik</th>
+                                <th class="p-4">Alasan Utama</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-200">
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-4 font-medium text-slate-800">
+                                    Salah satu koefisien bernilai <span class="bg-amber-100 text-amber-800 px-2 py-0.5 rounded font-mono">1</span> atau <span class="bg-amber-100 text-amber-800 px-2 py-0.5 rounded font-mono">-1</span><br>
+                                    <span class="text-xs text-slate-500 font-mono">Contoh: x + 3y = 7 &nbsp;atau&nbsp; 2x - y = 4</span>
+                                </td>
+                                <td class="p-4 text-center">
+                                    <span class="px-3 py-1 bg-amber-100 text-amber-800 rounded-full text-xs font-bold">Substitusi</span>
+                                </td>
+                                <td class="p-4 text-xs text-slate-600">Sangat mudah diubah menjadi $x = 7 - 3y$ atau $y = 2x - 4$ tanpa menghasilkan pecahan.</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-4 font-medium text-slate-800">
+                                    Semua koefisien $> 1$ dan tidak ada yang bernilai $1$<br>
+                                    <span class="text-xs text-slate-500 font-mono">Contoh: 3x + 5y = 19 &nbsp;dan&nbsp; 2x + 7y = 20</span>
+                                </td>
+                                <td class="p-4 text-center">
+                                    <span class="px-3 py-1 bg-emerald-100 text-emerald-800 rounded-full text-xs font-bold">Campuran</span>
+                                </td>
+                                <td class="p-4 text-xs text-slate-600">Menghindari bentuk pecahan yang rumit saat isolasi variabel pada metode substitusi.</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-4 font-medium text-slate-800">
+                                    Ada koefisien variabel yang bernilai sama/saling berlawanan<br>
+                                    <span class="text-xs text-slate-500 font-mono">Contoh: 4x + 3y = 10 &nbsp;dan&nbsp; 2x - 3y = 8</span>
+                                </td>
+                                <td class="p-4 text-center">
+                                    <span class="px-3 py-1 bg-rose-100 text-rose-800 rounded-full text-xs font-bold">Eliminasi / Campuran</span>
+                                </td>
+                                <td class="p-4 text-xs text-slate-600">Variabel langsung hilang hanya dalam 1 langkah penjumlahan/pengurangan tanpa perlu mengalikan KPK.</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-4 font-medium text-slate-800">
+                                    Soal Cerita / Kehidupan Nyata<br>
+                                    <span class="text-xs text-slate-500 font-mono">Contoh: Harga 2 buku + 3 pensil = Rp 12.000 ...</span>
+                                </td>
+                                <td class="p-4 text-center">
+                                    <span class="px-3 py-1 bg-indigo-100 text-indigo-800 rounded-full text-xs font-bold">Campuran</span>
+                                </td>
+                                <td class="p-4 text-xs text-slate-600">Sangat efisien, waktu pengerjaan paling cepat, dan tingkat kesalahan paling rendah pada ujian.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Interactive Method Picker Tool -->
+            <div class="bg-indigo-900 text-white p-5 sm:p-6 rounded-2xl shadow-md">
+                <h3 class="text-lg font-bold mb-3 flex items-center gap-2">
+                    <i class="fa-solid fa-wand-magic-sparkles text-amber-300"></i> Asisten Pemilih Metode Otomatis
+                </h3>
+                <p class="text-xs text-indigo-200 mb-4">Pilih karakteristik persamaan yang sedang kamu kerjakan untuk mendapatkan rekomendasi terbaik:</p>
+                
+                <div class="grid sm:grid-cols-2 gap-3 mb-4">
+                    <label class="flex items-center gap-3 p-3 bg-indigo-800/80 rounded-xl cursor-pointer hover:bg-indigo-800 border border-indigo-700">
+                        <input type="radio" name="trait" value="substitusi" class="w-4 h-4 text-indigo-400" onchange="checkRecommendation()">
+                        <span class="text-xs font-medium">Ada variabel dengan koefisien 1 atau -1 (misal $x + ...$ atau $-y + ...$)</span>
+                    </label>
+                    <label class="flex items-center gap-3 p-3 bg-indigo-800/80 rounded-xl cursor-pointer hover:bg-indigo-800 border border-indigo-700">
+                        <input type="radio" name="trait" value="eliminasi_langsung" class="w-4 h-4 text-indigo-400" onchange="checkRecommendation()">
+                        <span class="text-xs font-medium">Ada angka koefisien yang persis sama (misal $3y$ dan $3y$ atau $5x$ dan $-5x$)</span>
+                    </label>
+                    <label class="flex items-center gap-3 p-3 bg-indigo-800/80 rounded-xl cursor-pointer hover:bg-indigo-800 border border-indigo-700">
+                        <input type="radio" name="trait" value="campuran" class="w-4 h-4 text-indigo-400" onchange="checkRecommendation()">
+                        <span class="text-xs font-medium">Semua koefisien berupa angka acak &gt; 1 (misal $2x+5y=11$ &amp; $3x+4y=13$)</span>
+                    </label>
+                    <label class="flex items-center gap-3 p-3 bg-indigo-800/80 rounded-xl cursor-pointer hover:bg-indigo-800 border border-indigo-700">
+                        <input type="radio" name="trait" value="cerita" class="w-4 h-4 text-indigo-400" onchange="checkRecommendation()">
+                        <span class="text-xs font-medium">Soal berbentuk cerita konteks sehari-hari</span>
+                    </label>
+                </div>
+
+                <div id="recommendation-result" class="hidden bg-white text-slate-800 p-4 rounded-xl border border-amber-300">
+                    <!-- Dynamic Result Inserted Here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 3: CONTOH SOAL & PEMBAHASAN -->
+        <section id="tab-contoh" class="hidden space-y-6">
+            <div class="flex justify-between items-center flex-wrap gap-2">
+                <div>
+                    <h2 class="text-xl font-bold text-slate-800">Contoh Soal & Pembahasan Step-by-Step</h2>
+                    <p class="text-xs text-slate-600">Pelajari alur penyelesaian terstruktur untuk tiap metode.</p>
+                </div>
+            </div>
+
+            <!-- Example 1: Substitusi -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                <div class="bg-amber-500 text-white p-4 flex justify-between items-center">
+                    <span class="font-bold text-sm"><i class="fa-solid fa-star mr-1"></i> Contoh 1: Metode Substitusi</span>
+                    <span class="text-xs bg-amber-600 px-2.5 py-1 rounded-full font-medium">Koefisien 1</span>
+                </div>
+                <div class="p-5">
+                    <p class="font-semibold text-sm mb-3">Tentukan himpunan penyelesaian dari SPLDV berikut:</p>
+                    <div class="bg-slate-100 p-3 rounded-lg font-mono text-sm mb-4 border-l-4 border-amber-500">
+                        (1) x + 2y = 8<br>
+                        (2) 2x - y = 1
+                    </div>
+
+                    <button onclick="toggleSolution('sol-1')" class="text-xs bg-amber-100 text-amber-800 hover:bg-amber-200 px-3 py-1.5 rounded-lg font-semibold transition flex items-center gap-1">
+                        <i class="fa-solid fa-eye"></i> Tampilkan / Sembunyikan Pembahasan
+                    </button>
+
+                    <div id="sol-1" class="hidden mt-4 space-y-3 text-xs text-slate-700 bg-amber-50/50 p-4 rounded-xl border border-amber-200">
+                        <p><strong>Langkah 1: Ubah Persamaan (1) ke bentuk x = ...</strong><br>
+                        $x + 2y = 8 \implies \mathbf{x = 8 - 2y}$ &nbsp;&nbsp;(Persamaan 3)</p>
+                        
+                        <p><strong>Langkah 2: Substitusikan (Persamaan 3) ke Persamaan (2)</strong><br>
+                        $2(8 - 2y) - y = 1$<br>
+                        $16 - 4y - y = 1$<br>
+                        $16 - 5y = 1 \implies -5y = 1 - 16 \implies -5y = -15 \implies \mathbf{y = 3}$</p>
+
+                        <p><strong>Langkah 3: Substitusikan y = 3 ke (Persamaan 3) untuk cari x</strong><br>
+                        $x = 8 - 2(3) = 8 - 6 = \mathbf{2}$</p>
+
+                        <div class="bg-amber-200/60 p-2.5 rounded-lg font-bold text-amber-900 mt-2">
+                            Jadi, Himpunan Penyelesaian HP = {(2, 3)}. Nilai x = 2, y = 3.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Example 2: Eliminasi -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                <div class="bg-rose-600 text-white p-4 flex justify-between items-center">
+                    <span class="font-bold text-sm"><i class="fa-solid fa-star mr-1"></i> Contoh 2: Metode Eliminasi</span>
+                    <span class="text-xs bg-rose-700 px-2.5 py-1 rounded-full font-medium">Murni Eliminasi</span>
+                </div>
+                <div class="p-5">
+                    <p class="font-semibold text-sm mb-3">Tentukan nilai $x$ dan $y$ dari SPLDV berikut:</p>
+                    <div class="bg-slate-100 p-3 rounded-lg font-mono text-sm mb-4 border-l-4 border-rose-600">
+                        (1) 3x + 2y = 12<br>
+                        (2) 2x + 3y = 13
+                    </div>
+
+                    <button onclick="toggleSolution('sol-2')" class="text-xs bg-rose-100 text-rose-800 hover:bg-rose-200 px-3 py-1.5 rounded-lg font-semibold transition flex items-center gap-1">
+                        <i class="fa-solid fa-eye"></i> Tampilkan / Sembunyikan Pembahasan
+                    </button>
+
+                    <div id="sol-2" class="hidden mt-4 space-y-3 text-xs text-slate-700 bg-rose-50/50 p-4 rounded-xl border border-rose-200">
+                        <p><strong>Langkah 1: Eliminasi y (Samakan koefisien y menjadi 6)</strong><br>
+                        Pers (1) $\times 3 \implies 9x + 6y = 36$<br>
+                        Pers (2) $\times 2 \implies 4x + 6y = 26$<br>
+                        <i>Kurangkan kedua persamaan:</i><br>
+                        $(9x - 4x) + (6y - 6y) = 36 - 26$<br>
+                        $5x = 10 \implies \mathbf{x = 2}$</p>
+
+                        <p><strong>Langkah 2: Eliminasi x (Samakan koefisien x menjadi 6)</strong><br>
+                        Pers (1) $\times 2 \implies 6x + 4y = 24$<br>
+                        Pers (2) $\times 3 \implies 6x + 9y = 39$<br>
+                        <i>Kurangkan kedua persamaan:</i><br>
+                        $-5y = -15 \implies \mathbf{y = 3}$</p>
+
+                        <div class="bg-rose-200/60 p-2.5 rounded-lg font-bold text-rose-900 mt-2">
+                            Jadi, penyelesaiannya adalah x = 2 dan y = 3. HP = {(2, 3)}.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Example 3: Campuran -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                <div class="bg-emerald-600 text-white p-4 flex justify-between items-center">
+                    <span class="font-bold text-sm"><i class="fa-solid fa-star mr-1"></i> Contoh 3: Metode Campuran (Soal Cerita)</span>
+                    <span class="text-xs bg-emerald-700 px-2.5 py-1 rounded-full font-medium">Tipe Ujian / Paling Efisien</span>
+                </div>
+                <div class="p-5">
+                    <p class="font-semibold text-sm mb-3">Harga 3 buku dan 2 pensil adalah Rp 16.000, sedangkan harga 2 buku dan 5 pensil adalah Rp 29.000. Tentukan harga 1 buku dan 1 pensil!</p>
+                    
+                    <button onclick="toggleSolution('sol-3')" class="text-xs bg-emerald-100 text-emerald-800 hover:bg-emerald-200 px-3 py-1.5 rounded-lg font-semibold transition flex items-center gap-1">
+                        <i class="fa-solid fa-eye"></i> Tampilkan / Sembunyikan Pembahasan
+                    </button>
+
+                    <div id="sol-3" class="hidden mt-4 space-y-3 text-xs text-slate-700 bg-emerald-50/50 p-4 rounded-xl border border-emerald-200">
+                        <p><strong>Pemisalan:</strong> Misal harga 1 buku = $x$, harga 1 pensil = $y$.<br>
+                        Model Matematika:<br>
+                        (1) $3x + 2y = 16.000$<br>
+                        (2) $2x + 5y = 29.000$</p>
+
+                        <p><strong>Tahap 1: ELIMINASI x untuk mendapat y</strong><br>
+                        Pers (1) $\times 2 \implies 6x + 4y = 32.000$<br>
+                        Pers (2) $\times 3 \implies 6x + 15y = 87.000$<br>
+                        <i>Kurangkan (2) dengan (1):</i><br>
+                        $11y = 55.000 \implies \mathbf{y = 5.000}$ (Harga 1 pensil = Rp 5.000)</p>
+
+                        <p><strong>Tahap 2: SUBSTITUSI y = 5.000 ke Persamaan (1)</strong><br>
+                        $3x + 2(5.000) = 16.000$<br>
+                        $3x + 10.000 = 16.000$<br>
+                        $3x = 6.000 \implies \mathbf{x = 2.000}$ (Harga 1 buku = Rp 2.000)</p>
+
+                        <div class="bg-emerald-200/60 p-2.5 rounded-lg font-bold text-emerald-900 mt-2">
+                            Jadi, harga 1 buku = Rp 2.000 dan harga 1 pensil = Rp 5.000.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 4: INTERACTIVE SOLVER -->
+        <section id="tab-solver" class="hidden space-y-6">
+            <div class="bg-white p-5 sm:p-6 rounded-2xl shadow-sm border border-slate-200">
+                <div class="flex items-center gap-3 mb-2">
+                    <span class="p-2 bg-indigo-100 text-indigo-700 rounded-lg"><i class="fa-solid fa-calculator text-xl"></i></span>
+                    <h2 class="text-xl font-bold text-slate-800">Kalkulator Solver SPLDV Step-by-Step</h2>
+                </div>
+                <p class="text-sm text-slate-600 mb-6">Masukkan koefisien persamaan kamu, lalu dapatkan langkah penyelesaian otomatis dengan ketiga metode sekaligus!</p>
+
+                <!-- Input Form -->
+                <div class="grid md:grid-cols-2 gap-6 bg-slate-50 p-4 sm:p-6 rounded-2xl border border-slate-200 mb-6">
+                    <!-- Persamaan 1 -->
+                    <div class="space-y-3">
+                        <span class="text-xs font-bold text-indigo-700 uppercase tracking-wider block">Persamaan 1: ax + by = c</span>
+                        <div class="flex items-center gap-2">
+                            <input type="number" id="input-a" value="2" class="w-full p-2.5 text-center bg-white border border-slate-300 rounded-lg font-bold text-slate-800 focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                            <span class="font-bold">x +</span>
+                            <input type="number" id="input-b" value="3" class="w-full p-2.5 text-center bg-white border border-slate-300 rounded-lg font-bold text-slate-800 focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                            <span class="font-bold">y =</span>
+                            <input type="number" id="input-c" value="12" class="w-full p-2.5 text-center bg-white border border-slate-300 rounded-lg font-bold text-slate-800 focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                        </div>
+                    </div>
+
+                    <!-- Persamaan 2 -->
+                    <div class="space-y-3">
+                        <span class="text-xs font-bold text-indigo-700 uppercase tracking-wider block">Persamaan 2: dx + ey = f</span>
+                        <div class="flex items-center gap-2">
+                            <input type="number" id="input-d" value="1" class="w-full p-2.5 text-center bg-white border border-slate-300 rounded-lg font-bold text-slate-800 focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                            <span class="font-bold">x +</span>
+                            <input type="number" id="input-e" value="-1" class="w-full p-2.5 text-center bg-white border border-slate-300 rounded-lg font-bold text-slate-800 focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                            <span class="font-bold">y =</span>
+                            <input type="number" id="input-f" value="1" class="w-full p-2.5 text-center bg-white border border-slate-300 rounded-lg font-bold text-slate-800 focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex justify-center">
+                    <button onclick="solveSPLDV()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-xl shadow-md hover:shadow-lg transition flex items-center gap-2">
+                        <i class="fa-solid fa-gears"></i> Selesaikan Sekarang
+                    </button>
+                </div>
+            </div>
+
+            <!-- Solver Results -->
+            <div id="solver-result" class="space-y-6">
+                <!-- Result populated via JS -->
+            </div>
+        </section>
+
+        <!-- TAB 5: KUIS LATIHAN INTERAKTIF -->
+        <section id="tab-kuis" class="hidden space-y-6">
+            <div class="bg-white p-5 sm:p-6 rounded-2xl shadow-sm border border-slate-200">
+                <div class="flex justify-between items-center mb-2">
+                    <div class="flex items-center gap-3">
+                        <span class="p-2 bg-indigo-100 text-indigo-700 rounded-lg"><i class="fa-solid fa-circle-question text-xl"></i></span>
+                        <h2 class="text-xl font-bold text-slate-800">Uji Pemahaman SPLDV</h2>
+                    </div>
+                    <div id="score-badge" class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-xs font-bold">
+                        Skor: <span id="current-score">0</span> / <span id="total-quiz">3</span>
+                    </div>
+                </div>
+                <p class="text-sm text-slate-600">Pilih jawaban paling tepat untuk menguji penguasaan konsep dan metodemu.</p>
+            </div>
+
+            <!-- Quiz Items Container -->
+            <div class="space-y-6" id="quiz-container">
+                <!-- Question 1 -->
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 quiz-card">
+                    <div class="flex items-center gap-2 mb-3">
+                        <span class="w-6 h-6 rounded-full bg-indigo-600 text-white flex items-center justify-center text-xs font-bold">1</span>
+                        <h3 class="font-bold text-sm text-slate-800">Kapan Metode Substitusi PALING tepat dan cepat digunakan?</h3>
+                    </div>
+                    <div class="space-y-2 text-xs mb-4">
+                        <button onclick="answerQuiz(1, 'A', this)" class="w-full text-left p-3 rounded-xl border border-slate-200 hover:bg-slate-50 transition">A. Ketika semua koefisien angka ratusan</button>
+                        <button onclick="answerQuiz(1, 'B', this)" class="w-full text-left p-3 rounded-xl border border-slate-200 hover:bg-slate-50 transition">B. Ketika terdapat salah satu variabel berkoefisien 1 atau -1</button>
+                        <button onclick="answerQuiz(1, 'C', this)" class="w-full text-left p-3 rounded-xl border border-slate-200 hover:bg-slate-50 transition">C. Hanya saat mengerjakan soal grafik kuadrat</button>
+                        <button onclick="answerQuiz(1, 'D', this)" class="w-full text-left p-3 rounded-xl border border-slate-200 hover:bg-slate-50 transition">D. Ketika kedua persamaan tidak memiliki solusi</button>
+                    </div>
+                    <div id="quiz-feedback-1" class="hidden text-xs p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Question 2 -->
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 quiz-card">
+                    <div class="flex items-center gap-2 mb-3">
+                        <span class="w-6 h-6 rounded-full bg-indigo-600 text-white flex items-center justify-center text-xs font-bold">2</span>
+                        <h3 class="font-bold text-sm text-slate-800">Diberikan SPLDV: $x + y = 5$ dan $x - y = 1$. Berapakah nilai $(x, y)$?</h3>
+                    </div>
+                    <div class="space-y-2 text-xs mb-4">
+                        <button onclick="answerQuiz(2, 'A', this)" class="w-full text-left p-3 rounded-xl border border-slate-200 hover:bg-slate-50 transition">A. (2, 3)</button>
+                        <button onclick="answerQuiz(2, 'B', this)" class="w-full text-left p-3 rounded-xl border border-slate-200 hover:bg-slate-50 transition">B. (3, 2)</button>
+                        <button onclick="answerQuiz(2, 'C', this)" class="w-full text-left p-3 rounded-xl border border-slate-200 hover:bg-slate-50 transition">C. (4, 1)</button>
+                        <button onclick="answerQuiz(2, 'D', this)" class="w-full text-left p-3 rounded-xl border border-slate-200 hover:bg-slate-50 transition">D. (5, 0)</button>
+                    </div>
+                    <div id="quiz-feedback-2" class="hidden text-xs p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Question 3 -->
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 quiz-card">
+                    <div class="flex items-center gap-2 mb-3">
+                        <span class="w-6 h-6 rounded-full bg-indigo-600 text-white flex items-center justify-center text-xs font-bold">3</span>
+                        <h3 class="font-bold text-sm text-slate-800">Metode manakah yang paling direkomendasikan untuk menyelesaikan Soal Cerita SPLDV secara umum?</h3>
+                    </div>
+                    <div class="space-y-2 text-xs mb-4">
+                        <button onclick="answerQuiz(3, 'A', this)" class="w-full text-left p-3 rounded-xl border border-slate-200 hover:bg-slate-50 transition">A. Metode Grafis Manual</button>
+                        <button onclick="answerQuiz(3, 'B', this)" class="w-full text-left p-3 rounded-xl border border-slate-200 hover:bg-slate-50 transition">B. Metode Trial and Error (Tebak-tebakan)</button>
+                        <button onclick="answerQuiz(3, 'C', this)" class="w-full text-left p-3 rounded-xl border border-slate-200 hover:bg-slate-50 transition">C. Metode Campuran (Eliminasi lalu Substitusi)</button>
+                        <button onclick="answerQuiz(3, 'D', this)" class="w-full text-left p-3 rounded-xl border border-slate-200 hover:bg-slate-50 transition">D. Metode Determinan Matriks 3x3</button>
+                    </div>
+                    <div id="quiz-feedback-3" class="hidden text-xs p-3 rounded-lg"></div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-800 text-slate-400 text-center py-4 text-xs mt-auto">
+        <p>Ringkasan Interaktif Matematika SPLDV &bull; Dirancang Ringkas &amp; Tepat Sasaran</p>
+    </footer>
+
+    <script>
+        // Tab Switcher Logic
+        function switchTab(tabName) {
+            const tabs = ['konsep', 'panduan', 'contoh', 'solver', 'kuis'];
+            tabs.forEach(tab => {
+                const el = document.getElementById(`tab-${tab}`);
+                const nav = document.getElementById(`nav-${tab}`);
+                if (tab === tabName) {
+                    el.classList.remove('hidden');
+                    nav.classList.add('bg-indigo-600', 'text-white');
+                    nav.classList.remove('text-indigo-100');
+                } else {
+                    el.classList.add('hidden');
+                    nav.classList.remove('bg-indigo-600', 'text-white');
+                    nav.classList.add('text-indigo-100');
+                }
+            });
+
+            // Re-render math typesetting on tab change
+            if (window.MathJax && window.MathJax.typesetPromise) {
+                window.MathJax.typesetPromise();
+            }
+        }
+
+        // Toggle solution visibility
+        function toggleSolution(id) {
+            const el = document.getElementById(id);
+            el.classList.toggle('hidden');
+            if (window.MathJax && window.MathJax.typesetPromise) {
+                window.MathJax.typesetPromise();
+            }
+        }
+
+        function checkRecommendation() {
+            const selected = document.querySelector('input[name="trait"]:checked')?.value;
+            const resDiv = document.getElementById('recommendation-result');
+            resDiv.classList.remove('hidden');
+
+            if (selected === 'substitusi') {
+                resDiv.innerHTML = `
+                    <div class="flex items-start gap-3">
+                        <i class="fa-solid fa-circle-check text-amber-500 text-xl mt-0.5"></i>
+                        <div>
+                            <strong class="text-amber-800 font-bold block">Rekomendasi: METODE SUBSTITUSI</strong>
+                            <p class="text-xs text-slate-600">Sangat tepat! Karena koefisien bernilai 1 atau -1, isolasi variabel dapat dilakukan tanpa pembagian pecahan.</p>
+                        </div>
+                    </div>
+                `;
+            } else if (selected === 'eliminasi_langsung') {
+                resDiv.innerHTML = `
+                    <div class="flex items-start gap-3">
+                        <i class="fa-solid fa-circle-check text-rose-500 text-xl mt-0.5"></i>
+                        <div>
+                            <strong class="text-rose-800 font-bold block">Rekomendasi: METODE ELIMINASI / CAMPURAN</strong>
+                            <p class="text-xs text-slate-600">Sangat efektif! Kamu bisa langsung menjumlahkan/mengurangkan kedua persamaan untuk mengeliminasi variabel tersebut seketika.</p>
+                        </div>
+                    </div>
+                `;
+            } else if (selected === 'campuran' || selected === 'cerita') {
+                resDiv.innerHTML = `
+                    <div class="flex items-start gap-3">
+                        <i class="fa-solid fa-circle-check text-emerald-500 text-xl mt-0.5"></i>
+                        <div>
+                            <strong class="text-emerald-800 font-bold block">Rekomendasi: METODE CAMPURAN (Paling Cepat &amp; Efektif)</strong>
+                            <p class="text-xs text-slate-600">Gunakan Eliminasi dulu untuk mencari variabel ke-1, lalu Substitusikan hasilnya ke persamaan tersederhana. Ini meminimalkan risiko kesalahan pecahan.</p>
+                        </div>
+                    </div>
+                `;
+            }
+
+            if (window.MathJax && window.MathJax.typesetPromise) {
+                window.MathJax.typesetPromise();
+            }
+        }
+
+        // Solve SPLDV Step-by-Step Generator
+        function solveSPLDV() {
+            const a = parseFloat(document.getElementById('input-a').value) || 0;
+            const b = parseFloat(document.getElementById('input-b').value) || 0;
+            const c = parseFloat(document.getElementById('input-c').value) || 0;
+            const d = parseFloat(document.getElementById('input-d').value) || 0;
+            const e = parseFloat(document.getElementById('input-e').value) || 0;
+            const f = parseFloat(document.getElementById('input-f').value) || 0;
+
+            const resDiv = document.getElementById('solver-result');
+
+            // Determinant: D = a*e - b*d
+            const D = a * e - b * d;
+
+            if (D === 0) {
+                resDiv.innerHTML = `
+                    <div class="bg-red-50 border border-red-200 text-red-800 p-4 rounded-xl text-center font-medium">
+                        <i class="fa-solid fa-triangle-exclamation text-red-500 text-2xl mb-2"></i><br>
+                        Sistem persamaan ini <strong>tidak memiliki solusi unik</strong> (Garis sejajar atau berimpit, Determinant = 0).
+                    </div>
+                `;
+                return;
+            }
+
+            // Solutions
+            const x = (c * e - b * f) / D;
+            const y = (a * f - c * d) / D;
+
+            // Format numbers nicely
+            const formatNum = (num) => Number.isInteger(num) ? num : num.toFixed(2);
+            const cleanX = formatNum(x);
+            const cleanY = formatNum(y);
+
+            resDiv.innerHTML = `
+                <!-- Final Result Box -->
+                <div class="bg-emerald-500 text-white p-5 rounded-2xl shadow-md flex justify-between items-center flex-wrap gap-4">
+                    <div>
+                        <span class="text-xs uppercase tracking-wider font-semibold text-emerald-100">Hasil Akhir Himpunan Penyelesaian</span>
+                        <h3 class="text-2xl font-black">HP = { (${cleanX}, ${cleanY}) }</h3>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-xs bg-emerald-600 px-3 py-1 rounded-full font-medium">x = ${cleanX}</span>
+                        <span class="text-xs bg-emerald-600 px-3 py-1 rounded-full font-medium ml-1">y = ${cleanY}</span>
+                    </div>
+                </div>
+
+                <!-- Tabs for 3 methods solution steps -->
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                    <h4 class="font-bold text-slate-800 text-base">Langkah Penyelesaian Metode Campuran (Rekomendasi)</h4>
+                    
+                    <div class="space-y-3 text-xs text-slate-700 bg-slate-50 p-4 rounded-xl font-mono">
+                        <p class="font-bold text-indigo-700">1. Persamaan Asli:</p>
+                        <p>(1) ${a}x + ${b >= 0 ? '+ ' + b : b}y = ${c}</p>
+                        <p>(2) ${d}x + ${e >= 0 ? '+ ' + e : e}y = ${f}</p>
+
+                        <p class="font-bold text-indigo-700 mt-3">2. Eliminasi x dengan KPK Koefisien (${a} dan ${d}):</p>
+                        <p>Pers (1) &times; ${d} &rarr; ${a*d}x + ${b*d}y = ${c*d}</p>
+                        <p>Pers (2) &times; ${a} &rarr; ${a*d}x + ${e*a}y = ${f*a}</p>
+                        <p class="text-slate-500">------------------------------------------- ( - )</p>
+                        <p>(${b*d - e*a})y = ${c*d - f*a}</p>
+                        <p>y = ${c*d - f*a} / ${b*d - e*a} = <strong>${cleanY}</strong></p>
+
+                        <p class="font-bold text-indigo-700 mt-3">3. Substitusikan y = ${cleanY} ke Persamaan (1):</p>
+                        <p>${a}x + ${b}(${cleanY}) = ${c}</p>
+                        <p>${a}x + ${formatNum(b*y)} = ${c}</p>
+                        <p>${a}x = ${c} - ${formatNum(b*y)} = ${formatNum(c - b*y)}</p>
+                        <p>x = <strong>${cleanX}</strong></p>
+                    </div>
+                </div>
+            `;
+
+            if (window.MathJax && window.MathJax.typesetPromise) {
+                window.MathJax.typesetPromise();
+            }
+        }
+
+        // Quiz System State
+        const quizAnswers = { 1: 'B', 2: 'B', 3: 'C' };
+        let answeredQuestions = {};
+
+        function answerQuiz(qNum, choice, btnElem) {
+            if (answeredQuestions[qNum]) return; // Prevent double answer
+
+            const isCorrect = choice === quizAnswers[qNum];
+            answeredQuestions[qNum] = isCorrect;
+
+            // Highlight buttons
+            const parent = btnElem.parentElement;
+            const buttons = parent.querySelectorAll('button');
+            buttons.forEach(btn => {
+                btn.disabled = true;
+                btn.classList.add('opacity-60', 'cursor-not-allowed');
+            });
+
+            const fb = document.getElementById(`quiz-feedback-${qNum}`);
+            fb.classList.remove('hidden');
+
+            if (isCorrect) {
+                btnElem.classList.remove('opacity-60', 'border-slate-200');
+                btnElem.classList.add('bg-emerald-100', 'border-emerald-500', 'text-emerald-900', 'font-bold');
+                fb.classList.add('bg-emerald-100', 'text-emerald-900', 'border', 'border-emerald-300');
+                fb.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-600 mr-1"></i> <strong>Benar!</strong> Jawaban kamu tepat sekali.`;
+            } else {
+                btnElem.classList.remove('opacity-60', 'border-slate-200');
+                btnElem.classList.add('bg-rose-100', 'border-rose-500', 'text-rose-900', 'font-bold');
+                fb.classList.add('bg-rose-100', 'text-rose-900', 'border', 'border-rose-300');
+                fb.innerHTML = `<i class="fa-solid fa-circle-xmark text-rose-600 mr-1"></i> <strong>Kurang Tepat.</strong> Jawaban yang benar adalah kriteria (<strong>${quizAnswers[qNum]}</strong>).`;
+            }
+
+            // Update score
+            const score = Object.values(answeredQuestions).filter(Boolean).length;
+            document.getElementById('current-score').innerText = score;
+        }
+
+        // Initialize default solver on load
+        window.onload = function() {
+            solveSPLDV();
+        };
+    </script>
+</body>
+</html>
